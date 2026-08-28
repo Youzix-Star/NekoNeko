@@ -4,6 +4,7 @@ plugins {
 
 android {
     compileSdk 33
+    namespace "com.youzix.nekoneko"
 
     defaultConfig {
         applicationId "com.youzix.nekoneko"
