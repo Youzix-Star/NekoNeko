@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">NekoNeko</string>
     <string name="welcome_message">欢迎使用 NekoNeko 应用！</string>
+    <string name="app_title">NekoNeko</string>
+    <string name="app_subtitle">可爱的猫咪应用</string>
 </resources>
