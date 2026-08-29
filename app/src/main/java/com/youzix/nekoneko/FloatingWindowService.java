@@ -127,11 +127,8 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         // 设置捕获按钮
         setupCaptureButton();
         
-        // 设置替换按钮
-        setupReplaceButton();
-        
-        // 设置增加按钮
-        setupAppendButton();
+        // 设置应用规则按钮
+        setupApplyRulesButton();
         
         // 设置 AI 修改按钮
         setupAiModifyButton();
@@ -256,50 +253,46 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         });
     }
 
-    private void setupReplaceButton() {
-        Button replaceButton = floatingView.findViewById(R.id.replace_button);
-        replaceButton.setOnClickListener(new View.OnClickListener() {
+    private void setupApplyRulesButton() {
+        Button applyRulesButton = floatingView.findViewById(R.id.apply_rules_button);
+        applyRulesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i("用户点击替换按钮");
-                AccessibilityService service = AccessibilityService.getInstance();
-                if (service == null) {
-                    Logger.w("无障碍服务未连接");
-                    Toast.makeText(FloatingWindowService.this,
-                            "请先启用无障碍服务", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (service.replaceInputText("test")) {
-                    Toast.makeText(FloatingWindowService.this,
-                            getString(R.string.replace_success), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(FloatingWindowService.this,
-                            getString(R.string.no_text_found), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+                Logger.i("用户点击应用规则按钮");
 
-    private void setupAppendButton() {
-        Button appendButton = floatingView.findViewById(R.id.append_button);
-        appendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.i("用户点击增加按钮");
-                AccessibilityService service = AccessibilityService.getInstance();
-                if (service == null) {
-                    Logger.w("无障碍服务未连接");
-                    Toast.makeText(FloatingWindowService.this,
-                            "请先启用无障碍服务", Toast.LENGTH_SHORT).show();
-                    return;
+                // 优先使用悬浮窗当前显示的捕获文本；没有则现场重新捕获
+                String text = capturedTextTextView != null
+                        ? capturedTextTextView.getText().toString() : "";
+                if (text.isEmpty() || text.equals(getString(R.string.waiting_for_text))) {
+                    AccessibilityService service = AccessibilityService.getInstance();
+                    if (service != null) {
+                        text = service.getCurrentWindowText();
+                    }
                 }
-                if (service.appendInputText("test")) {
-                    Toast.makeText(FloatingWindowService.this,
-                            getString(R.string.append_success), Toast.LENGTH_SHORT).show();
-                } else {
+                if (text.isEmpty()) {
                     Toast.makeText(FloatingWindowService.this,
                             getString(R.string.no_text_found), Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                // 加载规则并应用
+                java.util.List<RuleManager.Rule> rules = RuleManager.load(FloatingWindowService.this);
+                if (rules.isEmpty()) {
+                    Toast.makeText(FloatingWindowService.this,
+                            getString(R.string.rules_none_hint), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String result = RuleManager.applyRules(text, rules);
+                Logger.i("规则应用完成: " + text + " → " + result);
+                updateCapturedText(result);
+
+                // 将结果替换回输入框
+                AccessibilityService service = AccessibilityService.getInstance();
+                boolean replaced = service != null && service.replaceInputText(result);
+                Toast.makeText(FloatingWindowService.this,
+                        replaced ? R.string.rules_applied : R.string.no_text_found,
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

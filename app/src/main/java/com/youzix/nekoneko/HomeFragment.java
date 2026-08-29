@@ -52,6 +52,12 @@ public class HomeFragment extends Fragment {
                 ((MainActivity) getActivity()).selectTab(R.id.nav_config);
             }
         });
+
+        view.findViewById(R.id.row_rules).setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).selectTab(R.id.nav_rules);
+            }
+        });
     }
 
     @Override

@@ -14,6 +14,34 @@
     <string name="append_text">增加</string>
     <string name="replace_success">已将输入框内容替换为 test</string>
     <string name="append_success">已在文本末尾追加 test</string>
+
+    <!-- 文本规则 -->
+    <string name="tab_rules">规则</string>
+    <string name="apply_rules">应用规则</string>
+    <string name="rules_none_hint">暂无规则，请先在配置页添加</string>
+    <string name="rules_applied">已应用规则并替换输入框</string>
+    <string name="row_rules">文本规则</string>
+    <string name="row_rules_sub">正则表达式替换规则</string>
+    <string name="rules_config_title">文本规则</string>
+    <string name="rules_config_subtitle">配置正则表达式替换规则，捕获文本后按顺序依次应用</string>
+    <string name="rules_list_title">规则列表</string>
+    <string name="rules_empty_hint">暂无规则\n点击下方按钮添加第一条规则</string>
+    <string name="rules_add">添加规则</string>
+    <string name="rules_save">保存规则</string>
+    <string name="rules_saved">规则已保存</string>
+    <string name="rules_confirm">确定</string>
+    <string name="rule_name_hint">规则名称</string>
+    <string name="rule_pattern_hint">正则表达式</string>
+    <string name="rule_pattern_helper">使用正则匹配文本，$1 $2 引用捕获组</string>
+    <string name="rule_replacement_hint">替换模板</string>
+    <string name="rule_replacement_helper">留空则删除匹配内容；$1 引用第 1 个捕获组</string>
+    <string name="rule_invalid_pattern">正则表达式语法错误</string>
+    <string name="rule_pattern_required">请输入正则表达式</string>
+    <string name="rule_add_title">新建规则</string>
+    <string name="rule_edit_title">编辑规则</string>
+    <string name="rule_edit">编辑</string>
+    <string name="rule_delete">删除</string>
+    <string name="rule_confirm_delete">确定删除规则「%1$s」吗？</string>
     <string name="waiting_for_text">等待捕获文本...</string>
     <string name="no_text_found">未检测到正在输入的文本框</string>
     <string name="tab_home">首页</string>

@@ -16,13 +16,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 宿主 Activity：底部导航栏（Material 3 NavigationBar）+ 三个页面
- * （首页 / AI 配置 / 关于），Fragment 用 show/hide 切换以保留状态。
+ * 宿主 Activity：底部导航栏（Material 3 NavigationBar）+ 四个页面
+ * （首页 / AI 配置 / 文本规则 / 关于），Fragment 用 show/hide 切换以保留状态。
  */
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG_HOME = "home";
     private static final String TAG_CONFIG = "config";
+    private static final String TAG_RULES = "rules";
     private static final String TAG_ABOUT = "about";
 
     private final Map<String, Fragment> fragments = new HashMap<>();
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             currentTag = savedInstanceState.getString("currentTag", TAG_HOME);
             nav.setSelectedItemId(itemIdOf(currentTag));
             // 恢复 FragmentManager 中已存在的 Fragment 到本地缓存
-            for (String t : new String[]{TAG_HOME, TAG_CONFIG, TAG_ABOUT}) {
+            for (String t : new String[]{TAG_HOME, TAG_CONFIG, TAG_RULES, TAG_ABOUT}) {
                 Fragment f = getSupportFragmentManager().findFragmentByTag(t);
                 if (f != null) {
                     fragments.put(t, f);
@@ -63,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (id == R.id.nav_config && !TAG_CONFIG.equals(currentTag)) {
                     switchTo(TAG_CONFIG, id, false);
+                    return true;
+                }
+                if (id == R.id.nav_rules && !TAG_RULES.equals(currentTag)) {
+                    switchTo(TAG_RULES, id, false);
                     return true;
                 }
                 if (id == R.id.nav_about && !TAG_ABOUT.equals(currentTag)) {
@@ -93,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction tx = fm.beginTransaction();
 
-        for (String t : new String[]{TAG_HOME, TAG_CONFIG, TAG_ABOUT}) {
+        for (String t : new String[]{TAG_HOME, TAG_CONFIG, TAG_RULES, TAG_ABOUT}) {
             Fragment f = fm.findFragmentByTag(t);
             if (f != null && !t.equals(tag)) {
                 tx.hide(f);
@@ -123,6 +128,9 @@ public class MainActivity extends AppCompatActivity {
         if (menuItemId == R.id.nav_config) {
             return new AiConfigFragment();
         }
+        if (menuItemId == R.id.nav_rules) {
+            return new RulesConfigFragment();
+        }
         if (menuItemId == R.id.nav_about) {
             return new AboutFragment();
         }
@@ -132,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
     private int itemIdOf(String tag) {
         if (TAG_CONFIG.equals(tag)) {
             return R.id.nav_config;
+        }
+        if (TAG_RULES.equals(tag)) {
+            return R.id.nav_rules;
         }
         if (TAG_ABOUT.equals(tag)) {
             return R.id.nav_about;

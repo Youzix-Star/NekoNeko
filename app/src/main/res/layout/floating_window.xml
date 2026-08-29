@@ -100,36 +100,17 @@
             app:icon="@drawable/ic_content_copy"
             app:iconGravity="textStart" />
 
-        <!-- 替换 / 增加 按钮（次级操作：Tonal） -->
-        <LinearLayout
+        <!-- 应用规则按钮（次级操作：Tonal） -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/apply_rules_button"
+            style="@style/Widget.Material3.Button.TonalButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="8dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/replace_button"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/replace_text"
-                android:textAllCaps="false"
-                app:icon="@drawable/ic_swap_horiz"
-                app:iconGravity="textStart" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/append_button"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"
-                android:text="@string/append_text"
-                android:textAllCaps="false"
-                app:icon="@drawable/ic_add"
-                app:iconGravity="textStart" />
-        </LinearLayout>
+            android:text="@string/apply_rules"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"
+            app:icon="@drawable/ic_rule"
+            app:iconGravity="textStart" />
 
         <!-- AI 修改按钮（次要操作：Outlined） -->
         <com.google.android.material.button.MaterialButton
