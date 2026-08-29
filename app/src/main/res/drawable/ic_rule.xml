@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Material Icon: format_shapes (Google official, tag 3.0.1) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
@@ -7,5 +8,5 @@
     android:tint="?attr/colorControlNormal">
     <path
         android:fillColor="@android:color/white"
-        android:pathData="M16,16.92C15.67,16.97 15.34,17 15,17C14.66,17 14.33,16.97 14,16.92V13.41L11.5,15.89C11,15.5 10.5,15 10.11,14.5L12.59,12H9.08C9.03,11.67 9,11.34 9,11C9,10.66 9.03,10.33 9.08,10H12.59L10.11,7.5C10.3,7.25 10.5,7 10.76,6.76V6.76C11,6.5 11.25,6.3 11.5,6.11L14,8.59V5.08C14.33,5.03 14.66,5 15,5C15.34,5 15.67,5.03 16,5.08V8.59L18.5,6.11C19,6.5 19.5,7 19.89,7.5L17.41,10H20.92C20.97,10.33 21,10.66 21,11C21,11.34 20.97,11.67 20.92,12H17.41L19.89,14.5C19.7,14.75 19.5,15 19.24,15.24V15.24C19,15.5 18.75,15.7 18.5,15.89L16,13.41V16.92H16V16.92M5,19A2,2 0 0,1 7,17A2,2 0 0,1 9,19A2,2 0 0,1 7,21A2,2 0 0,1 5,19H5Z" />
+        android:pathData="M23,7L23,1h-6v2L7,3L7,1L1,1v6h2v10L1,17v6h6v-2h10v2h6v-6h-2L21,7h2zM3,3h2v2L3,5L3,3zM5,21L3,21v-2h2v2zM17,19L7,19v-2L5,17L5,7h2L7,5h10v2h2v10h-2v2zM21,21h-2v-2h2v2zM19,5L19,3h2v2h-2zM13.73,14h-3.49l-0.73,2L7.89,16l3.4,-9h1.4l3.41,9h-1.63l-0.74,-2zM10.69,12.74h2.61L12,8.91l-1.31,3.83z" />
 </vector>
