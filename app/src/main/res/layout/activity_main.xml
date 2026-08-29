@@ -1,90 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     android:padding="24dp"
     tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="72dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/welcome_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="NekoNeko"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/description_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        android:textAppearance="?attr/textAppearanceHeadlineLarge"
+        android:textColor="?attr/colorOnSurface" />
 
     <TextView
         android:id="@+id/description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/app_subtitle"
-        android:textColor="?attr/colorOnSurface"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/accessibility_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_text" />
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/accessibility_button"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:padding="12dp"
-        android:text="@string/enable_accessibility_service"
-        android:textAllCaps="false"
-        app:backgroundTint="?attr/colorPrimary"
-        app:icon="@drawable/ic_accessibility"
-        app:iconGravity="textStart"
-        app:iconTint="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/floating_window_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description_text" />
+        app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="0dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/floating_window_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="12dp"
-        android:text="@string/start_floating_window"
-        android:textAllCaps="false"
-        app:backgroundTint="?attr/colorPrimary"
-        app:icon="@drawable/ic_picture_in_picture"
-        app:iconGravity="textStart"
-        app:iconTint="?attr/colorOnPrimary"
-        app:layout_constraintBottom_toTopOf="@+id/ai_config_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/accessibility_button" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/ai_config_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:padding="12dp"
-        android:text="@string/ai_config"
-        android:textAllCaps="false"
-        app:backgroundTint="?attr/colorSecondary"
-        app:icon="@drawable/ic_settings"
-        app:iconGravity="textStart"
-        app:iconTint="?attr/colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/floating_window_button" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/accessibility_button"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/enable_accessibility_service"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_accessibility"
+                app:iconGravity="textStart" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/floating_window_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/start_floating_window"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_picture_in_picture"
+                app:iconGravity="textStart" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ai_config_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/ai_config"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_settings"
+                app:iconGravity="textStart" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

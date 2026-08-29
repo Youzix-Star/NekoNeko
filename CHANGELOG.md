@@ -27,6 +27,18 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.7.0] - 2026-08-29
+
+### 变更
+- 全面重构为 Material Design 3（官方 material 库）：
+  - 主题改为 Theme.Material3.Light.NoActionBar，采用完整 M3 颜色角色
+    （primary/secondary/tertiary、container 系列、surface 系列、outline）
+  - 主界面重构：应用图标 + M3 排版标题，卡片式操作区，
+    Filled / Tonal / Outlined 三级按钮
+  - AI 配置页重构：OutlinedBox 输入框、TextButton、预设区 Tonal/Outlined 按钮
+  - 悬浮窗重构：MaterialCardView 容器、Filled/Tonal/Icon/Text 按钮
+- Android 12+ 莫奈动态色同步升级为 M3 颜色角色映射
+
 ## [1.6.0] - 2026-08-29
 
 ### 新增

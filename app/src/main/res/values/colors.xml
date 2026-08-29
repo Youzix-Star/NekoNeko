@@ -1,17 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 白蓝浅色系配色（不要太深） -->
-    <color name="colorPrimary">#81D4FA</color>
-    <color name="colorPrimaryVariant">#4FC3F7</color>
-    <color name="colorOnPrimary">#01579B</color>
-    <color name="colorSecondary">#B3E5FC</color>
-    <color name="colorSecondaryVariant">#81D4FA</color>
-    <color name="colorOnSecondary">#01579B</color>
+    <!-- Material Design 3 颜色角色（浅色 / 浅蓝系；Android 12+ 由莫奈动态色覆盖） -->
 
-    <!-- 补充颜色 -->
-    <color name="windowBackground">#EDF9FF</color>
-    <color name="floatingWindowBackground">#E1F5FE</color>
-    <color name="textSecondary">#0288D1</color>
-    <color name="logText">#01579B</color>
-    <color name="floatingButtonOverlay">#3301529B</color>
+    <!-- Primary -->
+    <color name="colorPrimary">#0061A4</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#D0E4FF</color>
+    <color name="colorOnPrimaryContainer">#001D36</color>
+
+    <!-- Secondary -->
+    <color name="colorSecondary">#526070</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#D5E4F7</color>
+    <color name="colorOnSecondaryContainer">#0E1D2C</color>
+
+    <!-- Tertiary -->
+    <color name="colorTertiary">#685978</color>
+    <color name="colorOnTertiary">#FFFFFF</color>
+    <color name="colorTertiaryContainer">#EFDCFF</color>
+    <color name="colorOnTertiaryContainer">#231636</color>
+
+    <!-- Error -->
+    <color name="colorError">#BA1A1A</color>
+    <color name="colorOnError">#FFFFFF</color>
+    <color name="colorErrorContainer">#FFDAD6</color>
+    <color name="colorOnErrorContainer">#410002</color>
+
+    <!-- Surface / Background -->
+    <color name="colorBackground">#F5FAFF</color>
+    <color name="colorOnBackground">#191C20</color>
+    <color name="colorSurface">#F5FAFF</color>
+    <color name="colorOnSurface">#191C20</color>
+    <color name="colorSurfaceVariant">#DFE2EB</color>
+    <color name="colorOnSurfaceVariant">#43474E</color>
+    <color name="colorSurfaceContainerLow">#EDF2F9</color>
+    <color name="colorSurfaceContainer">#E7ECF3</color>
+    <color name="colorSurfaceContainerHigh">#E1E7ED</color>
+
+    <!-- Outline -->
+    <color name="colorOutline">#73777F</color>
+    <color name="colorOutlineVariant">#C3C7CF</color>
 </resources>

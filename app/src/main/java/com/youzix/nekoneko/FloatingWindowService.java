@@ -12,10 +12,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
 
 public class FloatingWindowService extends Service implements Logger.LogListener {
 
@@ -29,7 +30,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     private TextView logTextView;
     private ScrollView logScrollView;
     private View windowBody;
-    private ImageButton minimizeButton;
+    private MaterialButton minimizeButton;
     private boolean isMinimized = false;
 
     @Override
@@ -158,7 +159,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     }
 
     private void setupCloseButton() {
-        ImageButton closeButton = floatingView.findViewById(R.id.close_button);
+        MaterialButton closeButton = floatingView.findViewById(R.id.close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,7 +186,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         }
         isMinimized = !isMinimized;
         windowBody.setVisibility(isMinimized ? View.GONE : View.VISIBLE);
-        minimizeButton.setImageResource(isMinimized ? R.drawable.ic_add : R.drawable.ic_remove);
+        minimizeButton.setIconResource(isMinimized ? R.drawable.ic_add : R.drawable.ic_remove);
         minimizeButton.setContentDescription(getString(
                 isMinimized ? R.string.restore_floating_window : R.string.minimize_floating_window));
         // 强制按新内容重新测量窗口大小
