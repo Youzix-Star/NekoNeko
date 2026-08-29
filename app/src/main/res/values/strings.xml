@@ -95,6 +95,12 @@
     <string name="floating_config_ball_size">球大小</string>
     <string name="floating_config_ball_corner">圆角</string>
     <string name="quick_ball">快捷球</string>
+    <string name="token_stats_title">Token 用量统计</string>
+    <string name="token_stats_total">总用量</string>
+    <string name="token_stats_calls">调用次数</string>
+    <string name="token_stats_cache_rate">缓存率</string>
+    <string name="token_stats_week">近 1 周</string>
+    <string name="token_stats_month">近 1 月</string>
     <string name="row_enter">进入</string>
     <string name="acc_on">已启用</string>
     <string name="acc_off">未启用</string>

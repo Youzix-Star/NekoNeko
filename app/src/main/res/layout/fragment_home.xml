@@ -153,5 +153,10 @@
                 android:tint="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
+        <!-- Token 用量统计卡片 -->
+        <include
+            android:id="@+id/token_stats_card"
+            layout="@layout/card_token_stats" />
+
     </LinearLayout>
 </ScrollView>

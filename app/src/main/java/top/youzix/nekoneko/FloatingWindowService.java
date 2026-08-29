@@ -405,6 +405,13 @@ public class FloatingWindowService extends Service implements Logger.LogListener
                         Logger.i("AI 修改成功: " + modifiedText);
                         updateCapturedText(modifiedText);
 
+                        // 记录 token 用量
+                        int[] usage = AiManager.consumeLastUsage();
+                        if (usage != null) {
+                            TokenStats.record(FloatingWindowService.this,
+                                    usage[0], usage[1], usage[2], usage[3] > 0);
+                        }
+
                         AccessibilityService service = AccessibilityService.getInstance();
                         boolean replaced = service != null && service.replaceInputText(modifiedText);
                         Toast.makeText(FloatingWindowService.this,
@@ -649,6 +656,13 @@ public class FloatingWindowService extends Service implements Logger.LogListener
             public void onSuccess(String modifiedText) {
                 Logger.i("快捷球：AI 成功: " + modifiedText);
                 updateCapturedText(modifiedText);
+
+                // 记录 token 用量
+                int[] usage = AiManager.consumeLastUsage();
+                if (usage != null) {
+                    TokenStats.record(FloatingWindowService.this,
+                            usage[0], usage[1], usage[2], usage[3] > 0);
+                }
 
                 // 4. 替换回输入框
                 AccessibilityService svc = AccessibilityService.getInstance();

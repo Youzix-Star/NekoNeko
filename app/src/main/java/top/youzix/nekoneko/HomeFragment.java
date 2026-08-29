@@ -17,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * 首页（设置列表式）：无障碍服务 / 悬浮窗 / AI 配置。
  */
@@ -52,6 +54,67 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         refreshStatus();
+        refreshTokenStats();
+    }
+
+    private void refreshTokenStats() {
+        if (!isAdded()) return;
+        Context ctx = requireContext();
+
+        // 总量
+        TokenStats.Stats all = TokenStats.query(ctx, 0);
+        TextView totalValue = getView() != null ? getView().findViewById(R.id.token_total_value) : null;
+        TextView callsValue = getView() != null ? getView().findViewById(R.id.token_calls_value) : null;
+        TextView cacheRate = getView() != null ? getView().findViewById(R.id.token_cache_rate) : null;
+
+        if (totalValue != null) {
+            totalValue.setText(formatTokenCount(all.totalTokens));
+        }
+        if (callsValue != null) {
+            callsValue.setText(String.valueOf(all.totalCalls));
+        }
+        if (cacheRate != null) {
+            if (all.totalCalls > 0) {
+                int rate = (int) (all.cachedCalls * 100f / all.totalCalls);
+                cacheRate.setText(rate + "%");
+            } else {
+                cacheRate.setText("--");
+            }
+        }
+
+        // 模型名
+        TextView modelText = getView() != null ? getView().findViewById(R.id.token_stats_model) : null;
+        if (modelText != null) {
+            AiManager.Config cfg = AiManager.load(ctx);
+            modelText.setText(cfg.model);
+        }
+
+        // 1 周 / 1 个月
+        long now = System.currentTimeMillis();
+        long weekAgo = now - 7L * 24 * 60 * 60 * 1000;
+        long monthAgo = now - 30L * 24 * 60 * 60 * 1000;
+
+        TokenStats.Stats week = TokenStats.query(ctx, weekAgo);
+        TokenStats.Stats month = TokenStats.query(ctx, monthAgo);
+
+        TextView weekValue = getView() != null ? getView().findViewById(R.id.token_week_value) : null;
+        TextView monthValue = getView() != null ? getView().findViewById(R.id.token_month_value) : null;
+
+        if (weekValue != null) {
+            weekValue.setText(formatTokenCount(week.totalTokens));
+        }
+        if (monthValue != null) {
+            monthValue.setText(formatTokenCount(month.totalTokens));
+        }
+    }
+
+    private String formatTokenCount(int count) {
+        if (count >= 1000000) {
+            return String.format("%.1fM", count / 1000000.0);
+        } else if (count >= 1000) {
+            return String.format("%.1fK", count / 1000.0);
+        }
+        return String.valueOf(count);
     }
 
     private void refreshStatus() {

@@ -73,8 +73,16 @@ public class AiManager {
     }
 
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
+    private static int[] _lastUsage = null; // {prompt, completion, total, cached}
 
     // ---------- 配置读写 ----------
+
+    /** 获取上次调用的 token 用量 {prompt, completion, total, cached}，查询后清空。 */
+    public static int[] consumeLastUsage() {
+        int[] u = _lastUsage;
+        _lastUsage = null;
+        return u;
+    }
 
     public static Config load(Context context) {
         SharedPreferences sp = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
@@ -214,6 +222,7 @@ public class AiManager {
 
         Thread thread = new Thread(() -> {
             try {
+                _lastUsage = null;
                 String result = requestChatCompletion(cfg, systemPrompt, userContent);
                 MAIN.post(() -> callback.onSuccess(result));
             } catch (Exception e) {
@@ -313,6 +322,20 @@ public class AiManager {
             if (content == null || content.trim().isEmpty()) {
                 throw new Exception("AI 返回内容为空");
             }
+
+            // 提取 token 用量并记录
+            if (root.has("usage")) {
+                JSONObject usage = root.getJSONObject("usage");
+                int prompt = usage.optInt("prompt_tokens", 0);
+                int completion = usage.optInt("completion_tokens", 0);
+                int total = usage.optInt("total_tokens", 0);
+                int cached = usage.optInt("prompt_tokens_cached", 0);
+                // 通过 ThreadLocal 传递给调用方
+                _lastUsage = new int[]{prompt, completion, total, cached};
+            } else {
+                _lastUsage = null;
+            }
+
             return content.trim();
         } finally {
             conn.disconnect();
