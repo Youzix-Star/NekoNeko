@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.color.DynamicColors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,12 +31,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 主题：用户选择手动主题色时优先；否则 Android 12+ 应用官方莫奈动态色
+        // 主题：DEFAULT=GR（静态主题本身即 GR）；MONET=Android 12+ 系统莫奈动态色；
+        // 其余 = 预设色板 overlay
         int accent = AccentTheme.load(this);
-        if (accent == AccentTheme.DEFAULT) {
-            DynamicColors.applyToActivityIfAvailable(this);
+        if (accent == AccentTheme.MONET) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                getTheme().applyStyle(
+                        com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
+                        true);
+            }
         } else {
-            getTheme().applyStyle(AccentTheme.overlayStyle(accent), true);
+            int overlay = AccentTheme.overlayStyle(accent);
+            if (overlay != 0) {
+                getTheme().applyStyle(overlay, true);
+            }
         }
 
         setContentView(R.layout.activity_main);

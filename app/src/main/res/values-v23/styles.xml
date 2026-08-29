@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- API 23+：浅色状态栏（深色图标） -->
+    <style name="AppTheme" parent="AppTheme">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+</resources>

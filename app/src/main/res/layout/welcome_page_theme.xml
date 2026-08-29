@@ -47,68 +47,84 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:backgroundTint="?attr/colorPrimary"
-            android:contentDescription="@string/about_accent_default"
+            android:contentDescription="@string/about_accent_gr"
             android:insetTop="0dp"
             android:insetBottom="0dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:text="@string/about_accent_monet"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:text="@string/about_accent_gr"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="12sp"
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/accent_blue_button"
+            android:id="@+id/accent_monet_button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="?attr/colorSecondaryContainer"
+            android:contentDescription="@string/about_accent_monet"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:text="@string/about_accent_monet"
+            android:textColor="?attr/colorOnSecondaryContainer"
+            android:textSize="12sp"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/accent_lemon_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/accent_swatch"
-            android:backgroundTint="@color/accent_blue_primary"
-            android:contentDescription="@string/about_accent_blue"
+            android:backgroundTint="@color/accent_lemon_primary"
+            android:contentDescription="@string/about_accent_lemon"
             android:insetTop="0dp"
             android:insetBottom="0dp" />
 
         <Button
-            android:id="@+id/accent_green_button"
+            android:id="@+id/accent_wh_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/accent_swatch"
-            android:backgroundTint="@color/accent_green_primary"
-            android:contentDescription="@string/about_accent_green"
+            android:backgroundTint="@color/accent_wh_primary"
+            android:contentDescription="@string/about_accent_wh"
             android:insetTop="0dp"
             android:insetBottom="0dp" />
 
         <Button
-            android:id="@+id/accent_purple_button"
+            android:id="@+id/accent_koharu_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/accent_swatch"
-            android:backgroundTint="@color/accent_purple_primary"
-            android:contentDescription="@string/about_accent_purple"
+            android:backgroundTint="@color/accent_koharu_primary"
+            android:contentDescription="@string/about_accent_koharu"
             android:insetTop="0dp"
             android:insetBottom="0dp" />
 
         <Button
-            android:id="@+id/accent_pink_button"
+            android:id="@+id/accent_sora_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/accent_swatch"
-            android:backgroundTint="@color/accent_pink_primary"
-            android:contentDescription="@string/about_accent_pink"
+            android:backgroundTint="@color/accent_sora_primary"
+            android:contentDescription="@string/about_accent_sora"
             android:insetTop="0dp"
             android:insetBottom="0dp" />
 
         <Button
-            android:id="@+id/accent_orange_button"
+            android:id="@+id/accent_elink_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/accent_swatch"
-            android:backgroundTint="@color/accent_orange_primary"
-            android:contentDescription="@string/about_accent_orange"
+            android:backgroundTint="@color/accent_elink_primary"
+            android:contentDescription="@string/about_accent_elink"
             android:insetTop="0dp"
             android:insetBottom="0dp" />
 

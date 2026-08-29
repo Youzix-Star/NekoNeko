@@ -1,5 +1,10 @@
 <resources>
-    <!-- Material Design 3 主题（浅色）；Android 12+ 由 values-v31 官方动态色主题覆盖 -->
+    <!--
+      Material Design 3 浅色主题。
+      默认配色 = legado-with-MD3 的 GR 色板（其默认主题）。
+      莫奈动态色（Android 12+）由代码在运行时叠加官方 ThemeOverlay.Material3.DynamicColors，
+      不通过 values-v31 主题覆盖，全部由运行时控制。
+    -->
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
@@ -33,64 +38,135 @@
 
         <item name="colorOutline">@color/colorOutline</item>
         <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
+
+        <item name="android:statusBarColor">?attr/colorSurface</item>
     </style>
 
-    <!-- 悬浮窗专用主题：固定为基础 M3 浅色主题（不随动态色主题变化），
-         避免 Material/动态主题在 Service overlay 窗口中的兼容问题；
-         Android 12+ 由代码手动叠加官方动态色 overlay。 -->
+    <!-- 悬浮窗专用主题：固定为基础 M3 浅色主题；
+         主题色由代码在运行时按用户选择叠加（莫奈/方案色板）。 -->
     <style name="AppTheme.Overlay" parent="Theme.Material3.Light.NoActionBar" />
 
+    <!--
+      可选主题色板（light 色值，直接取自 legado-with-MD3 的对应 ColorScheme）：
+      Lemon / WH / Koharu / Sora / Elink。GR 为默认主题，无需 overlay。
+    -->
+    <style name="AccentOverlayLemon">
+        <item name="colorPrimary">#6D5E0F</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#F8E287</item>
+        <item name="colorOnPrimaryContainer">#534600</item>
+        <item name="colorSecondary">#665E40</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#EEE2BC</item>
+        <item name="colorOnSecondaryContainer">#4E472A</item>
+        <item name="colorTertiary">#43664E</item>
+        <item name="colorOnTertiary">#FFFFFF</item>
+        <item name="colorTertiaryContainer">#C5ECCE</item>
+        <item name="colorOnTertiaryContainer">#2C4E38</item>
+        <item name="colorSurface">#FFF9EE</item>
+        <item name="colorOnSurface">#1E1B13</item>
+        <item name="colorSurfaceVariant">#EAE2D0</item>
+        <item name="colorOnSurfaceVariant">#4B4739</item>
+        <item name="colorSurfaceContainerLow">#FAF3E5</item>
+        <item name="colorSurfaceContainer">#F4EDDF</item>
+        <item name="colorSurfaceContainerHigh">#EEE8DA</item>
+        <item name="colorOutline">#7C7767</item>
+        <item name="colorOutlineVariant">#CDC6B4</item>
+    </style>
 
+    <style name="AccentOverlayWH">
+        <item name="colorPrimary">#5C5C5C</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#747474</item>
+        <item name="colorOnPrimaryContainer">#FEFCFC</item>
+        <item name="colorSecondary">#5F5E5E</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#E2DFDE</item>
+        <item name="colorOnSecondaryContainer">#636262</item>
+        <item name="colorTertiary">#5E5B5D</item>
+        <item name="colorOnTertiary">#FFFFFF</item>
+        <item name="colorTertiaryContainer">#777375</item>
+        <item name="colorOnTertiaryContainer">#FFFFFBFF</item>
+        <item name="colorSurface">#F8F8F8</item>
+        <item name="colorOnSurface">#1C1B1B</item>
+        <item name="colorSurfaceVariant">#E0E3E3</item>
+        <item name="colorOnSurfaceVariant">#444748</item>
+        <item name="colorSurfaceContainerLow">#F7F3F2</item>
+        <item name="colorSurfaceContainer">#F1EDEC</item>
+        <item name="colorSurfaceContainerHigh">#EBE7E7</item>
+        <item name="colorOutline">#747878</item>
+        <item name="colorOutlineVariant">#C4C7C7</item>
+    </style>
 
-    <!-- 手动主题色 overlay（莫奈不可用时由用户选择） -->
-    <style name="AccentOverlayBlue">
-        <item name="colorPrimary">#1A73E8</item>
+    <style name="AccentOverlayKoharu">
+        <item name="colorPrimary">#8F4A4D</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorPrimaryContainer">#D8E2FF</item>
-        <item name="colorOnPrimaryContainer">#001A41</item>
-        <item name="colorSecondary">#575E71</item>
+        <item name="colorPrimaryContainer">#FFDADA</item>
+        <item name="colorOnPrimaryContainer">#3B080E</item>
+        <item name="colorSecondary">#765657</item>
         <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="colorSecondaryContainer">#DBE2F9</item>
-        <item name="colorOnSecondaryContainer">#141B2C</item>
+        <item name="colorSecondaryContainer">#FFDADA</item>
+        <item name="colorOnSecondaryContainer">#2C1516</item>
+        <item name="colorTertiary">#755A2F</item>
+        <item name="colorOnTertiary">#FFFFFF</item>
+        <item name="colorTertiaryContainer">#FFDDB0</item>
+        <item name="colorOnTertiaryContainer">#291800</item>
+        <item name="colorSurface">#FFF8F7</item>
+        <item name="colorOnSurface">#221919</item>
+        <item name="colorSurfaceVariant">#F4DDDD</item>
+        <item name="colorOnSurfaceVariant">#524343</item>
+        <item name="colorSurfaceContainerLow">#FFF0F0</item>
+        <item name="colorSurfaceContainer">#FCEAE9</item>
+        <item name="colorSurfaceContainerHigh">#F6E4E4</item>
+        <item name="colorOutline">#857373</item>
+        <item name="colorOutlineVariant">#D7C1C1</item>
     </style>
-    <style name="AccentOverlayGreen">
-        <item name="colorPrimary">#00696D</item>
+
+    <style name="AccentOverlaySora">
+        <item name="colorPrimary">#3B608F</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorPrimaryContainer">#9CF1F5</item>
-        <item name="colorOnPrimaryContainer">#002021</item>
-        <item name="colorSecondary">#4A6365</item>
+        <item name="colorPrimaryContainer">#D4E3FF</item>
+        <item name="colorOnPrimaryContainer">#214876</item>
+        <item name="colorSecondary">#545F71</item>
         <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="colorSecondaryContainer">#CCE8EA</item>
-        <item name="colorOnSecondaryContainer">#071F21</item>
+        <item name="colorSecondaryContainer">#D8E3F8</item>
+        <item name="colorOnSecondaryContainer">#3D4758</item>
+        <item name="colorTertiary">#6D5677</item>
+        <item name="colorOnTertiary">#FFFFFF</item>
+        <item name="colorTertiaryContainer">#F6D9FF</item>
+        <item name="colorOnTertiaryContainer">#543F5E</item>
+        <item name="colorSurface">#F8F9FF</item>
+        <item name="colorOnSurface">#191C20</item>
+        <item name="colorSurfaceVariant">#DFE2EB</item>
+        <item name="colorOnSurfaceVariant">#43474E</item>
+        <item name="colorSurfaceContainerLow">#F2F3FA</item>
+        <item name="colorSurfaceContainer">#EDEDF4</item>
+        <item name="colorSurfaceContainerHigh">#E7E8EE</item>
+        <item name="colorOutline">#73777F</item>
+        <item name="colorOutlineVariant">#C3C6CF</item>
     </style>
-    <style name="AccentOverlayPurple">
-        <item name="colorPrimary">#6750A4</item>
+
+    <style name="AccentOverlayElink">
+        <item name="colorPrimary">#000000</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorPrimaryContainer">#EADDFF</item>
-        <item name="colorOnPrimaryContainer">#21005D</item>
-        <item name="colorSecondary">#625B71</item>
+        <item name="colorPrimaryContainer">#000000</item>
+        <item name="colorOnPrimaryContainer">#FFFFFF</item>
+        <item name="colorSecondary">#000000</item>
         <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="colorSecondaryContainer">#E8DEF8</item>
-        <item name="colorOnSecondaryContainer">#1E192B</item>
-    </style>
-    <style name="AccentOverlayPink">
-        <item name="colorPrimary">#B11474</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorPrimaryContainer">#FFD8EA</item>
-        <item name="colorOnPrimaryContainer">#3E0022</item>
-        <item name="colorSecondary">#71566A</item>
-        <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="colorSecondaryContainer">#FAD8F1</item>
-        <item name="colorOnSecondaryContainer">#2A1425</item>
-    </style>
-    <style name="AccentOverlayOrange">
-        <item name="colorPrimary">#8B5000</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorPrimaryContainer">#FFDCBE</item>
-        <item name="colorOnPrimaryContainer">#2D1600</item>
-        <item name="colorSecondary">#715B46</item>
-        <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="colorSecondaryContainer">#FFDEC3</item>
-        <item name="colorOnSecondaryContainer">#291806</item>
+        <item name="colorSecondaryContainer">#808080</item>
+        <item name="colorOnSecondaryContainer">#FFFFFF</item>
+        <item name="colorTertiary">#000000</item>
+        <item name="colorOnTertiary">#FFFFFF</item>
+        <item name="colorTertiaryContainer">#000000</item>
+        <item name="colorOnTertiaryContainer">#FFFFFF</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#000000</item>
+        <item name="colorSurfaceVariant">#FFFFFF</item>
+        <item name="colorOnSurfaceVariant">#000000</item>
+        <item name="colorSurfaceContainerLow">#FFFFFF</item>
+        <item name="colorSurfaceContainer">#FFFFFF</item>
+        <item name="colorSurfaceContainerHigh">#FFFFFF</item>
+        <item name="colorOutline">#000000</item>
+        <item name="colorOutlineVariant">#000000</item>
     </style>
 </resources>

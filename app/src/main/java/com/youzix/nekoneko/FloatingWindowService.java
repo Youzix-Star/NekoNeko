@@ -73,18 +73,22 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         Logger.d("正在创建悬浮窗视图...");
         
         // 悬浮窗固定使用基础 M3 主题膨胀（AppTheme.Overlay），
-        // 避免动态色主题在 Service overlay 窗口中的兼容问题；
-        // 用户选择手动主题色时优先应用，否则 Android 12+ 应用官方莫奈动态色 overlay。
+        // 主题色按用户选择叠加：MONET=Android 12+ 官方动态色；其余=预设色板；DEFAULT=GR。
         Context themed = new ContextThemeWrapper(this, R.style.AppTheme_Overlay);
         int accent = AccentTheme.load(this);
-        if (accent != AccentTheme.DEFAULT) {
-            themed.getTheme().applyStyle(AccentTheme.overlayStyle(accent), true);
-            Logger.d("已应用手动主题色");
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            themed.getTheme().applyStyle(
-                    com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
-                    true);
-            Logger.d("已为悬浮窗应用莫奈动态取色");
+        if (accent == AccentTheme.MONET) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                themed.getTheme().applyStyle(
+                        com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
+                        true);
+                Logger.d("已为悬浮窗应用莫奈动态取色");
+            }
+        } else {
+            int overlay = AccentTheme.overlayStyle(accent);
+            if (overlay != 0) {
+                themed.getTheme().applyStyle(overlay, true);
+                Logger.d("已应用主题色板");
+            }
         }
         
         // 加载悬浮窗布局

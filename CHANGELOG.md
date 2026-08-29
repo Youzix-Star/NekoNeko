@@ -27,6 +27,18 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.14.0] - 2026-08-29
+
+### 变更（全面对齐 legado-with-MD3 的配色与主题架构）
+- 默认主题改用参考仓库的 GR 色板（其默认配色），并搬入 Lemon / WH / Koharu / Sora / Elink
+  五个完整 light 色板作为可选主题（色值直接取自其 ColorScheme 源码）
+- 主题系统重构：移除 values-v31 静态动态主题，全部改为运行时控制——
+  DEFAULT=GR（静态主题即 GR）、莫奈=Android 12+ 运行时叠加官方
+  ThemeOverlay.Material3.DynamicColors（与 Compose dynamicLightColorScheme 同源）、
+  其余=色板 overlay；Activity 与悬浮窗同步生效
+- 主题选择器更新：默认(GR) / 莫奈 / 柠檬 / 白灰 / 小春 / 苍穹 / 墨水 七个选项
+- 状态栏颜色与页面背景统一（colorSurface），API 23+ 使用浅色状态栏
+
 ## [1.13.0] - 2026-08-29
 
 ### 新增
