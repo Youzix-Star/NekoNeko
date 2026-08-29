@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -25,8 +28,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 文本规则配置页：正则表达式替换规则的增删改查与拖拽排序。
- * 规则按顺序依次应用：第 1 条的输出作为第 2 条的输入。
+ * 文本规则配置页：预设（顶部横向 Chip）+ 规则列表 + 增删改 + 拖拽排序。
  */
 public class RulesConfigFragment extends Fragment {
 
@@ -34,6 +36,8 @@ public class RulesConfigFragment extends Fragment {
     private RuleAdapter adapter;
     private TextView emptyHint;
     private RecyclerView recyclerView;
+    private ChipGroup presetChipGroup;
+    private String currentPresetName = null;
 
     @Nullable
     @Override
@@ -48,11 +52,10 @@ public class RulesConfigFragment extends Fragment {
 
         emptyHint = view.findViewById(R.id.rules_empty_hint);
         recyclerView = view.findViewById(R.id.rules_recycler_view);
+        presetChipGroup = view.findViewById(R.id.preset_chip_group);
 
-        // 加载规则
         rules = RuleManager.load(requireContext());
 
-        // RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new RuleAdapter();
         recyclerView.setAdapter(adapter);
@@ -72,18 +75,15 @@ public class RulesConfigFragment extends Fragment {
             }
 
             @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder vh, int dir) {
-                // 不支持滑动删除
-            }
+            public void onSwiped(@NonNull RecyclerView.ViewHolder vh, int dir) {}
         });
         touchHelper.attachToRecyclerView(recyclerView);
 
-        // 添加按钮
         view.findViewById(R.id.add_rule_button).setOnClickListener(v -> showRuleDialog(-1));
-
-        // 保存按钮
         view.findViewById(R.id.save_rules_button).setOnClickListener(v -> saveRules());
+        view.findViewById(R.id.save_as_preset_button).setOnClickListener(v -> saveAsPreset());
 
+        refreshPresetChips();
         refreshEmptyState();
     }
 
@@ -102,7 +102,88 @@ public class RulesConfigFragment extends Fragment {
         Toast.makeText(requireContext(), R.string.rules_saved, Toast.LENGTH_SHORT).show();
     }
 
-    /** 弹出规则编辑对话框。editIndex == -1 表示新建。 */
+    // ---------- 预设 ----------
+
+    private void refreshPresetChips() {
+        presetChipGroup.removeAllViews();
+
+        // 内置预设："当前配置"（始终排第一）
+        Chip currentChip = makeChip("当前配置", true);
+        presetChipGroup.addView(currentChip);
+
+        // 用户预设
+        List<String> presetNames = RuleManager.getPresetNames(requireContext());
+        for (String name : presetNames) {
+            Chip chip = makeChip(name, false);
+            presetChipGroup.addView(chip);
+        }
+    }
+
+    private Chip makeChip(String name, boolean isDefault) {
+        Chip chip = new Chip(requireContext());
+        chip.setText(name);
+        chip.setCheckable(true);
+        chip.setChecked(isDefault && currentPresetName == null);
+
+        // 长按删除用户预设（非"当前配置"）
+        if (!isDefault) {
+            chip.setOnLongClickListener(v -> {
+                new MaterialAlertDialogBuilder(requireContext())
+                        .setMessage(getString(R.string.preset_confirm_delete, name))
+                        .setPositiveButton(android.R.string.ok, (d, w) -> {
+                            RuleManager.deletePreset(requireContext(), name);
+                            if (name.equals(currentPresetName)) {
+                                currentPresetName = null;
+                            }
+                            refreshPresetChips();
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show();
+                return true;
+            });
+        }
+
+        chip.setOnClickListener(v -> {
+            if (isDefault) {
+                currentPresetName = null;
+                rules = RuleManager.load(requireContext());
+            } else {
+                currentPresetName = name;
+                rules = RuleManager.loadPreset(requireContext(), name);
+            }
+            adapter.notifyDataSetChanged();
+            refreshEmptyState();
+            Toast.makeText(requireContext(), R.string.preset_applied, Toast.LENGTH_SHORT).show();
+        });
+
+        return chip;
+    }
+
+    private void saveAsPreset() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_preset_name, null);
+        final EditText nameInput = dialogView.findViewById(R.id.preset_name_input);
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.save_as_preset)
+                .setView(dialogView)
+                .setPositiveButton(R.string.ai_save, (d, w) -> {
+                    String name = nameInput.getText().toString().trim();
+                    if (name.isEmpty()) {
+                        Toast.makeText(requireContext(), R.string.preset_no_name,
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    RuleManager.savePreset(requireContext(), name, rules);
+                    currentPresetName = name;
+                    refreshPresetChips();
+                    Toast.makeText(requireContext(),
+                            getString(R.string.preset_saved, name), Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    // ---------- 规则编辑 ----------
+
     private void showRuleDialog(int editIndex) {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_rule_edit, null);
         TextInputEditText nameInput = dialogView.findViewById(R.id.rule_name_input);
@@ -110,7 +191,6 @@ public class RulesConfigFragment extends Fragment {
         TextInputEditText replacementInput = dialogView.findViewById(R.id.rule_replacement_input);
         TextInputLayout patternLayout = dialogView.findViewById(R.id.rule_pattern_layout);
 
-        // 预填（编辑模式）
         if (editIndex >= 0 && editIndex < rules.size()) {
             RuleManager.Rule r = rules.get(editIndex);
             nameInput.setText(r.name);
@@ -118,7 +198,6 @@ public class RulesConfigFragment extends Fragment {
             replacementInput.setText(r.replacement);
         }
 
-        // 实时校验正则
         patternInput.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
@@ -143,9 +222,7 @@ public class RulesConfigFragment extends Fragment {
                     String pattern = patternInput.getText().toString().trim();
                     String replacement = replacementInput.getText().toString();
 
-                    if (name.isEmpty()) {
-                        name = pattern; // 用正则作为默认名称
-                    }
+                    if (name.isEmpty()) name = pattern;
                     if (pattern.isEmpty()) {
                         Toast.makeText(requireContext(), R.string.rule_pattern_required,
                                 Toast.LENGTH_SHORT).show();
@@ -158,14 +235,12 @@ public class RulesConfigFragment extends Fragment {
                     }
 
                     if (editIndex >= 0) {
-                        // 编辑
                         RuleManager.Rule r = rules.get(editIndex);
                         r.name = name;
                         r.pattern = pattern;
                         r.replacement = replacement;
                         adapter.notifyItemChanged(editIndex);
                     } else {
-                        // 新建
                         rules.add(new RuleManager.Rule(name, pattern, replacement, true));
                         adapter.notifyItemInserted(rules.size() - 1);
                     }
@@ -175,7 +250,6 @@ public class RulesConfigFragment extends Fragment {
                 .show();
     }
 
-    /** 删除规则。 */
     private void deleteRule(int index) {
         if (index < 0 || index >= rules.size()) return;
         String name = rules.get(index).name;
@@ -209,19 +283,13 @@ public class RulesConfigFragment extends Fragment {
             holder.patternText.setText("正则: " + r.pattern);
             holder.replacementText.setText("替换: " + r.replacement);
             holder.toggle.setChecked(r.enabled);
-
-            holder.toggle.setOnCheckedChangeListener((btn, checked) -> {
-                r.enabled = checked;
-            });
-
+            holder.toggle.setOnCheckedChangeListener((btn, checked) -> r.enabled = checked);
             holder.editBtn.setOnClickListener(v -> showRuleDialog(holder.getAdapterPosition()));
             holder.deleteBtn.setOnClickListener(v -> deleteRule(holder.getAdapterPosition()));
         }
 
         @Override
-        public int getItemCount() {
-            return rules.size();
-        }
+        public int getItemCount() { return rules.size(); }
 
         class VH extends RecyclerView.ViewHolder {
             TextView nameText, patternText, replacementText;

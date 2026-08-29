@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +24,7 @@ public class RuleManager {
 
     private static final String PREFS = "text_rules";
     private static final String KEY_RULES = "rules";
+    private static final String KEY_PRESETS = "rule_presets";
 
     /** 单条规则。 */
     public static class Rule {
@@ -82,6 +85,88 @@ public class RuleManager {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
                 .edit()
                 .putString(KEY_RULES, arr.toString())
+                .apply();
+    }
+
+    // ---------- 规则预设 ----------
+
+    /** 保存规则预设。 */
+    public static void savePreset(Context context, String name, List<Rule> rules) {
+        JSONObject presets = getPresetsJson(context);
+        JSONArray arr = new JSONArray();
+        try {
+            for (Rule r : rules) {
+                JSONObject o = new JSONObject();
+                o.put("name", r.name == null ? "" : r.name);
+                o.put("pattern", r.pattern == null ? "" : r.pattern);
+                o.put("replacement", r.replacement == null ? "" : r.replacement);
+                o.put("enabled", r.enabled);
+                arr.put(o);
+            }
+            presets.put(name, arr);
+            putPresetsJson(context, presets);
+        } catch (Exception ignored) {
+        }
+    }
+
+    /** 加载规则预设。 */
+    public static List<Rule> loadPreset(Context context, String name) {
+        JSONObject presets = getPresetsJson(context);
+        JSONArray arr = presets.optJSONArray(name);
+        List<Rule> list = new ArrayList<>();
+        if (arr == null) return list;
+        try {
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject o = arr.getJSONObject(i);
+                Rule r = new Rule();
+                r.name = o.optString("name", "");
+                r.pattern = o.optString("pattern", "");
+                r.replacement = o.optString("replacement", "");
+                r.enabled = o.optBoolean("enabled", true);
+                list.add(r);
+            }
+        } catch (Exception ignored) {
+        }
+        return list;
+    }
+
+    /** 删除规则预设。 */
+    public static boolean deletePreset(Context context, String name) {
+        JSONObject presets = getPresetsJson(context);
+        if (presets.has(name)) {
+            presets.remove(name);
+            putPresetsJson(context, presets);
+            return true;
+        }
+        return false;
+    }
+
+    /** 获取所有规则预设名。 */
+    public static List<String> getPresetNames(Context context) {
+        List<String> names = new ArrayList<>();
+        JSONObject presets = getPresetsJson(context);
+        Iterator<String> it = presets.keys();
+        while (it.hasNext()) {
+            names.add(it.next());
+        }
+        Collections.sort(names);
+        return names;
+    }
+
+    private static JSONObject getPresetsJson(Context context) {
+        String raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .getString(KEY_PRESETS, "{}");
+        try {
+            return new JSONObject(raw);
+        } catch (Exception e) {
+            return new JSONObject();
+        }
+    }
+
+    private static void putPresetsJson(Context context, JSONObject obj) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putString(KEY_PRESETS, obj.toString())
                 .apply();
     }
 

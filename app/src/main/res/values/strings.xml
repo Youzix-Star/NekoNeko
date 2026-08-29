@@ -140,6 +140,15 @@
     <string name="ai_restore_default_prompt">恢复默认提示词</string>
     <string name="ai_expand_prompt">展开编辑</string>
     <string name="ai_save">保存</string>
+    <string name="presets_label">预设</string>
+    <string name="save_as_preset">另存为预设</string>
+    <string name="preset_name_hint">预设名称</string>
+    <string name="preset_no_name">请输入预设名称</string>
+    <string name="preset_saved">预设已保存：%1$s</string>
+    <string name="preset_deleted">已删除预设：%1$s</string>
+    <string name="preset_applied">已应用预设</string>
+    <string name="preset_confirm_delete">确定删除预设「%1$s」吗？</string>
+    <string name="preset_none">暂无预设</string>
     <string name="ai_config_saved">AI 配置已保存</string>
     <string name="ai_modifying">AI 修改中...</string>
     <string name="ai_key_missing">请先在 AI 配置中填写 API Key</string>
