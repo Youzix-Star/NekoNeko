@@ -97,6 +97,9 @@
     <string name="about_feature_float">可拖动、可最小化的悬浮窗，Android 12+ 跟随系统莫奈配色</string>
     <string name="about_tech">技术栈</string>
     <string name="about_tech_content">Material Design 3 Expressive（material 1.12.0）· AndroidX · 无障碍服务 · 悬浮窗 · OpenAI 兼容 AI 接口</string>
+    <string name="about_sponsor">赞助</string>
+    <string name="about_sponsor_sub">请作者喝杯咖啡</string>
+    <string name="about_sponsor_message">不用给我赞助的，谢谢你的好意啦！\n\n如果你真想赞助我的话，那就拿这钱去给你自己买颗糖吧😉</string>
     <string name="about_github">GitHub 仓库</string>
     <string name="about_license">本项目基于 GNU AGPL v3 许可证开源</string>
     <string name="capture_label">捕获内容</string>

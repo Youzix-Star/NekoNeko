@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.color.DynamicColors;
 
 /**
@@ -82,6 +83,14 @@ public class AboutFragment extends Fragment {
             } catch (Exception ignored) {
             }
         }
+
+        view.findViewById(R.id.about_sponsor_button).setOnClickListener(v -> {
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.about_sponsor)
+                    .setMessage(R.string.about_sponsor_message)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show();
+        });
 
         view.findViewById(R.id.about_github_button).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW,
