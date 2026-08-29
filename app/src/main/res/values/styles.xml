@@ -34,4 +34,9 @@
         <item name="colorOutline">@color/colorOutline</item>
         <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
     </style>
+
+    <!-- 悬浮窗专用主题：固定为基础 M3 浅色主题（不随动态色主题变化），
+         避免 Material/动态主题在 Service overlay 窗口中的兼容问题；
+         Android 12+ 由代码手动叠加官方动态色 overlay。 -->
+    <style name="AppTheme.Overlay" parent="Theme.Material3.Light.NoActionBar" />
 </resources>

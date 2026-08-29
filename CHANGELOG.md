@@ -27,6 +27,20 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.10.0] - 2026-08-29
+
+### 修复
+- 悬浮窗膨胀过程改用 ContextThemeWrapper 固定为基础 M3 主题（AppTheme.Overlay），
+  Android 12+ 再手动叠加官方 ThemeOverlay.Material3.DynamicColors.Light，
+  彻底规避动态主题在 Service overlay 窗口中的兼容问题
+- 悬浮窗失败提示包含异常类与根因
+- 关于页诊断增强：Android 版本 + 动态取色可用性（DynamicColors.isDynamicColorAvailable）
+  + 当前主题主色，用于确认莫奈是否生效
+
+### 其他
+- 清理仓库根目录 27 份无用 AI 生成的修复/总结文档（保留 README、CHANGELOG、LICENSE、
+  CONTRIBUTING、QUICK_START、APK_DOWNLOAD_GUIDE）
+
 ## [1.9.0] - 2026-08-29
 
 ### 变更

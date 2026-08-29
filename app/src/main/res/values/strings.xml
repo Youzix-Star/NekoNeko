@@ -21,8 +21,8 @@
     <string name="tab_about">关于</string>
     <string name="about_version_placeholder">版本 v1.0</string>
     <string name="about_version_fmt">版本 v%1$s</string>
-    <string name="about_device_info_placeholder">Android 系统 · 主题色 ?</string>
-    <string name="about_device_info_fmt">Android %1$d · 主题色 %2$s</string>
+    <string name="about_device_info_placeholder">Android 系统 · 动态取色 ?</string>
+    <string name="about_device_info_fmt">Android %1$d · 动态取色%2$s · 主题色 %3$s</string>
     <string name="about_description">NekoNeko 是一个轻量的文本捕获悬浮窗工具：手动捕获正在输入的文本框，支持替换、追加，并可通过 AI 改写文本。</string>
     <string name="about_features">功能特性</string>
     <string name="about_feature_capture">手动捕获当前输入框文本，支持替换与追加</string>

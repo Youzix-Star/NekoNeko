@@ -1,11 +1,13 @@
 package com.youzix.nekoneko;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -49,25 +51,18 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         // 设置日志监听器
         Logger.setLogListener(this);
 
-        // Android 12+：悬浮窗窗口不经过 Activity 生命周期，手动应用莫奈动态色 overlay
-        // （ThemeOverlay.Material3.DynamicColors.Light 为官方公开样式）
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            getTheme().applyStyle(
-                    com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
-                    true);
-            Logger.d("已为悬浮窗应用莫奈动态取色");
-        }
-
         // 创建悬浮窗视图
         try {
             createFloatingView();
             Logger.i("悬浮窗服务启动完成");
         } catch (Exception e) {
-            // 创建失败时给出可见提示，包含根因便于排查
+            // 创建失败时给出可见提示，包含异常类与根因便于排查
             Logger.e("悬浮窗创建失败", e);
-            String detail = e.getMessage() == null ? e.toString() : e.getMessage();
+            String detail = e.getClass().getSimpleName() + ": "
+                    + (e.getMessage() == null ? e.toString() : e.getMessage());
             if (e.getCause() != null) {
-                detail += "\n原因: " + e.getCause().getMessage();
+                detail += "\n根因: " + e.getCause().getClass().getSimpleName()
+                        + ": " + e.getCause().getMessage();
             }
             Toast.makeText(this, "悬浮窗创建失败: " + detail, Toast.LENGTH_LONG).show();
             stopSelf();
@@ -77,8 +72,19 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     private void createFloatingView() {
         Logger.d("正在创建悬浮窗视图...");
         
+        // 悬浮窗固定使用基础 M3 主题膨胀（AppTheme.Overlay），
+        // 避免动态色主题在 Service overlay 窗口中的兼容问题；
+        // Android 12+ 再手动叠加官方莫奈动态色 overlay。
+        Context themed = new ContextThemeWrapper(this, R.style.AppTheme_Overlay);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            themed.getTheme().applyStyle(
+                    com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
+                    true);
+            Logger.d("已为悬浮窗应用莫奈动态取色");
+        }
+        
         // 加载悬浮窗布局
-        floatingView = LayoutInflater.from(this).inflate(R.layout.floating_window, null);
+        floatingView = LayoutInflater.from(themed).inflate(R.layout.floating_window, null);
         
         // 获取文本显示控件
         capturedTextTextView = floatingView.findViewById(R.id.captured_text);
