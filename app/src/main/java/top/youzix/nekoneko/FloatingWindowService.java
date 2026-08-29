@@ -61,9 +61,17 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         Logger.setLogListener(this);
 
         // 创建悬浮窗视图
+        FloatingWindowPrefs.Prefs prefs = FloatingWindowPrefs.load(this);
         try {
-            createFloatingView();
-            Logger.i("悬浮窗服务启动完成");
+            if (prefs.showQuickBall) {
+                // 悬浮球模式：只创建小球，不创建大悬浮窗
+                createQuickBall();
+                Logger.i("悬浮窗服务启动完成（快捷球模式）");
+            } else {
+                // 大悬浮窗模式
+                createFloatingView();
+                Logger.i("悬浮窗服务启动完成");
+            }
         } catch (Exception e) {
             // 创建失败时给出可见提示，包含异常类与根因便于排查
             Logger.e("悬浮窗创建失败", e);
@@ -147,9 +155,6 @@ public class FloatingWindowService extends Service implements Logger.LogListener
 
         // 根据设置显示/隐藏各区域
         applyVisibilityPrefs();
-
-        // 创建快捷悬浮球
-        createQuickBall();
 
         Logger.d("悬浮窗视图创建完成");
     }
@@ -685,17 +690,16 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         super.onDestroy();
         
         Logger.i("悬浮窗服务正在销毁...");
-        
+
         // 移除日志监听器
         Logger.setLogListener(null);
-        
-        // 移除悬浮窗
+
+        // 移除悬浮窗（大悬浮窗或快捷球，按需清理）
         if (floatingView != null) {
             windowManager.removeView(floatingView);
             Logger.d("悬浮窗已移除");
         }
 
-        // 移除快捷球
         removeQuickBall();
         
         Logger.w("悬浮窗服务已销毁");
