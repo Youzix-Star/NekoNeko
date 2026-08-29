@@ -42,6 +42,13 @@
     <string name="import_rules_confirm">导入</string>
     <string name="import_rules_empty">未解析到有效规则</string>
     <string name="import_rules_count">已导入 %1$d 条规则</string>
+    <string name="export_rules">导出规则</string>
+    <string name="export_rules_title">导出规则到剪贴板</string>
+    <string name="export_mode_all">全部导出</string>
+    <string name="export_mode_text_only">仅导出文本规则</string>
+    <string name="export_mode_regex_only">仅导出正则规则</string>
+    <string name="export_rules_empty">没有可导出的规则</string>
+    <string name="export_rules_copied">已复制 %1$d 条规则到剪贴板</string>
     <string name="rule_replacement_hint">替换模板</string>
     <string name="rule_replacement_helper">留空则删除匹配内容；$1 引用第 1 个捕获组</string>
     <string name="rule_invalid_pattern">正则表达式语法错误</string>

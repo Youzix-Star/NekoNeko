@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,20 +44,6 @@ public class AiConfigFragment extends Fragment {
         modelInput = view.findViewById(R.id.ai_model_input);
         promptInput = view.findViewById(R.id.ai_prompt_input);
         presetChipGroup = view.findViewById(R.id.preset_chip_group);
-
-        // 展开按钮
-        view.findViewById(R.id.expand_prompt_button).setOnClickListener(v -> {
-            View dialogView = getLayoutInflater().inflate(R.layout.dialog_prompt_edit, null);
-            EditText fullEditor = dialogView.findViewById(R.id.prompt_edit_full);
-            fullEditor.setText(promptInput.getText());
-            new MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(R.string.ai_prompt)
-                    .setView(dialogView)
-                    .setPositiveButton(R.string.ai_save, (d, w) ->
-                            promptInput.setText(fullEditor.getText()))
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show();
-        });
 
         // 回填配置
         AiManager.Config cfg = AiManager.load(requireContext());

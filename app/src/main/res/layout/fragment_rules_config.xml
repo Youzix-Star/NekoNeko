@@ -146,6 +146,17 @@
                 android:textAllCaps="false"
                 app:icon="@drawable/ic_content_copy"
                 app:iconGravity="textStart" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/export_rules_button"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/export_rules"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_open_in_new"
+                app:iconGravity="textStart" />
         </LinearLayout>
     </ScrollView>
 

@@ -1,8 +1,5 @@
 package com.youzix.nekoneko;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -86,6 +83,7 @@ public class RulesConfigFragment extends Fragment {
         view.findViewById(R.id.save_rules_button).setOnClickListener(v -> saveRules());
         view.findViewById(R.id.save_as_preset_button).setOnClickListener(v -> saveAsPreset());
         view.findViewById(R.id.import_rules_button).setOnClickListener(v -> showImportDialog());
+        view.findViewById(R.id.export_rules_button).setOnClickListener(v -> showExportDialog());
 
         refreshPresetChips();
         refreshEmptyState();
@@ -114,18 +112,6 @@ public class RulesConfigFragment extends Fragment {
         input.setMinLines(5);
         input.setMaxLines(15);
 
-        // 检查剪贴板是否有内容
-        ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
-        if (cm != null && cm.hasPrimaryClip()) {
-            ClipData clip = cm.getPrimaryClip();
-            if (clip != null && clip.getItemCount() > 0) {
-                CharSequence paste = clip.getItemAt(0).getText();
-                if (paste != null && paste.length() > 0) {
-                    input.setText(paste);
-                }
-            }
-        }
-
         new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.import_rules_title)
                 .setView(input)
@@ -145,6 +131,51 @@ public class RulesConfigFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    // ---------- 导出 ----------
+
+    private void showExportDialog() {
+        if (rules.isEmpty()) {
+            Toast.makeText(requireContext(), R.string.export_rules_empty, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String[] options = {
+                getString(R.string.export_mode_all),
+                getString(R.string.export_mode_text_only),
+                getString(R.string.export_mode_regex_only)
+        };
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.export_rules_title)
+                .setItems(options, (d, which) -> {
+                    List<RuleManager.Rule> toExport = new ArrayList<>();
+                    for (RuleManager.Rule r : rules) {
+                        if (which == 0) {
+                            toExport.add(r);
+                        } else if (which == 1 && !r.useRegex) {
+                            toExport.add(r);
+                        } else if (which == 2 && r.useRegex) {
+                            toExport.add(r);
+                        }
+                    }
+                    if (toExport.isEmpty()) {
+                        Toast.makeText(requireContext(), R.string.export_rules_empty,
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    String text = RuleManager.exportToText(toExport);
+                    android.content.ClipboardManager cm = (android.content.ClipboardManager)
+                            requireContext().getSystemService(android.content.Context.CLIPBOARD_SERVICE);
+                    if (cm != null) {
+                        android.content.ClipData clip = android.content.ClipData.newPlainText(
+                                "nekoneko_rules", text);
+                        cm.setPrimaryClip(clip);
+                    }
+                    Toast.makeText(requireContext(),
+                            getString(R.string.export_rules_copied, toExport.size()),
+                            Toast.LENGTH_SHORT).show();
+                })
                 .show();
     }
 
