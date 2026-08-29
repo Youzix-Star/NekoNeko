@@ -406,10 +406,11 @@ public class FloatingWindowService extends Service implements Logger.LogListener
                         updateCapturedText(modifiedText);
 
                         // 记录 token 用量
-                        int[] usage = AiManager.consumeLastUsage();
+                        AiManager.UsageRecord usage = AiManager.consumeLastUsage();
                         if (usage != null) {
-                            TokenStats.record(FloatingWindowService.this,
-                                    usage[0], usage[1], usage[2], usage[3] > 0);
+                            TokenStats.record(FloatingWindowService.this, usage.model,
+                                    usage.promptTokens, usage.completionTokens,
+                                    usage.totalTokens, usage.cachedTokens);
                         }
 
                         AccessibilityService service = AccessibilityService.getInstance();
@@ -502,10 +503,17 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         // 直接用 FrameLayout.LayoutParams 设大小
         quickBallView.setLayoutParams(new FrameLayout.LayoutParams(sizePx, sizePx));
 
-        // 设置圆角背景
+        // 设置圆角背景 — 从 themed 主题解析颜色，确保莫奈动态色生效
+        int bgColor;
+        android.util.TypedValue tv = new android.util.TypedValue();
+        if (themed.getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryContainer, tv, true)) {
+            bgColor = tv.data;
+        } else {
+            bgColor = getResources().getColor(R.color.colorPrimaryContainer);
+        }
         android.graphics.drawable.GradientDrawable bg =
                 new android.graphics.drawable.GradientDrawable();
-        bg.setColor(getResources().getColor(R.color.colorSurfaceContainerHigh));
+        bg.setColor(bgColor);
         bg.setCornerRadius(cornerPx);
         quickBallView.setBackground(bg);
 
@@ -658,10 +666,11 @@ public class FloatingWindowService extends Service implements Logger.LogListener
                 updateCapturedText(modifiedText);
 
                 // 记录 token 用量
-                int[] usage = AiManager.consumeLastUsage();
+                AiManager.UsageRecord usage = AiManager.consumeLastUsage();
                 if (usage != null) {
-                    TokenStats.record(FloatingWindowService.this,
-                            usage[0], usage[1], usage[2], usage[3] > 0);
+                    TokenStats.record(FloatingWindowService.this, usage.model,
+                            usage.promptTokens, usage.completionTokens,
+                            usage.totalTokens, usage.cachedTokens);
                 }
 
                 // 4. 替换回输入框

@@ -73,13 +73,20 @@ public class AiManager {
     }
 
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
-    private static int[] _lastUsage = null; // {prompt, completion, total, cached}
+    private static UsageRecord _lastUsage = null;
 
-    // ---------- 配置读写 ----------
+    /** 上次调用的用量记录。 */
+    public static class UsageRecord {
+        public String model;
+        public int promptTokens;
+        public int completionTokens;
+        public int totalTokens;
+        public int cachedTokens;
+    }
 
-    /** 获取上次调用的 token 用量 {prompt, completion, total, cached}，查询后清空。 */
-    public static int[] consumeLastUsage() {
-        int[] u = _lastUsage;
+    /** 获取上次调用的用量记录，查询后清空。 */
+    public static UsageRecord consumeLastUsage() {
+        UsageRecord u = _lastUsage;
         _lastUsage = null;
         return u;
     }
@@ -220,10 +227,15 @@ public class AiManager {
             userContent = text;
         }
 
+        final String modelName = cfg.model;
         Thread thread = new Thread(() -> {
             try {
                 _lastUsage = null;
                 String result = requestChatCompletion(cfg, systemPrompt, userContent);
+                // 补充 model 名到 usage
+                if (_lastUsage != null && _lastUsage.model == null) {
+                    _lastUsage.model = modelName;
+                }
                 MAIN.post(() -> callback.onSuccess(result));
             } catch (Exception e) {
                 String msg = e.getMessage() == null ? e.toString() : e.getMessage();

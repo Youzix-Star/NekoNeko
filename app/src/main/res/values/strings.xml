@@ -101,6 +101,10 @@
     <string name="token_stats_cache_rate">缓存率</string>
     <string name="token_stats_week">近 1 周</string>
     <string name="token_stats_month">近 1 月</string>
+    <string name="token_legend_input">输入</string>
+    <string name="token_legend_output">输出</string>
+    <string name="token_legend_cached">缓存</string>
+    <string name="token_stats_call_fmt">%1$d 次调用 · 输入 %2$s · 输出 %3$s</string>
     <string name="row_enter">进入</string>
     <string name="acc_on">已启用</string>
     <string name="acc_off">未启用</string>

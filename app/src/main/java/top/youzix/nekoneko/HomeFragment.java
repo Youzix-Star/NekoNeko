@@ -17,7 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import java.util.concurrent.TimeUnit;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.List;
 
 /**
  * 首页（设置列表式）：无障碍服务 / 悬浮窗 / AI 配置。
@@ -50,61 +53,90 @@ public class HomeFragment extends Fragment {
         view.findViewById(R.id.row_floating).setOnClickListener(v -> toggleFloatingWindow());
     }
 
+    private String selectedModel = null; // null = 全部模型
+
     @Override
     public void onResume() {
         super.onResume();
         refreshStatus();
+        buildModelChips();
         refreshTokenStats();
     }
 
+    private void buildModelChips() {
+        if (!isAdded() || getView() == null) return;
+        ChipGroup chipGroup = getView().findViewById(R.id.token_model_chips);
+        if (chipGroup == null) return;
+
+        chipGroup.removeAllViews();
+
+        List<String> models = TokenStats.getModelNames(requireContext());
+        if (models.isEmpty()) {
+            // 没有数据时隐藏芯片组
+            chipGroup.setVisibility(View.GONE);
+            return;
+        }
+        chipGroup.setVisibility(View.VISIBLE);
+
+        // "全部"选项
+        Chip allChip = new Chip(requireContext());
+        allChip.setText("全部");
+        allChip.setCheckable(true);
+        allChip.setChecked(selectedModel == null);
+        allChip.setOnClickListener(v -> {
+            selectedModel = null;
+            refreshTokenStats();
+        });
+        chipGroup.addView(allChip);
+
+        for (String model : models) {
+            Chip chip = new Chip(requireContext());
+            chip.setText(model);
+            chip.setCheckable(true);
+            chip.setChecked(model.equals(selectedModel));
+            chip.setOnClickListener(v -> {
+                selectedModel = model;
+                refreshTokenStats();
+            });
+            chipGroup.addView(chip);
+        }
+    }
+
     private void refreshTokenStats() {
-        if (!isAdded()) return;
+        if (!isAdded() || getView() == null) return;
         Context ctx = requireContext();
+        View v = getView();
 
-        // 总量
-        TokenStats.Stats all = TokenStats.query(ctx, 0);
-        TextView totalValue = getView() != null ? getView().findViewById(R.id.token_total_value) : null;
-        TextView callsValue = getView() != null ? getView().findViewById(R.id.token_calls_value) : null;
-        TextView cacheRate = getView() != null ? getView().findViewById(R.id.token_cache_rate) : null;
-
-        if (totalValue != null) {
-            totalValue.setText(formatTokenCount(all.totalTokens));
-        }
-        if (callsValue != null) {
-            callsValue.setText(String.valueOf(all.totalCalls));
-        }
-        if (cacheRate != null) {
-            if (all.totalCalls > 0) {
-                int rate = (int) (all.cachedCalls * 100f / all.totalCalls);
-                cacheRate.setText(rate + "%");
-            } else {
-                cacheRate.setText("--");
-            }
-        }
-
-        // 模型名
-        TextView modelText = getView() != null ? getView().findViewById(R.id.token_stats_model) : null;
-        if (modelText != null) {
-            AiManager.Config cfg = AiManager.load(ctx);
-            modelText.setText(cfg.model);
-        }
-
-        // 1 周 / 1 个月
         long now = System.currentTimeMillis();
         long weekAgo = now - 7L * 24 * 60 * 60 * 1000;
         long monthAgo = now - 30L * 24 * 60 * 60 * 1000;
 
-        TokenStats.Stats week = TokenStats.query(ctx, weekAgo);
-        TokenStats.Stats month = TokenStats.query(ctx, monthAgo);
+        TokenStats.Stats all = TokenStats.query(ctx, 0, selectedModel);
+        TokenStats.Stats week = TokenStats.query(ctx, weekAgo, selectedModel);
+        TokenStats.Stats month = TokenStats.query(ctx, monthAgo, selectedModel);
 
-        TextView weekValue = getView() != null ? getView().findViewById(R.id.token_week_value) : null;
-        TextView monthValue = getView() != null ? getView().findViewById(R.id.token_month_value) : null;
+        TextView totalVal = v.findViewById(R.id.token_ring_value);
+        TextView weekVal = v.findViewById(R.id.token_week_value);
+        TextView monthVal = v.findViewById(R.id.token_month_value);
+        TextView cacheRate = v.findViewById(R.id.token_cache_rate);
+        TextView callsVal = v.findViewById(R.id.token_calls_value);
 
-        if (weekValue != null) {
-            weekValue.setText(formatTokenCount(week.totalTokens));
+        if (totalVal != null) totalVal.setText(formatTokenCount(all.totalTokens));
+        if (weekVal != null) weekVal.setText(formatTokenCount(week.totalTokens));
+        if (monthVal != null) monthVal.setText(formatTokenCount(month.totalTokens));
+        if (cacheRate != null) {
+            cacheRate.setText(all.totalCalls > 0 ? all.cacheHitPercent() + "%" : "--");
         }
-        if (monthValue != null) {
-            monthValue.setText(formatTokenCount(month.totalTokens));
+        if (callsVal != null) {
+            callsVal.setText(String.format(getString(R.string.token_stats_call_fmt),
+                    all.totalCalls, formatTokenCount(all.totalPromptTokens),
+                    formatTokenCount(all.totalCompletionTokens)));
+        }
+
+        // 环形图
+        RingChartView ring = v.findViewById(R.id.ring_chart);
+        if (ring != null) {
+            ring.setData(all.totalPromptTokens, all.totalCompletionTokens, all.cachedTokens);
         }
     }
 
