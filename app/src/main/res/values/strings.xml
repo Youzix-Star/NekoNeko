@@ -87,6 +87,13 @@
     <string name="floating_config_saved">悬浮窗设置已保存</string>
     <string name="floating_config_quick_ball">快捷悬浮球</string>
     <string name="floating_config_quick_ball_sub">显示悬浮球，点击自动执行：捕获→AI改写→替换</string>
+    <string name="floating_config_mutual_exclusion">⚠ 大悬浮窗与快捷悬浮球互斥，开启其中一个会自动关闭另一个</string>
+    <string name="floating_config_ball_content">悬浮球内容</string>
+    <string name="floating_config_ball_icon">图标</string>
+    <string name="floating_config_ball_text_mode">自定义文字</string>
+    <string name="floating_config_ball_text_hint">悬浮球显示的文字</string>
+    <string name="floating_config_ball_size">球大小</string>
+    <string name="floating_config_ball_corner">圆角</string>
     <string name="quick_ball">快捷球</string>
     <string name="row_enter">进入</string>
     <string name="acc_on">已启用</string>

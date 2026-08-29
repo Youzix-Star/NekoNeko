@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.ViewGroup;
 
 public class FloatingWindowService extends Service implements Logger.LogListener {
 
@@ -480,6 +481,69 @@ public class FloatingWindowService extends Service implements Logger.LogListener
 
         quickBallView = LayoutInflater.from(themed).inflate(R.layout.floating_quick_ball, null);
 
+        // 应用自定义大小和圆角
+        float density = getResources().getDisplayMetrics().density;
+        int sizePx = (int) (prefs.ballSizeDp * density);
+        int cornerPx = (int) (prefs.ballCornerDp * density);
+
+        // 调整根视图大小
+        ViewGroup.LayoutParams rootLp = quickBallView.getLayoutParams();
+        rootLp.width = sizePx;
+        rootLp.height = sizePx;
+        quickBallView.setLayoutParams(rootLp);
+
+        // 设置圆角背景
+        android.graphics.drawable.GradientDrawable bg =
+                new android.graphics.drawable.GradientDrawable();
+        bg.setColor(getResources().getColor(R.color.colorSurfaceContainerHigh));
+        bg.setCornerRadius(cornerPx);
+        quickBallView.setBackground(bg);
+
+        // 根据内容类型显示图标或文字
+        View iconView = quickBallView.findViewById(R.id.quick_ball_icon);
+        TextView textView = quickBallView.findViewById(R.id.quick_ball_text);
+        ProgressBar progressView = quickBallView.findViewById(R.id.quick_ball_progress);
+
+        // 内部控件大小 = 60% 的球大小，留出内边距
+        int innerPx = (int) (sizePx * 0.6);
+
+        if (FloatingWindowPrefs.BALL_TEXT.equals(prefs.ballContentType)) {
+            // 文字模式
+            iconView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(prefs.ballText);
+            // 自适应文字大小：根据文字长度和球大小调整
+            int textLen = prefs.ballText.length();
+            float textSizeSp;
+            if (textLen <= 1) {
+                textSizeSp = sizePx / density * 0.5f;
+            } else if (textLen <= 2) {
+                textSizeSp = sizePx / density * 0.4f;
+            } else {
+                textSizeSp = sizePx / density * 0.28f;
+            }
+            textView.setTextSize(textSizeSp);
+            // 文字控件也设为内部大小
+            ViewGroup.LayoutParams textLp = textView.getLayoutParams();
+            textLp.width = innerPx;
+            textLp.height = innerPx;
+            textView.setLayoutParams(textLp);
+        } else {
+            // 图标模式
+            iconView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+            ViewGroup.LayoutParams iconLp = iconView.getLayoutParams();
+            iconLp.width = innerPx;
+            iconLp.height = innerPx;
+            iconView.setLayoutParams(iconLp);
+        }
+
+        // 进度条也调整大小
+        ViewGroup.LayoutParams progLp = progressView.getLayoutParams();
+        progLp.width = innerPx;
+        progLp.height = innerPx;
+        progressView.setLayoutParams(progLp);
+
         int layoutFlag;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             layoutFlag = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
@@ -488,8 +552,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         }
 
         quickBallParams = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
+                sizePx, sizePx,
                 layoutFlag,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                 WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
@@ -510,7 +573,8 @@ public class FloatingWindowService extends Service implements Logger.LogListener
             executeQuickBallAction();
         });
 
-        Logger.d("快捷悬浮球已创建");
+        Logger.d("快捷悬浮球已创建: " + sizePx + "px, 圆角" + cornerPx + "px, "
+                + ("text".equals(prefs.ballContentType) ? "文字:" + prefs.ballText : "图标"));
     }
 
     private void removeQuickBall() {
