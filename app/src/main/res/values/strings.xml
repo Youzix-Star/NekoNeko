@@ -2,9 +2,16 @@
     <string name="app_name">NekoNeko</string>
     <string name="welcome_message">欢迎使用 NekoNeko 应用！</string>
     <string name="app_title">NekoNeko</string>
-    <string name="app_subtitle">可爱的猫咪应用</string>
-    <string name="floating_window_title">NekoNeko 悬浮窗</string>
+    <string name="app_subtitle">文本捕获悬浮窗应用</string>
+    <string name="floating_window_title">NekoNeko 文本捕获</string>
     <string name="start_floating_window">启动悬浮窗</string>
     <string name="floating_window_started">悬浮窗已启动</string>
     <string name="floating_window_permission_needed">需要悬浮窗权限才能使用此功能</string>
+    <string name="enable_accessibility_service">启用无障碍服务</string>
+    <string name="accessibility_service_description">NekoNeko无障碍服务用于捕获屏幕文本，实现悬浮窗文本显示功能。</string>
+    <string name="capture_text">捕获文本</string>
+    <string name="waiting_for_text">等待捕获文本...</string>
+    <string name="no_text_found">未找到可捕获的文本</string>
+    <string name="please_enable_accessibility">请先启用无障碍服务</string>
+    <string name="accessibility_service_enabled">无障碍服务已启用</string>
 </resources>

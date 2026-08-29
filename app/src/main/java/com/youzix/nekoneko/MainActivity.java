@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         
         // 设置欢迎文本
         TextView welcomeText = findViewById(R.id.welcome_text);
-        welcomeText.setText("欢迎使用 NekoNeko 应用！");
+        welcomeText.setText("NekoNeko");
         
         // 设置悬浮窗按钮
         Button floatingWindowButton = findViewById(R.id.floating_window_button);
@@ -36,6 +36,15 @@ public class MainActivity extends AppCompatActivity {
                 // 启动悬浮窗服务
                 startFloatingWindowService();
             }
+        });
+        
+        // 设置无障碍服务按钮
+        Button accessibilityButton = findViewById(R.id.accessibility_button);
+        accessibilityButton.setOnClickListener(v -> {
+            // 打开无障碍服务设置
+            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+            startActivity(intent);
+            Toast.makeText(this, "请启用NekoNeko无障碍服务", Toast.LENGTH_LONG).show();
         });
     }
 
