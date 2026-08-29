@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:background="@drawable/floating_window_background"
     android:padding="16dp"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:elevation="4dp">
 
     <!-- 标题栏 -->
     <LinearLayout
