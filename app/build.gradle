@@ -10,21 +10,21 @@ android {
         applicationId "top.youzix.nekoneko"
         minSdk 21
         targetSdk 33
-        versionCode 40
-        versionName "1.4.4"
+        versionCode 41
+        versionName "1.4.5"
     }
 
     signingConfigs {
         release {
             def keystoreFile = file("nekoneko.jks")
-            def keystorePassword = System.getenv("KEYSTORE_PASSWORD") ?: (keystoreFile.exists() ? "ADMIN.wxd1y12r" : null)
-            def keyAlias = System.getenv("KEY_ALIAS") ?: (keystoreFile.exists() ? "nekoneko" : null)
-            def keyPassword = System.getenv("KEY_PASSWORD") ?: (keystoreFile.exists() ? "ADMIN.wxd1y12r" : null)
-            if (keystoreFile.exists() && keystorePassword != null) {
+            if (keystoreFile.exists()) {
                 storeFile keystoreFile
-                storePassword keystorePassword
-                keyAlias keyAlias
-                keyPassword keyPassword
+                def envPass = System.getenv("KEYSTORE_PASSWORD")
+                storePassword envPass != null ? envPass : "ADMIN.wxd1y12r"
+                def envAlias = System.getenv("KEY_ALIAS")
+                keyAlias envAlias != null ? envAlias : "nekoneko"
+                def envKeyPass = System.getenv("KEY_PASSWORD")
+                keyPassword envKeyPass != null ? envKeyPass : "ADMIN.wxd1y12r"
             }
         }
     }
