@@ -24,7 +24,7 @@ public class AiConfigFragment extends Fragment {
     private TextInputEditText baseUrlInput;
     private TextInputEditText apiKeyInput;
     private TextInputEditText modelInput;
-    private TextInputEditText promptInput;
+    private EditText promptInput;
 
     @Nullable
     @Override

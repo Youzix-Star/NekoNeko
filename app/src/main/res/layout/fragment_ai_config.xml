@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -110,25 +110,34 @@
             android:textAppearance="?attr/textAppearanceLabelLarge"
             android:textColor="?attr/colorPrimary" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.Material3.TextInputLayout.FilledBox"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="@string/ai_prompt"
-            app:helperText="@string/ai_prompt_helper">
+            android:text="@string/ai_prompt_helper"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="4dp" />
 
-            <com.google.android.material.textfield.TextInputEditText
+        <!-- 固定高度容器，让 EditText 在内部独立滚动 -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@drawable/text_background"
+            android:layout_marginTop="4dp">
+
+            <EditText
                 android:id="@+id/ai_prompt_input"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
                 android:gravity="top|start"
                 android:inputType="textMultiLine"
-                android:maxLines="10"
-                android:minLines="6"
                 android:scrollbars="vertical"
-                android:nestedScrollingEnabled="true" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:padding="12dp"
+                android:textSize="14sp"
+                android:textColor="?attr/colorOnSurface"
+                android:textColorHint="?attr/colorOnSurfaceVariant" />
+        </FrameLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/restore_prompt_button"
@@ -195,4 +204,4 @@
             android:textAllCaps="false" />
 
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</ScrollView>
