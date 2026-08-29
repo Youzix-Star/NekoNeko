@@ -53,10 +53,9 @@
         <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHigh</item>
         <item name="colorSurfaceContainerHighest">@color/colorSurfaceContainerHighest</item>
 
-        <item name="colorInverseSurface">@color/colorInverseSurface</item>
-        <item name="colorInverseOnSurface">@color/colorInverseOnSurface</item>
-        <item name="colorInversePrimary">@color/colorInversePrimary</item>
-        <item name="colorScrim">@color/colorScrim</item>
+        <item name="colorSurfaceInverse">@color/colorInverseSurface</item>
+        <item name="colorOnSurfaceInverse">@color/colorInverseOnSurface</item>
+        <item name="colorPrimaryInverse">@color/colorInversePrimary</item>
         <item name="colorOutline">@color/colorOutline</item>
         <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
 
