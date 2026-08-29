@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.youzix.nekoneko"
-        minSdk 21
+        minSdk 23
         targetSdk 33
         versionCode 18
         versionName "1.17.0"

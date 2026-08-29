@@ -55,7 +55,7 @@ cd NekoNeko
 ## 开发说明
 
 - 包名: `com.youzix.nekoneko`
-- 最低SDK版本: 21 (Android 5.0)
+- 最低SDK版本: 23 (Android 6.0) —— Miuix 组件库要求
 - 目标SDK版本: 33 (Android 13)
 - 使用AndroidX和Material Design组件
 
