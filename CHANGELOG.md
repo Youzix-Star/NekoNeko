@@ -2,7 +2,7 @@
 
 本项目遵循[语义化版本控制](https://semver.org/lang/zh-CN/)。
 
-## [未发布]
+## [1.17.0] - 2026-08-29
 
 ### 变更（UI 全面重构，对齐 legado-with-MD3 的 MD3 设计语言）
 - 主题升级为 DayNight（Theme.Material3.DayNight），补齐完整 MD3 颜色 token
