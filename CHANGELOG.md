@@ -2,19 +2,6 @@
 
 本项目遵循[语义化版本控制](https://semver.org/lang/zh-CN/)。
 
-## [未发布]
-
-### 变更（UI 全面迁移至 Kotlin + Compose，采用 Miuix 组件库重新设计）
-- 技术栈升级：Kotlin 2.4 + Jetpack Compose + Compose Multiplatform（Gradle 8.14.5 / AGP 8.13.2 / compileSdk 36）
-- UI 全部迁移至 Compose，引入 Miuix（MIUI 风格组件库）：miuix-ui / preference / icons / blur / squircle
-- 首页重设计为 MIUI 风格设置列表（SmallTitle 分组 + ArrowPreference，图标 Tonal 圆形底）
-- AI 配置页重设计（Miuix TextField 输入框 + WindowDialog 对话框 + 按钮层级）
-- 关于页重设计（应用信息头部 + 设置列表式信息行 + 设备/莫奈诊断）
-- 首次启动引导页重设计（Miuix 进度条 + 图标页面 + 底部按钮）
-- 悬浮窗迁移至 ComposeView（可拖动、最小化动画、捕获/替换/增加/AI 修改、日志轮询刷新）
-- 主题：MiuixTheme 接管——Android 12+ 跟随系统莫奈动态取色（含 Android 13+ 系统调色板样式），低版本回退 MIUI 蓝色系；深浅色随系统
-- 单 Activity 架构：MainActivity 为唯一入口，按引导完成状态切换 Welcome / 主界面
-
 ## [1.17.0] - 2026-08-29
 
 ### 变更（UI 全面重构，对齐 legado-with-MD3 的 MD3 设计语言）

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/floating_window_background"
+    android:padding="16dp"
+    android:elevation="8dp"
+    android:minWidth="300dp">
+
+    <!-- 标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="@string/floating_window_title"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/minimize_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/icon_button_background"
+            android:contentDescription="@string/minimize_floating_window"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_remove"
+            android:tint="?attr/colorOnSurfaceVariant" />
+
+        <ImageButton
+            android:id="@+id/close_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/icon_button_background"
+            android:contentDescription="@string/close_floating_window"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_close"
+            android:tint="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+
+    <!-- 主体内容（最小化时隐藏） -->
+    <LinearLayout
+        android:id="@+id/window_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
+
+        <!-- 捕获内容标签 -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:text="@string/capture_label"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="12sp" />
+
+        <!-- 捕获的文本显示区域 -->
+        <TextView
+            android:id="@+id/captured_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/waiting_for_text"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="14sp"
+            android:background="@drawable/text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:minHeight="64dp"
+            android:gravity="start|top" />
+
+        <!-- 捕获按钮（主操作：Filled） -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/capture_button"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/capture_text"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"
+            app:icon="@drawable/ic_content_copy"
+            app:iconGravity="textStart" />
+
+        <!-- 替换 / 增加 按钮（次级操作：Tonal） -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/replace_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/replace_text"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_swap_horiz"
+                app:iconGravity="textStart" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/append_button"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="@string/append_text"
+                android:textAllCaps="false"
+                app:icon="@drawable/ic_add"
+                app:iconGravity="textStart" />
+        </LinearLayout>
+
+        <!-- AI 修改按钮（次要操作：Outlined） -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/ai_modify_button"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ai_modify"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"
+            app:icon="@drawable/ic_auto_fix"
+            app:iconGravity="textStart" />
+
+        <!-- 日志区域标题 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/running_log"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="12sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/clear_log_button"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_log"
+                android:textAllCaps="false"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp" />
+        </LinearLayout>
+
+        <!-- 日志显示区域 -->
+        <ScrollView
+            android:id="@+id/log_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:background="@drawable/log_background"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/log_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/log_waiting"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:lineSpacingExtra="2dp" />
+        </ScrollView>
+
+        <!-- 状态提示 -->
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/status_hint"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textSize="10sp"
+            android:alpha="0.7"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+</LinearLayout>
