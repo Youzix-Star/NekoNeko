@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/floating_window_background"
+    android:padding="16dp"
+    android:layout_margin="8dp">
+
+    <!-- 标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="NekoNeko 悬浮窗"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="×"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/close_button_background"
+            android:padding="4dp"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <!-- 内容区域 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="这是一个悬浮窗示例！\n\n• 可以拖动移动位置\n• 点击×关闭悬浮窗\n• 使用Material Design 2风格"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:lineSpacingExtra="4dp"
+        android:layout_marginBottom="12dp" />
+
+    <!-- 操作按钮 -->
+    <Button
+        android:id="@+id/action_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="点击我"
+        android:textColor="@color/colorPrimary"
+        android:background="@drawable/button_background"
+        android:textAllCaps="false"
+        android:textSize="14sp" />
+
+</LinearLayout>

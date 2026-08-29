@@ -3,4 +3,8 @@
     <string name="welcome_message">欢迎使用 NekoNeko 应用！</string>
     <string name="app_title">NekoNeko</string>
     <string name="app_subtitle">可爱的猫咪应用</string>
+    <string name="floating_window_title">NekoNeko 悬浮窗</string>
+    <string name="start_floating_window">启动悬浮窗</string>
+    <string name="floating_window_started">悬浮窗已启动</string>
+    <string name="floating_window_permission_needed">需要悬浮窗权限才能使用此功能</string>
 </resources>
