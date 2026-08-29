@@ -1,9 +1,11 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 android {
-    compileSdk 34
+    compileSdk 36
     namespace "com.youzix.nekoneko"
 
     defaultConfig {
@@ -24,10 +26,30 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+    buildFeatures {
+        compose true
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
 }
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // Compose
+    implementation 'androidx.activity:activity-compose:1.13.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.4'
+
+    // Miuix（MIUI 风格 Compose 组件库）
+    implementation 'top.yukonga.miuix.kmp:miuix-ui:0.9.3'
+    implementation 'top.yukonga.miuix.kmp:miuix-preference:0.9.3'
+    implementation 'top.yukonga.miuix.kmp:miuix-icons:0.9.3'
+    implementation 'top.yukonga.miuix.kmp:miuix-blur:0.9.3'
+    implementation 'top.yukonga.miuix.kmp:miuix-squircle:0.9.3'
 }
