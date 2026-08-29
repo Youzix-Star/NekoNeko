@@ -1,6 +1,7 @@
 package com.youzix.nekoneko;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -41,6 +42,13 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Android 12+：引导页也显式应用莫奈动态取色，保证与主界面一致
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            getTheme().applyStyle(
+                    com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
+                    true);
+        }
 
         // 已完成的引导直接进入主界面
         if (Guide.isDone(this)) {
