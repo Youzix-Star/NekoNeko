@@ -16,9 +16,6 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-/**
- * 关于页：应用信息、版本号、功能特性、设备信息与 GitHub 链接。
- */
 public class AboutFragment extends Fragment {
 
     @Nullable
@@ -32,24 +29,22 @@ public class AboutFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // 版本号
+        // 版本号 + 构建号
         TextView versionText = view.findViewById(R.id.about_version);
         try {
-            String versionName = requireContext().getPackageManager()
-                    .getPackageInfo(requireContext().getPackageName(), 0).versionName;
-            versionText.setText(getString(R.string.about_version_fmt, versionName));
+            PackageManager pm = requireContext().getPackageManager();
+            String versionName = pm.getPackageInfo(requireContext().getPackageName(), 0).versionName;
+            int versionCode = pm.getPackageInfo(requireContext().getPackageName(), 0).versionCode;
+            versionText.setText(String.format("%s(%d)", versionName, versionCode));
         } catch (PackageManager.NameNotFoundException e) {
-            versionText.setText(getString(R.string.about_version_placeholder));
+            versionText.setText(R.string.about_version_placeholder);
         }
 
-        // 设备信息：Android 版本 + 芯片型号 + 设备型号
+        // 设备信息
         TextView deviceInfo = view.findViewById(R.id.about_device_info);
-        String androidVer = Build.VERSION.RELEASE;
-        String sdk = "API " + Build.VERSION.SDK_INT;
         String abi = Build.SUPPORTED_ABIS.length > 0 ? Build.SUPPORTED_ABIS[0] : "unknown";
-        String device = Build.MANUFACTURER + " " + Build.MODEL;
-        deviceInfo.setText(String.format("Android %s (%s) · %s · %s",
-                androidVer, sdk, abi, device));
+        deviceInfo.setText(String.format("Android %s · %s · %s %s",
+                Build.VERSION.RELEASE, abi, Build.MANUFACTURER, Build.MODEL));
 
         // 赞助弹窗
         view.findViewById(R.id.about_sponsor_button).setOnClickListener(v -> {
