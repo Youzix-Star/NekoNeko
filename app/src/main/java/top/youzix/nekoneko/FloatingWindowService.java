@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +35,11 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     private View windowBody;
     private ImageButton minimizeButton;
     private boolean isMinimized = false;
+
+    // 快捷悬浮球
+    private View quickBallView;
+    private WindowManager.LayoutParams quickBallParams;
+    private boolean isQuickBallProcessing = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -138,6 +145,9 @@ public class FloatingWindowService extends Service implements Logger.LogListener
 
         // 根据设置显示/隐藏各区域
         applyVisibilityPrefs();
+
+        // 创建快捷悬浮球
+        createQuickBall();
 
         Logger.d("悬浮窗视图创建完成");
     }
@@ -459,6 +469,168 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         }
     }
 
+    // ========== 快捷悬浮球 ==========
+
+    private void createQuickBall() {
+        FloatingWindowPrefs.Prefs prefs = FloatingWindowPrefs.load(this);
+        if (!prefs.showQuickBall) return;
+
+        Context themed = new ContextThemeWrapper(this, R.style.AppTheme_Overlay);
+        ThemeUtils.applyDynamicColors(this, themed.getTheme());
+
+        quickBallView = LayoutInflater.from(themed).inflate(R.layout.floating_quick_ball, null);
+
+        int layoutFlag;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            layoutFlag = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+        } else {
+            layoutFlag = WindowManager.LayoutParams.TYPE_PHONE;
+        }
+
+        quickBallParams = new WindowManager.LayoutParams(
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                layoutFlag,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                PixelFormat.TRANSLUCENT
+        );
+        quickBallParams.gravity = Gravity.TOP | Gravity.START;
+        quickBallParams.x = 20;
+        quickBallParams.y = 300;
+
+        windowManager.addView(quickBallView, quickBallParams);
+
+        // 可拖动
+        setupQuickBallTouch();
+
+        // 点击执行 AI 快捷流程
+        quickBallView.setOnClickListener(v -> {
+            if (isQuickBallProcessing) return;
+            executeQuickBallAction();
+        });
+
+        Logger.d("快捷悬浮球已创建");
+    }
+
+    private void removeQuickBall() {
+        if (quickBallView != null) {
+            try {
+                windowManager.removeView(quickBallView);
+            } catch (Exception ignored) {
+            }
+            quickBallView = null;
+        }
+    }
+
+    private void setupQuickBallTouch() {
+        final float[] touchX = new float[1];
+        final float[] touchY = new float[1];
+        final int[] startPos = new int[2];
+        final boolean[] moved = new boolean[1];
+
+        quickBallView.setOnTouchListener((v, event) -> {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    startPos[0] = quickBallParams.x;
+                    startPos[1] = quickBallParams.y;
+                    touchX[0] = event.getRawX();
+                    touchY[0] = event.getRawY();
+                    moved[0] = false;
+                    return true;
+                case MotionEvent.ACTION_MOVE:
+                    float dx = event.getRawX() - touchX[0];
+                    float dy = event.getRawY() - touchY[0];
+                    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                        moved[0] = true;
+                    }
+                    quickBallParams.x = startPos[0] + (int) dx;
+                    quickBallParams.y = startPos[1] + (int) dy;
+                    windowManager.updateViewLayout(quickBallView, quickBallParams);
+                    return true;
+                case MotionEvent.ACTION_UP:
+                    if (!moved[0]) {
+                        quickBallView.performClick();
+                    }
+                    return true;
+            }
+            return false;
+        });
+    }
+
+    private void executeQuickBallAction() {
+        isQuickBallProcessing = true;
+        setQuickBallLoading(true);
+        Logger.i("快捷球：开始执行 AI 流程");
+
+        // 1. 捕获输入框文本
+        String text = "";
+        AccessibilityService service = AccessibilityService.getInstance();
+        if (service != null) {
+            text = service.getCurrentWindowText();
+        }
+        if (text.isEmpty()) {
+            Logger.w("快捷球：未捕获到文本");
+            Toast.makeText(this, R.string.no_text_found, Toast.LENGTH_SHORT).show();
+            setQuickBallLoading(false);
+            isQuickBallProcessing = false;
+            return;
+        }
+        Logger.d("快捷球：捕获到文本: " + text);
+        updateCapturedText(text);
+
+        // 2. 检查 AI 配置
+        AiManager.Config cfg = AiManager.load(this);
+        if (cfg.apiKey == null || cfg.apiKey.trim().isEmpty()) {
+            Toast.makeText(this, R.string.ai_key_missing, Toast.LENGTH_LONG).show();
+            setQuickBallLoading(false);
+            isQuickBallProcessing = false;
+            return;
+        }
+
+        // 3. 调用 AI
+        updateCapturedText(getString(R.string.ai_modifying));
+        AiManager.modifyText(cfg, text, new AiManager.Callback() {
+            @Override
+            public void onSuccess(String modifiedText) {
+                Logger.i("快捷球：AI 成功: " + modifiedText);
+                updateCapturedText(modifiedText);
+
+                // 4. 替换回输入框
+                AccessibilityService svc = AccessibilityService.getInstance();
+                boolean replaced = svc != null && svc.replaceInputText(modifiedText);
+                Toast.makeText(FloatingWindowService.this,
+                        replaced ? R.string.ai_replace_success : R.string.ai_no_input,
+                        Toast.LENGTH_SHORT).show();
+
+                setQuickBallLoading(false);
+                isQuickBallProcessing = false;
+            }
+
+            @Override
+            public void onError(String message) {
+                Logger.e("快捷球：AI 失败: " + message);
+                updateCapturedText(text);
+                Toast.makeText(FloatingWindowService.this,
+                        getString(R.string.ai_call_failed, message), Toast.LENGTH_LONG).show();
+                setQuickBallLoading(false);
+                isQuickBallProcessing = false;
+            }
+        });
+    }
+
+    private void setQuickBallLoading(boolean loading) {
+        if (quickBallView == null) return;
+        ImageView icon = quickBallView.findViewById(R.id.quick_ball_icon);
+        ProgressBar progress = quickBallView.findViewById(R.id.quick_ball_progress);
+        if (icon != null && progress != null) {
+            icon.setVisibility(loading ? View.GONE : View.VISIBLE);
+            progress.setVisibility(loading ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    // ========== 生命周期 ==========
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -473,6 +645,9 @@ public class FloatingWindowService extends Service implements Logger.LogListener
             windowManager.removeView(floatingView);
             Logger.d("悬浮窗已移除");
         }
+
+        // 移除快捷球
+        removeQuickBall();
         
         Logger.w("悬浮窗服务已销毁");
     }

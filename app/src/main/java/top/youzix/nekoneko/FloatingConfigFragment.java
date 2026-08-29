@@ -34,11 +34,13 @@ public class FloatingConfigFragment extends Fragment {
         MaterialSwitch swApplyRules = view.findViewById(R.id.sw_show_apply_rules);
         MaterialSwitch swAiModify = view.findViewById(R.id.sw_show_ai_modify);
         MaterialSwitch swLog = view.findViewById(R.id.sw_show_log);
+        MaterialSwitch swQuickBall = view.findViewById(R.id.sw_show_quick_ball);
 
         swCaptureText.setChecked(prefs.showCaptureText);
         swApplyRules.setChecked(prefs.showApplyRules);
         swAiModify.setChecked(prefs.showAiModify);
         swLog.setChecked(prefs.showLog);
+        swQuickBall.setChecked(prefs.showQuickBall);
 
         view.findViewById(R.id.save_floating_config_button).setOnClickListener(v -> {
             FloatingWindowPrefs.Prefs p = new FloatingWindowPrefs.Prefs();
@@ -46,6 +48,7 @@ public class FloatingConfigFragment extends Fragment {
             p.showApplyRules = swApplyRules.isChecked();
             p.showAiModify = swAiModify.isChecked();
             p.showLog = swLog.isChecked();
+            p.showQuickBall = swQuickBall.isChecked();
             FloatingWindowPrefs.save(requireContext(), p);
             Toast.makeText(requireContext(), R.string.floating_config_saved, Toast.LENGTH_SHORT).show();
         });
