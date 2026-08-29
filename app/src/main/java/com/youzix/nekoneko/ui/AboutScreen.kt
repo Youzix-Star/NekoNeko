@@ -62,7 +62,8 @@ fun AboutScreen(padding: PaddingValues) {
             false
         }
     }
-    val primaryHex = remember { String.format("#%06X", 0xFFFFFF and MiuixTheme.colorScheme.primary.toArgb()) }
+    val primaryColor = MiuixTheme.colorScheme.primary
+    val primaryHex = remember(primaryColor) { String.format("#%06X", 0xFFFFFF and primaryColor.toArgb()) }
 
     Column(
         modifier = Modifier
