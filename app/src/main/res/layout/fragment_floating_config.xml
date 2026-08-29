@@ -68,7 +68,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
-        <MaterialSwitch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/sw_show_capture_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -106,7 +106,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
-        <MaterialSwitch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/sw_show_apply_rules"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -144,7 +144,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
-        <MaterialSwitch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/sw_show_ai_modify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
@@ -182,7 +182,7 @@
                 android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
-        <MaterialSwitch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/sw_show_log"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
