@@ -1,257 +1,256 @@
-﻿2026-08-29T05:55:47.7881074Z Current runner version: '2.336.0'
-2026-08-29T05:55:47.7907713Z ##[group]Runner Image Provisioner
-2026-08-29T05:55:47.7908902Z Hosted Compute Agent
-2026-08-29T05:55:47.7909944Z Version: 20260819.586
-2026-08-29T05:55:47.7910611Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
-2026-08-29T05:55:47.7911338Z Build Date: 2026-08-18T23:20:18Z
-2026-08-29T05:55:47.7912127Z Worker ID: {22b4a27f-8268-4d84-af78-3eeaa0f6d265}
-2026-08-29T05:55:47.7912888Z Azure Region: eastus2
-2026-08-29T05:55:47.7913537Z ##[endgroup]
-2026-08-29T05:55:47.7914998Z ##[group]Operating System
-2026-08-29T05:55:47.7915626Z Ubuntu
-2026-08-29T05:55:47.7916279Z 24.04.4
-2026-08-29T05:55:47.7916865Z LTS
-2026-08-29T05:55:47.7917441Z ##[endgroup]
-2026-08-29T05:55:47.7918028Z ##[group]Runner Image
-2026-08-29T05:55:47.7918684Z Image: ubuntu-24.04
-2026-08-29T05:55:47.7919467Z Version: 20260823.283.1
-2026-08-29T05:55:47.7920803Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260823.283/images/ubuntu/Ubuntu2404-Readme.md
-2026-08-29T05:55:47.7922416Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260823.283
-2026-08-29T05:55:47.7923404Z ##[endgroup]
-2026-08-29T05:55:47.7925021Z ##[group]GITHUB_TOKEN Permissions
-2026-08-29T05:55:47.7927624Z Contents: write
-2026-08-29T05:55:47.7928344Z Metadata: read
-2026-08-29T05:55:47.7929014Z ##[endgroup]
-2026-08-29T05:55:47.7931627Z Secret source: Actions
-2026-08-29T05:55:47.7933008Z Prepare workflow directory
-2026-08-29T05:55:47.8261217Z Prepare all required actions
-2026-08-29T05:55:47.8307959Z Getting action download info
-2026-08-29T05:55:48.0666060Z Download action repository 'actions/checkout@v5' (SHA:fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09)
-2026-08-29T05:55:48.1729983Z Download action repository 'actions/setup-java@v5' (SHA:b6effb05e454b25005698d916606bdc6ffcbf961)
-2026-08-29T05:55:48.4466997Z Download action repository 'actions/upload-artifact@v5' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
-2026-08-29T05:55:48.6260802Z Download action repository 'softprops/action-gh-release@v2' (SHA:3bb12739c298aeb8a4eeaf626c5b8d85266b0e65)
-2026-08-29T05:55:49.4202809Z Complete job name: build
-2026-08-29T05:55:49.4910384Z ##[group]Run actions/checkout@v5
-2026-08-29T05:55:49.4911035Z with:
-2026-08-29T05:55:49.4911320Z   repository: Youzix-Star/NekoNeko
-2026-08-29T05:55:49.4914341Z   token: ***
-2026-08-29T05:55:49.4914621Z   ssh-strict: true
-2026-08-29T05:55:49.4914888Z   ssh-user: git
-2026-08-29T05:55:49.4915167Z   persist-credentials: true
-2026-08-29T05:55:49.4915469Z   clean: true
-2026-08-29T05:55:49.4915743Z   sparse-checkout-cone-mode: true
-2026-08-29T05:55:49.4916048Z   fetch-depth: 1
-2026-08-29T05:55:49.4916303Z   fetch-tags: false
-2026-08-29T05:55:49.4916565Z   show-progress: true
-2026-08-29T05:55:49.4916856Z   lfs: false
-2026-08-29T05:55:49.4917118Z   submodules: false
-2026-08-29T05:55:49.4917388Z   set-safe-directory: true
-2026-08-29T05:55:49.4917697Z   allow-unsafe-pr-checkout: false
-2026-08-29T05:55:49.4918185Z ##[endgroup]
-2026-08-29T05:55:49.5916600Z Syncing repository: Youzix-Star/NekoNeko
-2026-08-29T05:55:49.5918786Z ##[group]Getting Git version info
-2026-08-29T05:55:49.5919840Z Working directory is '/home/runner/work/NekoNeko/NekoNeko'
-2026-08-29T05:55:49.5920811Z [command]/usr/bin/git version
-2026-08-29T05:55:49.5977794Z git version 2.55.0
-2026-08-29T05:55:49.5999594Z ##[endgroup]
-2026-08-29T05:55:49.6014990Z Temporarily overriding HOME='/home/runner/work/_temp/93a462a4-5761-4f6f-a858-6e1a76086d62' before making global git config changes
-2026-08-29T05:55:49.6021313Z Adding repository directory to the temporary git global config as a safe directory
-2026-08-29T05:55:49.6022410Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NekoNeko/NekoNeko
-2026-08-29T05:55:49.6072826Z Deleting the contents of '/home/runner/work/NekoNeko/NekoNeko'
-2026-08-29T05:55:49.6076977Z ##[group]Initializing the repository
-2026-08-29T05:55:49.6086295Z [command]/usr/bin/git init /home/runner/work/NekoNeko/NekoNeko
-2026-08-29T05:55:49.6166708Z hint: Using 'master' as the name for the initial branch. This default branch name
-2026-08-29T05:55:49.6169198Z hint: will change to "main" in Git 3.0. To configure the initial branch name
-2026-08-29T05:55:49.6170596Z hint: to use in all of your new repositories, which will suppress this warning,
-2026-08-29T05:55:49.6171582Z hint: call:
-2026-08-29T05:55:49.6172003Z hint:
-2026-08-29T05:55:49.6172520Z hint: 	git config --global init.defaultBranch <name>
-2026-08-29T05:55:49.6173082Z hint:
-2026-08-29T05:55:49.6173617Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
-2026-08-29T05:55:49.6174510Z hint: 'development'. The just-created branch can be renamed via this command:
-2026-08-29T05:55:49.6175199Z hint:
-2026-08-29T05:55:49.6175570Z hint: 	git branch -m <name>
-2026-08-29T05:55:49.6175993Z hint:
-2026-08-29T05:55:49.6176564Z hint: Disable this message with "git config set advice.defaultBranchName false"
-2026-08-29T05:55:49.6177478Z Initialized empty Git repository in /home/runner/work/NekoNeko/NekoNeko/.git/
-2026-08-29T05:55:49.6182551Z [command]/usr/bin/git remote add origin https://github.com/Youzix-Star/NekoNeko
-2026-08-29T05:55:49.6226164Z ##[endgroup]
-2026-08-29T05:55:49.6226681Z ##[group]Disabling automatic garbage collection
-2026-08-29T05:55:49.6231139Z [command]/usr/bin/git config --local gc.auto 0
-2026-08-29T05:55:49.6266070Z ##[endgroup]
-2026-08-29T05:55:49.6266747Z ##[group]Setting up auth
-2026-08-29T05:55:49.6274668Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-08-29T05:55:49.6312941Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-08-29T05:55:49.6663295Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-08-29T05:55:49.6702085Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-08-29T05:55:49.7004109Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-08-29T05:55:49.7043534Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-08-29T05:55:49.7277809Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
-2026-08-29T05:55:49.7317404Z ##[endgroup]
-2026-08-29T05:55:49.7318074Z ##[group]Fetching the repository
-2026-08-29T05:55:49.7326972Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4e6542c86f8f2bfd61d5389b310a96a5df4c6e17:refs/tags/v1.12
-2026-08-29T05:55:49.9636935Z From https://github.com/Youzix-Star/NekoNeko
-2026-08-29T05:55:49.9637785Z  * [new ref]         4e6542c86f8f2bfd61d5389b310a96a5df4c6e17 -> v1.12
-2026-08-29T05:55:49.9650544Z ##[endgroup]
-2026-08-29T05:55:49.9651636Z ##[group]Determining the checkout info
-2026-08-29T05:55:49.9652658Z ##[endgroup]
-2026-08-29T05:55:49.9653248Z [command]/usr/bin/git sparse-checkout disable
-2026-08-29T05:55:49.9700064Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
-2026-08-29T05:55:49.9732356Z ##[group]Checking out the ref
-2026-08-29T05:55:49.9736669Z [command]/usr/bin/git checkout --progress --force refs/tags/v1.12
-2026-08-29T05:55:49.9831828Z Note: switching to 'refs/tags/v1.12'.
-2026-08-29T05:55:49.9832182Z 
-2026-08-29T05:55:49.9832429Z You are in 'detached HEAD' state. You can look around, make experimental
-2026-08-29T05:55:49.9833339Z changes and commit them, and you can discard any commits you make in this
-2026-08-29T05:55:49.9834191Z state without impacting any branches by switching back to a branch.
-2026-08-29T05:55:49.9834678Z 
-2026-08-29T05:55:49.9835009Z If you want to create a new branch to retain commits you create, you may
-2026-08-29T05:55:49.9835793Z do so (now or later) by using -c with the switch command. Example:
-2026-08-29T05:55:49.9836521Z 
-2026-08-29T05:55:49.9836727Z   git switch -c <new-branch-name>
-2026-08-29T05:55:49.9837093Z 
-2026-08-29T05:55:49.9837304Z Or undo this operation with:
-2026-08-29T05:55:49.9837596Z 
-2026-08-29T05:55:49.9837773Z   git switch -
-2026-08-29T05:55:49.9838001Z 
-2026-08-29T05:55:49.9838462Z Turn off this advice by setting config variable advice.detachedHead to false
-2026-08-29T05:55:49.9839014Z 
-2026-08-29T05:55:49.9839744Z HEAD is now at 4e6542c Fix home fragment blank on first launch, scale animation, remove borders, accent color fallback
-2026-08-29T05:55:49.9843075Z ##[endgroup]
-2026-08-29T05:55:49.9885358Z [command]/usr/bin/git log -1 --format=%H
-2026-08-29T05:55:49.9913143Z 4e6542c86f8f2bfd61d5389b310a96a5df4c6e17
-2026-08-29T05:55:50.0207606Z ##[group]Run actions/setup-java@v5
-2026-08-29T05:55:50.0207964Z with:
-2026-08-29T05:55:50.0208216Z   java-version: 17
-2026-08-29T05:55:50.0208486Z   distribution: temurin
-2026-08-29T05:55:50.0208762Z   cache: gradle
-2026-08-29T05:55:50.0209038Z   java-package: jdk
-2026-08-29T05:55:50.0209581Z   check-latest: false
-2026-08-29T05:55:50.0209903Z   set-default: true
-2026-08-29T05:55:50.0210188Z   verify-signature: false
-2026-08-29T05:55:50.0210475Z   server-id: github
-2026-08-29T05:55:50.0210748Z   server-username: GITHUB_ACTOR
-2026-08-29T05:55:50.0211066Z   server-password: GITHUB_TOKEN
-2026-08-29T05:55:50.0211374Z   overwrite-settings: true
-2026-08-29T05:55:50.0211664Z   job-status: success
-2026-08-29T05:55:50.0214563Z   token: ***
-2026-08-29T05:55:50.0214841Z   show-download-progress: false
-2026-08-29T05:55:50.0215154Z ##[endgroup]
-2026-08-29T05:55:50.1675712Z ##[group]Installed distributions
-2026-08-29T05:55:50.1801579Z Resolved Java 17.0.20+1 from tool-cache
-2026-08-29T05:55:50.1802198Z Setting Java 17.0.20+1 as the default
-2026-08-29T05:55:50.1802587Z Creating toolchains.xml for JDK version 17 from temurin
-2026-08-29T05:55:50.1860319Z Writing to /home/runner/.m2/toolchains.xml
-2026-08-29T05:55:50.1861006Z 
-2026-08-29T05:55:50.1861519Z Java configuration:
-2026-08-29T05:55:50.1862123Z   Distribution: temurin
-2026-08-29T05:55:50.1862680Z   Version: 17.0.20+1
-2026-08-29T05:55:50.1863390Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
-2026-08-29T05:55:50.1864007Z 
-2026-08-29T05:55:50.1864920Z ##[endgroup]
-2026-08-29T05:55:50.1895605Z Creating settings.xml with server-id: github
-2026-08-29T05:55:50.1896706Z Writing to /home/runner/.m2/settings.xml
-2026-08-29T05:55:50.1898193Z Configured MAVEN_ARGS to include -ntp to suppress Maven transfer progress logs. Set 'show-download-progress: true' to keep the download progress output.
-2026-08-29T05:55:50.3207200Z gradle cache is not found
-2026-08-29T05:55:50.3993059Z Cache hit for: setup-java-Linux-x64-gradle-wrapper-ba45b780a9db55510687a66cb36f998fc11367889f43a345b8e433c1cec3bf18
-2026-08-29T05:55:51.4656583Z Received 261143132 of 261143132 (100.0%), 248.5 MBs/sec
-2026-08-29T05:55:51.4657631Z Cache Size: ~249 MB (261143132 B)
-2026-08-29T05:55:51.4720938Z [command]/usr/bin/tar -xf /home/runner/work/_temp/cb211da9-1413-420a-a2a2-8448de7bfa9d/cache.tzst -P -C /home/runner/work/NekoNeko/NekoNeko --use-compress-program unzstd
-2026-08-29T05:55:51.8368660Z Cache restored successfully
-2026-08-29T05:55:51.8492383Z gradle-wrapper cache restored from key: setup-java-Linux-x64-gradle-wrapper-ba45b780a9db55510687a66cb36f998fc11367889f43a345b8e433c1cec3bf18
-2026-08-29T05:55:51.8738589Z ##[group]Run chmod +x gradlew
-2026-08-29T05:55:51.8738969Z [36;1mchmod +x gradlew[0m
-2026-08-29T05:55:51.8783615Z shell: /usr/bin/bash -e {0}
-2026-08-29T05:55:51.8783923Z env:
-2026-08-29T05:55:51.8784274Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
-2026-08-29T05:55:51.8784803Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
-2026-08-29T05:55:51.8785204Z   MAVEN_ARGS: -ntp
-2026-08-29T05:55:51.8785444Z ##[endgroup]
-2026-08-29T05:55:51.9115263Z ##[group]Run ./gradlew assembleDebug
-2026-08-29T05:55:51.9115633Z [36;1m./gradlew assembleDebug[0m
-2026-08-29T05:55:51.9153409Z shell: /usr/bin/bash -e {0}
-2026-08-29T05:55:51.9153698Z env:
-2026-08-29T05:55:51.9154034Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
-2026-08-29T05:55:51.9154569Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
-2026-08-29T05:55:51.9154971Z   MAVEN_ARGS: -ntp
-2026-08-29T05:55:51.9155195Z ##[endgroup]
-2026-08-29T05:55:52.5560823Z 
-2026-08-29T05:55:52.5590863Z Welcome to Gradle 8.4!
-2026-08-29T05:55:52.5609136Z 
-2026-08-29T05:55:52.5640989Z Here are the highlights of this release:
-2026-08-29T05:55:52.5650181Z  - Compiling and testing with Java 21
-2026-08-29T05:55:52.5669891Z  - Faster Java compilation on Windows
-2026-08-29T05:55:52.5690069Z  - Role focused dependency configurations creation
-2026-08-29T05:55:52.5729794Z 
-2026-08-29T05:55:52.5760398Z For more details see https://docs.gradle.org/8.4/release-notes.html
-2026-08-29T05:55:52.5784787Z 
-2026-08-29T05:55:52.6541059Z Starting a Gradle Daemon (subsequent builds will be faster)
-2026-08-29T05:56:13.3573682Z > Task :app:preBuild UP-TO-DATE
-2026-08-29T05:56:13.3586520Z > Task :app:preDebugBuild UP-TO-DATE
-2026-08-29T05:56:13.3600277Z > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
-2026-08-29T05:56:13.4538269Z > Task :app:javaPreCompileDebug
-2026-08-29T05:56:18.1554131Z > Task :app:generateDebugResValues
-2026-08-29T05:56:18.1556972Z > Task :app:checkDebugAarMetadata
-2026-08-29T05:56:18.2544468Z > Task :app:mapDebugSourceSetPaths
-2026-08-29T05:56:18.2544883Z > Task :app:generateDebugResources
-2026-08-29T05:56:19.2545110Z > Task :app:packageDebugResources
-2026-08-29T05:56:20.2537882Z > Task :app:mergeDebugResources
-2026-08-29T05:56:20.4538448Z > Task :app:createDebugCompatibleScreenManifests
-2026-08-29T05:56:20.4595115Z > Task :app:extractDeepLinksDebug
-2026-08-29T05:56:20.6550545Z > Task :app:parseDebugLocalResources
-2026-08-29T05:56:20.8537561Z > Task :app:processDebugMainManifest
-2026-08-29T05:56:21.1560652Z > Task :app:processDebugManifest
-2026-08-29T05:56:21.1583621Z > Task :app:mergeDebugShaders
-2026-08-29T05:56:21.1599492Z > Task :app:compileDebugShaders NO-SOURCE
-2026-08-29T05:56:21.1624329Z > Task :app:generateDebugAssets UP-TO-DATE
-2026-08-29T05:56:21.2560662Z > Task :app:mergeDebugAssets
-2026-08-29T05:56:21.2590171Z > Task :app:compressDebugAssets
-2026-08-29T05:56:22.6574558Z > Task :app:desugarDebugFileDependencies
-2026-08-29T05:56:22.7542596Z > Task :app:processDebugJavaRes NO-SOURCE
-2026-08-29T05:56:23.6537763Z > Task :app:processDebugManifestForPackage
-2026-08-29T05:56:23.6560455Z > Task :app:mergeDebugJavaResource
-2026-08-29T05:56:23.6570932Z > Task :app:checkDebugDuplicateClasses
-2026-08-29T05:56:41.4560876Z > Task :app:processDebugResources FAILED
-2026-08-29T05:56:51.5540540Z > Task :app:mergeExtDexDebug
-2026-08-29T05:56:51.6560041Z 
-2026-08-29T05:56:51.6564884Z 21 actionable tasks: 21 executed
-2026-08-29T05:56:51.6565765Z FAILURE: Build failed with an exception.
-2026-08-29T05:56:51.6566129Z 
-2026-08-29T05:56:51.6566292Z * What went wrong:
-2026-08-29T05:56:51.6566782Z Execution failed for task ':app:processDebugResources'.
-2026-08-29T05:56:51.6567914Z > A failure occurred while executing com.android.build.gradle.internal.res.LinkApplicationAndroidResourcesTask$TaskAction
-2026-08-29T05:56:51.6570916Z    > Android resource linking failed
-2026-08-29T05:56:51.6571818Z      ERROR: AAPT: error: resource style/ThemeOverlay.Accent (aka com.youzix.nekoneko:style/ThemeOverlay.Accent) not found.
-2026-08-29T05:56:51.6573046Z      error: resource style/ThemeOverlay.Accent (aka com.youzix.nekoneko:style/ThemeOverlay.Accent) not found.
-2026-08-29T05:56:51.6574207Z      error: resource style/ThemeOverlay.Accent (aka com.youzix.nekoneko:style/ThemeOverlay.Accent) not found.
-2026-08-29T05:56:51.6575411Z      error: resource style/ThemeOverlay.Accent (aka com.youzix.nekoneko:style/ThemeOverlay.Accent) not found.
-2026-08-29T05:56:51.6577255Z      error: resource style/ThemeOverlay.Accent (aka com.youzix.nekoneko:style/ThemeOverlay.Accent) not found.
-2026-08-29T05:56:51.6578076Z      error: failed linking references.
-2026-08-29T05:56:51.6578715Z      
-2026-08-29T05:56:51.6578990Z          
-2026-08-29T05:56:51.6579148Z 
-2026-08-29T05:56:51.6579451Z * Try:
-2026-08-29T05:56:51.6579859Z > Run with --stacktrace option to get the stack trace.
-2026-08-29T05:56:51.6580477Z > Run with --info or --debug option to get more log output.
-2026-08-29T05:56:51.6581055Z > Run with --scan to get full insights.
-2026-08-29T05:56:51.6581578Z > Get more help at https://help.gradle.org.
-2026-08-29T05:56:51.6581949Z 
-2026-08-29T05:56:51.6582101Z BUILD FAILED in 59s
-2026-08-29T05:56:52.1667777Z ##[error]Process completed with exit code 1.
-2026-08-29T05:56:52.1827409Z Post job cleanup.
-2026-08-29T05:56:52.3250449Z Post job cleanup.
-2026-08-29T05:56:52.4173935Z [command]/usr/bin/git version
-2026-08-29T05:56:52.4220164Z git version 2.55.0
-2026-08-29T05:56:52.4256443Z Temporarily overriding HOME='/home/runner/work/_temp/b13e286f-b9e2-4941-b763-6fe11dd34c59' before making global git config changes
-2026-08-29T05:56:52.4257763Z Adding repository directory to the temporary git global config as a safe directory
-2026-08-29T05:56:52.4262341Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NekoNeko/NekoNeko
-2026-08-29T05:56:52.4304050Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
-2026-08-29T05:56:52.4340127Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
-2026-08-29T05:56:52.4633115Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
-2026-08-29T05:56:52.4664854Z http.https://github.com/.extraheader
-2026-08-29T05:56:52.4676396Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
-2026-08-29T05:56:52.4718788Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
-2026-08-29T05:56:52.4976142Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
-2026-08-29T05:56:52.5015301Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
-2026-08-29T05:56:52.5444825Z Cleaning up orphan processes
-2026-08-29T05:56:52.5757631Z Terminate orphan process: pid (2294) (java)
+﻿2026-08-29T05:57:50.0969620Z Current runner version: '2.336.0'
+2026-08-29T05:57:50.0996223Z ##[group]Runner Image Provisioner
+2026-08-29T05:57:50.0997069Z Hosted Compute Agent
+2026-08-29T05:57:50.0998079Z Version: 20260819.586
+2026-08-29T05:57:50.0998878Z Commit: 3cc4a88dfa507ef76119ad1bb3eccc6378bb2b76
+2026-08-29T05:57:50.0999707Z Build Date: 2026-08-18T23:20:18Z
+2026-08-29T05:57:50.1000520Z Worker ID: {9f18b94f-c0f3-40d6-acda-41a198ac1efc}
+2026-08-29T05:57:50.1001246Z Azure Region: eastus2
+2026-08-29T05:57:50.1001926Z ##[endgroup]
+2026-08-29T05:57:50.1003406Z ##[group]Operating System
+2026-08-29T05:57:50.1004108Z Ubuntu
+2026-08-29T05:57:50.1004721Z 24.04.4
+2026-08-29T05:57:50.1005267Z LTS
+2026-08-29T05:57:50.1005924Z ##[endgroup]
+2026-08-29T05:57:50.1006514Z ##[group]Runner Image
+2026-08-29T05:57:50.1007211Z Image: ubuntu-24.04
+2026-08-29T05:57:50.1008036Z Version: 20260823.283.1
+2026-08-29T05:57:50.1009458Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260823.283/images/ubuntu/Ubuntu2404-Readme.md
+2026-08-29T05:57:50.1011048Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260823.283
+2026-08-29T05:57:50.1012454Z ##[endgroup]
+2026-08-29T05:57:50.1013653Z ##[group]GITHUB_TOKEN Permissions
+2026-08-29T05:57:50.1015982Z Contents: write
+2026-08-29T05:57:50.1016627Z Metadata: read
+2026-08-29T05:57:50.1017290Z ##[endgroup]
+2026-08-29T05:57:50.1020009Z Secret source: Actions
+2026-08-29T05:57:50.1021255Z Prepare workflow directory
+2026-08-29T05:57:50.1344172Z Prepare all required actions
+2026-08-29T05:57:50.1391420Z Getting action download info
+2026-08-29T05:57:50.3109447Z Download action repository 'actions/checkout@v5' (SHA:fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09)
+2026-08-29T05:57:50.4345096Z Download action repository 'actions/setup-java@v5' (SHA:b6effb05e454b25005698d916606bdc6ffcbf961)
+2026-08-29T05:57:50.7085110Z Download action repository 'actions/upload-artifact@v5' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+2026-08-29T05:57:50.9086297Z Download action repository 'softprops/action-gh-release@v2' (SHA:3bb12739c298aeb8a4eeaf626c5b8d85266b0e65)
+2026-08-29T05:57:51.1818111Z Complete job name: build
+2026-08-29T05:57:51.2723612Z ##[group]Run actions/checkout@v5
+2026-08-29T05:57:51.2725101Z with:
+2026-08-29T05:57:51.2726008Z   repository: Youzix-Star/NekoNeko
+2026-08-29T05:57:51.2734472Z   token: ***
+2026-08-29T05:57:51.2735367Z   ssh-strict: true
+2026-08-29T05:57:51.2736257Z   ssh-user: git
+2026-08-29T05:57:51.2737176Z   persist-credentials: true
+2026-08-29T05:57:51.2738281Z   clean: true
+2026-08-29T05:57:51.2739208Z   sparse-checkout-cone-mode: true
+2026-08-29T05:57:51.2740302Z   fetch-depth: 1
+2026-08-29T05:57:51.2741200Z   fetch-tags: false
+2026-08-29T05:57:51.2742119Z   show-progress: true
+2026-08-29T05:57:51.2743052Z   lfs: false
+2026-08-29T05:57:51.2743927Z   submodules: false
+2026-08-29T05:57:51.2744855Z   set-safe-directory: true
+2026-08-29T05:57:51.2745914Z   allow-unsafe-pr-checkout: false
+2026-08-29T05:57:51.2747253Z ##[endgroup]
+2026-08-29T05:57:51.3766615Z Syncing repository: Youzix-Star/NekoNeko
+2026-08-29T05:57:51.3770768Z ##[group]Getting Git version info
+2026-08-29T05:57:51.3772895Z Working directory is '/home/runner/work/NekoNeko/NekoNeko'
+2026-08-29T05:57:51.3775962Z [command]/usr/bin/git version
+2026-08-29T05:57:51.3790264Z git version 2.55.0
+2026-08-29T05:57:51.3843290Z ##[endgroup]
+2026-08-29T05:57:51.3857067Z Temporarily overriding HOME='/home/runner/work/_temp/0e6df3dc-ecc7-40ac-a76b-70a26b407db2' before making global git config changes
+2026-08-29T05:57:51.3861811Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-29T05:57:51.3865844Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NekoNeko/NekoNeko
+2026-08-29T05:57:51.3919635Z Deleting the contents of '/home/runner/work/NekoNeko/NekoNeko'
+2026-08-29T05:57:51.3925066Z ##[group]Initializing the repository
+2026-08-29T05:57:51.3929918Z [command]/usr/bin/git init /home/runner/work/NekoNeko/NekoNeko
+2026-08-29T05:57:51.4005112Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-08-29T05:57:51.4009046Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-08-29T05:57:51.4013477Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-08-29T05:57:51.4015438Z hint: call:
+2026-08-29T05:57:51.4017760Z hint:
+2026-08-29T05:57:51.4019612Z hint: 	git config --global init.defaultBranch <name>
+2026-08-29T05:57:51.4021348Z hint:
+2026-08-29T05:57:51.4023503Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-08-29T05:57:51.4025973Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-08-29T05:57:51.4027988Z hint:
+2026-08-29T05:57:51.4029342Z hint: 	git branch -m <name>
+2026-08-29T05:57:51.4030313Z hint:
+2026-08-29T05:57:51.4031771Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-08-29T05:57:51.4034200Z Initialized empty Git repository in /home/runner/work/NekoNeko/NekoNeko/.git/
+2026-08-29T05:57:51.4038407Z [command]/usr/bin/git remote add origin https://github.com/Youzix-Star/NekoNeko
+2026-08-29T05:57:51.4069561Z ##[endgroup]
+2026-08-29T05:57:51.4072002Z ##[group]Disabling automatic garbage collection
+2026-08-29T05:57:51.4074389Z [command]/usr/bin/git config --local gc.auto 0
+2026-08-29T05:57:51.4108842Z ##[endgroup]
+2026-08-29T05:57:51.4111323Z ##[group]Setting up auth
+2026-08-29T05:57:51.4115803Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-29T05:57:51.4154236Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-29T05:57:51.4493209Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-29T05:57:51.4532560Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-29T05:57:51.4791746Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-29T05:57:51.4830255Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-29T05:57:51.5069996Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-08-29T05:57:51.5110672Z ##[endgroup]
+2026-08-29T05:57:51.5112218Z ##[group]Fetching the repository
+2026-08-29T05:57:51.5121275Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +fc5f88f1fe9a7ca81af6a6ec3f56ddc2aa75ed89:refs/tags/v1.12
+2026-08-29T05:57:51.7555384Z From https://github.com/Youzix-Star/NekoNeko
+2026-08-29T05:57:51.7557730Z  * [new ref]         fc5f88f1fe9a7ca81af6a6ec3f56ddc2aa75ed89 -> v1.12
+2026-08-29T05:57:51.7562953Z ##[endgroup]
+2026-08-29T05:57:51.7565250Z ##[group]Determining the checkout info
+2026-08-29T05:57:51.7567832Z ##[endgroup]
+2026-08-29T05:57:51.7570077Z [command]/usr/bin/git sparse-checkout disable
+2026-08-29T05:57:51.7622641Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-08-29T05:57:51.7661138Z ##[group]Checking out the ref
+2026-08-29T05:57:51.7665529Z [command]/usr/bin/git checkout --progress --force refs/tags/v1.12
+2026-08-29T05:57:51.7762774Z Note: switching to 'refs/tags/v1.12'.
+2026-08-29T05:57:51.7763958Z 
+2026-08-29T05:57:51.7764737Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-08-29T05:57:51.7766636Z changes and commit them, and you can discard any commits you make in this
+2026-08-29T05:57:51.7768670Z state without impacting any branches by switching back to a branch.
+2026-08-29T05:57:51.7769728Z 
+2026-08-29T05:57:51.7770457Z If you want to create a new branch to retain commits you create, you may
+2026-08-29T05:57:51.7772227Z do so (now or later) by using -c with the switch command. Example:
+2026-08-29T05:57:51.7774013Z 
+2026-08-29T05:57:51.7774608Z   git switch -c <new-branch-name>
+2026-08-29T05:57:51.7775592Z 
+2026-08-29T05:57:51.7776201Z Or undo this operation with:
+2026-08-29T05:57:51.7777134Z 
+2026-08-29T05:57:51.7777676Z   git switch -
+2026-08-29T05:57:51.7778519Z 
+2026-08-29T05:57:51.7779335Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-08-29T05:57:51.7780639Z 
+2026-08-29T05:57:51.7782092Z HEAD is now at fc5f88f Fix accent overlay style names: use flat names (AAPT2 dotted-style parent resolution)
+2026-08-29T05:57:51.7785746Z ##[endgroup]
+2026-08-29T05:57:51.7825802Z [command]/usr/bin/git log -1 --format=%H
+2026-08-29T05:57:51.7855847Z fc5f88f1fe9a7ca81af6a6ec3f56ddc2aa75ed89
+2026-08-29T05:57:51.8262875Z ##[group]Run actions/setup-java@v5
+2026-08-29T05:57:51.8263940Z with:
+2026-08-29T05:57:51.8264756Z   java-version: 17
+2026-08-29T05:57:51.8265626Z   distribution: temurin
+2026-08-29T05:57:51.8266528Z   cache: gradle
+2026-08-29T05:57:51.8267396Z   java-package: jdk
+2026-08-29T05:57:51.8268437Z   check-latest: false
+2026-08-29T05:57:51.8269329Z   set-default: true
+2026-08-29T05:57:51.8270212Z   verify-signature: false
+2026-08-29T05:57:51.8271147Z   server-id: github
+2026-08-29T05:57:51.8272040Z   server-username: GITHUB_ACTOR
+2026-08-29T05:57:51.8273058Z   server-password: GITHUB_TOKEN
+2026-08-29T05:57:51.8274070Z   overwrite-settings: true
+2026-08-29T05:57:51.8275028Z   job-status: success
+2026-08-29T05:57:51.8282917Z   token: ***
+2026-08-29T05:57:51.8283802Z   show-download-progress: false
+2026-08-29T05:57:51.8284793Z ##[endgroup]
+2026-08-29T05:57:51.9788361Z ##[group]Installed distributions
+2026-08-29T05:57:51.9842387Z Resolved Java 17.0.20+1 from tool-cache
+2026-08-29T05:57:51.9844257Z Setting Java 17.0.20+1 as the default
+2026-08-29T05:57:51.9851102Z Creating toolchains.xml for JDK version 17 from temurin
+2026-08-29T05:57:51.9923784Z Writing to /home/runner/.m2/toolchains.xml
+2026-08-29T05:57:51.9924732Z 
+2026-08-29T05:57:51.9925104Z Java configuration:
+2026-08-29T05:57:51.9926077Z   Distribution: temurin
+2026-08-29T05:57:51.9926982Z   Version: 17.0.20+1
+2026-08-29T05:57:51.9928554Z   Path: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
+2026-08-29T05:57:51.9929704Z 
+2026-08-29T05:57:51.9930616Z ##[endgroup]
+2026-08-29T05:57:51.9961663Z Creating settings.xml with server-id: github
+2026-08-29T05:57:51.9962983Z Writing to /home/runner/.m2/settings.xml
+2026-08-29T05:57:51.9965830Z Configured MAVEN_ARGS to include -ntp to suppress Maven transfer progress logs. Set 'show-download-progress: true' to keep the download progress output.
+2026-08-29T05:57:52.1315503Z gradle cache is not found
+2026-08-29T05:57:52.2182368Z Cache hit for: setup-java-Linux-x64-gradle-wrapper-ba45b780a9db55510687a66cb36f998fc11367889f43a345b8e433c1cec3bf18
+2026-08-29T05:57:53.2366113Z Received 261143132 of 261143132 (100.0%), 258.9 MBs/sec
+2026-08-29T05:57:53.2368944Z Cache Size: ~249 MB (261143132 B)
+2026-08-29T05:57:53.2438089Z [command]/usr/bin/tar -xf /home/runner/work/_temp/a9bd302a-337c-45c1-8741-fbf48827bfaf/cache.tzst -P -C /home/runner/work/NekoNeko/NekoNeko --use-compress-program unzstd
+2026-08-29T05:57:53.6978678Z Cache restored successfully
+2026-08-29T05:57:53.9698575Z gradle-wrapper cache restored from key: setup-java-Linux-x64-gradle-wrapper-ba45b780a9db55510687a66cb36f998fc11367889f43a345b8e433c1cec3bf18
+2026-08-29T05:57:53.9912271Z ##[group]Run chmod +x gradlew
+2026-08-29T05:57:53.9912704Z [36;1mchmod +x gradlew[0m
+2026-08-29T05:57:53.9959114Z shell: /usr/bin/bash -e {0}
+2026-08-29T05:57:53.9959470Z env:
+2026-08-29T05:57:53.9959856Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
+2026-08-29T05:57:53.9960441Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
+2026-08-29T05:57:53.9960891Z   MAVEN_ARGS: -ntp
+2026-08-29T05:57:53.9961169Z ##[endgroup]
+2026-08-29T05:57:54.0165538Z ##[group]Run ./gradlew assembleDebug
+2026-08-29T05:57:54.0166112Z [36;1m./gradlew assembleDebug[0m
+2026-08-29T05:57:54.0204413Z shell: /usr/bin/bash -e {0}
+2026-08-29T05:57:54.0204741Z env:
+2026-08-29T05:57:54.0205129Z   JAVA_HOME: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
+2026-08-29T05:57:54.0205712Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.20-1/x64
+2026-08-29T05:57:54.0206157Z   MAVEN_ARGS: -ntp
+2026-08-29T05:57:54.0206427Z ##[endgroup]
+2026-08-29T05:57:54.6103676Z 
+2026-08-29T05:57:54.6129630Z Welcome to Gradle 8.4!
+2026-08-29T05:57:54.6136678Z 
+2026-08-29T05:57:54.6136968Z Here are the highlights of this release:
+2026-08-29T05:57:54.6137559Z  - Compiling and testing with Java 21
+2026-08-29T05:57:54.6138253Z  - Faster Java compilation on Windows
+2026-08-29T05:57:54.6139037Z  - Role focused dependency configurations creation
+2026-08-29T05:57:54.6139434Z 
+2026-08-29T05:57:54.6139909Z For more details see https://docs.gradle.org/8.4/release-notes.html
+2026-08-29T05:57:54.6140462Z 
+2026-08-29T05:57:54.7115578Z Starting a Gradle Daemon (subsequent builds will be faster)
+2026-08-29T05:58:16.0160467Z > Task :app:preBuild UP-TO-DATE
+2026-08-29T05:58:16.0161697Z > Task :app:preDebugBuild UP-TO-DATE
+2026-08-29T05:58:16.0186265Z > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+2026-08-29T05:58:16.1092254Z > Task :app:javaPreCompileDebug
+2026-08-29T05:58:20.7104397Z > Task :app:generateDebugResValues
+2026-08-29T05:58:20.7116262Z > Task :app:checkDebugAarMetadata
+2026-08-29T05:58:20.8092664Z > Task :app:mapDebugSourceSetPaths
+2026-08-29T05:58:20.8118688Z > Task :app:generateDebugResources
+2026-08-29T05:58:22.0108537Z > Task :app:packageDebugResources
+2026-08-29T05:58:25.2092765Z > Task :app:mergeDebugResources
+2026-08-29T05:58:25.5131500Z > Task :app:createDebugCompatibleScreenManifests
+2026-08-29T05:58:25.5137569Z > Task :app:extractDeepLinksDebug
+2026-08-29T05:58:25.7102161Z > Task :app:parseDebugLocalResources
+2026-08-29T05:58:25.8115123Z > Task :app:processDebugMainManifest
+2026-08-29T05:58:26.1092001Z > Task :app:processDebugManifest
+2026-08-29T05:58:26.2137113Z > Task :app:mergeDebugShaders
+2026-08-29T05:58:26.2158672Z > Task :app:compileDebugShaders NO-SOURCE
+2026-08-29T05:58:26.2160987Z > Task :app:generateDebugAssets UP-TO-DATE
+2026-08-29T05:58:26.3115700Z > Task :app:mergeDebugAssets
+2026-08-29T05:58:26.3116210Z > Task :app:compressDebugAssets
+2026-08-29T05:58:27.6099520Z > Task :app:desugarDebugFileDependencies
+2026-08-29T05:58:27.6118907Z > Task :app:processDebugJavaRes NO-SOURCE
+2026-08-29T05:58:28.6096861Z > Task :app:processDebugManifestForPackage
+2026-08-29T05:58:28.6097510Z > Task :app:checkDebugDuplicateClasses
+2026-08-29T05:58:28.6098189Z > Task :app:mergeDebugJavaResource
+2026-08-29T05:58:46.0109007Z > Task :app:processDebugResources
+2026-08-29T05:58:57.0094349Z > Task :app:mergeExtDexDebug
+2026-08-29T05:58:58.6173453Z ##[error]/home/runner/work/NekoNeko/NekoNeko/app/src/main/java/com/youzix/nekoneko/AboutFragment.java:62: error: cannot find symbol
+2026-08-29T05:58:58.6185359Z 
+2026-08-29T05:58:58.6185895Z                 WallpaperColors wc = WallpaperColors.getInstance(requireContext());
+2026-08-29T05:58:58.6186680Z                                                     ^
+2026-08-29T05:58:58.6187200Z   symbol:   method getInstance(Context)
+2026-08-29T05:58:58.6187698Z   location: class WallpaperColors
+2026-08-29T05:58:58.6188547Z Note: Some input files use or override a deprecated API.
+2026-08-29T05:58:58.6189218Z Note: Recompile with -Xlint:deprecation for details.
+2026-08-29T05:58:58.6189722Z 1 error
+2026-08-29T05:58:58.6190122Z > Task :app:compileDebugJavaWithJavac FAILED
+2026-08-29T05:58:58.7095549Z 
+2026-08-29T05:58:58.7149132Z FAILURE: Build failed with an exception.
+2026-08-29T05:58:58.7149757Z 22 actionable tasks: 22 executed
+2026-08-29T05:58:58.7158588Z 
+2026-08-29T05:58:58.7165189Z * What went wrong:
+2026-08-29T05:58:58.7166417Z Execution failed for task ':app:compileDebugJavaWithJavac'.
+2026-08-29T05:58:58.7167661Z > Compilation failed; see the compiler error output for details.
+2026-08-29T05:58:58.7168538Z 
+2026-08-29T05:58:58.7168681Z * Try:
+2026-08-29T05:58:58.7169078Z > Run with --info option to get more log output.
+2026-08-29T05:58:58.7169837Z > Run with --scan to get full insights.
+2026-08-29T05:58:58.7170156Z 
+2026-08-29T05:58:58.7170311Z BUILD FAILED in 1m 4s
+2026-08-29T05:58:59.1132493Z ##[error]Process completed with exit code 1.
+2026-08-29T05:58:59.1288521Z Post job cleanup.
+2026-08-29T05:58:59.2682420Z Post job cleanup.
+2026-08-29T05:58:59.3582338Z [command]/usr/bin/git version
+2026-08-29T05:58:59.3656404Z git version 2.55.0
+2026-08-29T05:58:59.3693969Z Temporarily overriding HOME='/home/runner/work/_temp/26fa6950-5c60-48f0-bf23-defb86bde944' before making global git config changes
+2026-08-29T05:58:59.3695242Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-29T05:58:59.3700336Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/NekoNeko/NekoNeko
+2026-08-29T05:58:59.3741589Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-29T05:58:59.3778710Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-29T05:58:59.4035870Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-29T05:58:59.4064197Z http.https://github.com/.extraheader
+2026-08-29T05:58:59.4076062Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-08-29T05:58:59.4110725Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-29T05:58:59.4383315Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-29T05:58:59.4422803Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-29T05:58:59.4845082Z Cleaning up orphan processes
+2026-08-29T05:58:59.5183730Z Terminate orphan process: pid (2290) (java)

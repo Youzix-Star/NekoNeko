@@ -1,6 +1,7 @@
 package com.youzix.nekoneko;
 
 import android.app.WallpaperColors;
+import android.app.WallpaperManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -59,7 +60,8 @@ public class AboutFragment extends Fragment {
         String wallpaperColor = "无";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             try {
-                WallpaperColors wc = WallpaperColors.getInstance(requireContext());
+                WallpaperColors wc = WallpaperManager.getInstance(requireContext())
+                        .getWallpaperColors(WallpaperManager.FLAG_SYSTEM);
                 if (wc != null) {
                     wallpaperColor = "有";
                 }
