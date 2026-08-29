@@ -47,6 +47,12 @@ public class HomeFragment extends Fragment {
 
         view.findViewById(R.id.row_floating).setOnClickListener(v -> toggleFloatingWindow());
 
+        view.findViewById(R.id.row_floating_config).setOnClickListener(v -> {
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).selectTab(R.id.nav_floating);
+            }
+        });
+
         view.findViewById(R.id.row_ai_config).setOnClickListener(v -> {
             if (getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).selectTab(R.id.nav_config);

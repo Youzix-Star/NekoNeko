@@ -135,8 +135,40 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         
         // 设置清除日志按钮
         setupClearLogButton();
-        
+
+        // 根据设置显示/隐藏各区域
+        applyVisibilityPrefs();
+
         Logger.d("悬浮窗视图创建完成");
+    }
+
+    /** 根据用户设置控制悬浮窗内各区域的显示/隐藏。 */
+    private void applyVisibilityPrefs() {
+        FloatingWindowPrefs.Prefs prefs = FloatingWindowPrefs.load(this);
+
+        // 捕获文本区域
+        View captureArea = floatingView.findViewById(R.id.capture_area);
+        if (captureArea != null) {
+            captureArea.setVisibility(prefs.showCaptureText ? View.VISIBLE : View.GONE);
+        }
+
+        // 应用规则按钮
+        View applyRulesBtn = floatingView.findViewById(R.id.apply_rules_button);
+        if (applyRulesBtn != null) {
+            applyRulesBtn.setVisibility(prefs.showApplyRules ? View.VISIBLE : View.GONE);
+        }
+
+        // AI 修改按钮
+        View aiModifyBtn = floatingView.findViewById(R.id.ai_modify_button);
+        if (aiModifyBtn != null) {
+            aiModifyBtn.setVisibility(prefs.showAiModify ? View.VISIBLE : View.GONE);
+        }
+
+        // 日志区域
+        View logArea = floatingView.findViewById(R.id.log_area);
+        if (logArea != null) {
+            logArea.setVisibility(prefs.showLog ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void setupTouchListener() {

@@ -16,6 +16,7 @@
     <string name="append_success">已在文本末尾追加 test</string>
 
     <!-- 文本规则 -->
+    <string name="tab_floating">悬浮窗</string>
     <string name="tab_rules">规则</string>
     <string name="apply_rules">应用规则</string>
     <string name="rules_none_hint">暂无规则，请先在配置页添加</string>
@@ -52,8 +53,23 @@
     <string name="row_accessibility_sub">捕获当前正在输入的文本框内容</string>
     <string name="row_floating">悬浮窗</string>
     <string name="row_floating_sub">在任意界面显示捕获文本与操作按钮</string>
+    <string name="row_floating_config">悬浮窗设置</string>
+    <string name="row_floating_config_sub">自定义悬浮窗中显示的内容</string>
     <string name="row_ai">AI 配置</string>
     <string name="row_ai_sub">模型、提示词与预设设置</string>
+    <string name="floating_config_title">悬浮窗设置</string>
+    <string name="floating_config_subtitle">自定义悬浮窗中显示的内容，修改后重启悬浮窗生效</string>
+    <string name="floating_config_display">显示内容</string>
+    <string name="floating_config_capture_text">捕获文本区域</string>
+    <string name="floating_config_capture_text_sub">显示捕获到的文本内容</string>
+    <string name="floating_config_apply_rules">应用规则按钮</string>
+    <string name="floating_config_apply_rules_sub">显示正则规则替换按钮</string>
+    <string name="floating_config_ai_modify">AI 修改按钮</string>
+    <string name="floating_config_ai_modify_sub">显示 AI 改写按钮</string>
+    <string name="floating_config_log">运行日志</string>
+    <string name="floating_config_log_sub">显示运行日志区域</string>
+    <string name="floating_config_save">保存设置</string>
+    <string name="floating_config_saved">悬浮窗设置已保存</string>
     <string name="row_enter">进入</string>
     <string name="acc_on">已启用</string>
     <string name="acc_off">未启用</string>
