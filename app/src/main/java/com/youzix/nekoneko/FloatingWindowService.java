@@ -1,10 +1,7 @@
 package com.youzix.nekoneko;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
@@ -20,7 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FloatingWindowService extends Service implements AccessibilityService.TextCaptureListener, Logger.LogListener {
+public class FloatingWindowService extends Service implements Logger.LogListener {
 
     private static final String TAG = "FloatingWindowService";
     private WindowManager windowManager;
@@ -31,7 +28,6 @@ public class FloatingWindowService extends Service implements AccessibilityServi
     private TextView capturedTextTextView;
     private TextView logTextView;
     private ScrollView logScrollView;
-    private BroadcastReceiver textCapturedReceiver;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -50,12 +46,6 @@ public class FloatingWindowService extends Service implements AccessibilityServi
         // 设置日志监听器
         Logger.setLogListener(this);
         
-        // 设置文本捕获监听器
-        AccessibilityService.setTextCaptureListener(this);
-        
-        // 注册广播接收器
-        registerTextCapturedReceiver();
-        
         // 创建悬浮窗视图
         try {
             createFloatingView();
@@ -66,30 +56,6 @@ public class FloatingWindowService extends Service implements AccessibilityServi
             Toast.makeText(this, "悬浮窗创建失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
             stopSelf();
         }
-    }
-
-    private void registerTextCapturedReceiver() {
-        textCapturedReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if ("com.youzix.nekoneko.TEXT_CAPTURED".equals(intent.getAction())) {
-                    String capturedText = intent.getStringExtra("captured_text");
-                    if (capturedText != null && !capturedText.isEmpty()) {
-                        Logger.i("通过广播接收到捕获的文本");
-                        updateCapturedText(capturedText);
-                    }
-                }
-            }
-        };
-        
-        IntentFilter filter = new IntentFilter("com.youzix.nekoneko.TEXT_CAPTURED");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            registerReceiver(textCapturedReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
-        } else {
-            registerReceiver(textCapturedReceiver, filter);
-        }
-        
-        Logger.d("广播接收器注册完成");
     }
 
     private void createFloatingView() {
@@ -221,12 +187,6 @@ public class FloatingWindowService extends Service implements AccessibilityServi
     }
 
     @Override
-    public void onTextCaptured(String text) {
-        Logger.i("通过监听器接收到捕获的文本");
-        updateCapturedText(text);
-    }
-
-    @Override
     public void onLogAdded(String logEntry) {
         updateLogDisplay();
     }
@@ -271,15 +231,6 @@ public class FloatingWindowService extends Service implements AccessibilityServi
         super.onDestroy();
         
         Logger.i("悬浮窗服务正在销毁...");
-        
-        // 注销广播接收器
-        if (textCapturedReceiver != null) {
-            unregisterReceiver(textCapturedReceiver);
-            Logger.d("广播接收器已注销");
-        }
-        
-        // 移除文本捕获监听器
-        AccessibilityService.setTextCaptureListener(null);
         
         // 移除日志监听器
         Logger.setLogListener(null);

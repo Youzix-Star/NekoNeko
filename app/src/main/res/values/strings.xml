@@ -11,11 +11,11 @@
     <string name="accessibility_service_description">NekoNeko无障碍服务用于捕获屏幕文本，实现悬浮窗文本显示功能。</string>
     <string name="capture_text">捕获文本</string>
     <string name="waiting_for_text">等待捕获文本...</string>
-    <string name="no_text_found">未找到可捕获的文本</string>
+    <string name="no_text_found">未检测到正在输入的文本框</string>
     <string name="please_enable_accessibility">请先启用无障碍服务</string>
     <string name="accessibility_service_enabled">无障碍服务已启用</string>
     <string name="close_floating_window">关闭悬浮窗</string>
-    <string name="capture_hint">通过无障碍服务捕获屏幕文本：</string>
+    <string name="capture_hint">点击下方按钮，捕获当前正在输入的文本框：</string>
     <string name="running_log">运行日志：</string>
     <string name="clear_log">清除</string>
     <string name="log_waiting">等待日志...</string>
