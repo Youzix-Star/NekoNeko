@@ -27,6 +27,20 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.9.0] - 2026-08-29
+
+### 变更
+- 升级至 Material Design 3 Expressive：material 库 1.9.0 → 1.12.0（官方 expressive 组件/形状 token），
+  compileSdk 34、AGP 8.3.2；卡片采用 28dp 大圆角 expressive 形状
+- 莫奈取色按官方文档改用 Theme.Material3.DynamicColors.Light.NoActionBar（1.12.0 提供），
+  悬浮窗手动应用官方公开样式 ThemeOverlay.Material3.DynamicColors.Light
+
+### 修复
+- 悬浮窗创建崩溃：overlay 窗口改用纯平台 View（LinearLayout/Button/ImageButton + shape 背景），
+  彻底规避 Material 组件在 Service overlay 中的通货膨胀问题（该方案 v1.1-v1.6 期间从未失败）
+- 悬浮窗创建失败提示现在包含根因信息，便于定位
+- 关于页新增设备诊断：Android 版本 + 当前主题主色（用于验证莫奈是否生效）
+
 ## [1.8.0] - 2026-08-29
 
 ### 变更

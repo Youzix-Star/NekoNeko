@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Android 12+：官方动态色主题（跟随壁纸/系统配色）。
-         material 库的 DynamicColors 主题无 NoActionBar 变体，需手动隐藏 ActionBar。 -->
-    <style name="AppTheme" parent="Theme.Material3.DynamicColors.Light">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+    <!-- Android 12+：官方莫奈动态色主题（material 1.12.0 提供 NoActionBar 变体） -->
+    <style name="AppTheme" parent="Theme.Material3.DynamicColors.Light.NoActionBar" />
 </resources>

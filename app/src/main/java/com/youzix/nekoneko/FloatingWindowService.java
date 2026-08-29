@@ -12,11 +12,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.button.MaterialButton;
 
 public class FloatingWindowService extends Service implements Logger.LogListener {
 
@@ -30,7 +29,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     private TextView logTextView;
     private ScrollView logScrollView;
     private View windowBody;
-    private MaterialButton minimizeButton;
+    private ImageButton minimizeButton;
     private boolean isMinimized = false;
 
     @Override
@@ -49,15 +48,28 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         
         // 设置日志监听器
         Logger.setLogListener(this);
-        
+
+        // Android 12+：悬浮窗窗口不经过 Activity 生命周期，手动应用莫奈动态色 overlay
+        // （ThemeOverlay.Material3.DynamicColors.Light 为官方公开样式）
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            getTheme().applyStyle(
+                    com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
+                    true);
+            Logger.d("已为悬浮窗应用莫奈动态取色");
+        }
+
         // 创建悬浮窗视图
         try {
             createFloatingView();
             Logger.i("悬浮窗服务启动完成");
         } catch (Exception e) {
-            // 创建失败时给出可见提示，避免"提示已启动但窗口未显示"
+            // 创建失败时给出可见提示，包含根因便于排查
             Logger.e("悬浮窗创建失败", e);
-            Toast.makeText(this, "悬浮窗创建失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            String detail = e.getMessage() == null ? e.toString() : e.getMessage();
+            if (e.getCause() != null) {
+                detail += "\n原因: " + e.getCause().getMessage();
+            }
+            Toast.makeText(this, "悬浮窗创建失败: " + detail, Toast.LENGTH_LONG).show();
             stopSelf();
         }
     }
@@ -153,7 +165,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     }
 
     private void setupCloseButton() {
-        MaterialButton closeButton = floatingView.findViewById(R.id.close_button);
+        ImageButton closeButton = floatingView.findViewById(R.id.close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,7 +192,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         }
         isMinimized = !isMinimized;
         windowBody.setVisibility(isMinimized ? View.GONE : View.VISIBLE);
-        minimizeButton.setIconResource(isMinimized ? R.drawable.ic_add : R.drawable.ic_remove);
+        minimizeButton.setImageResource(isMinimized ? R.drawable.ic_add : R.drawable.ic_remove);
         minimizeButton.setContentDescription(getString(
                 isMinimized ? R.string.restore_floating_window : R.string.minimize_floating_window));
         // 强制按新内容重新测量窗口大小
