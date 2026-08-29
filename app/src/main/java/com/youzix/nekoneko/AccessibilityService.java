@@ -70,7 +70,10 @@ public class AccessibilityService extends android.accessibilityservice.Accessibi
         // 配置服务信息
         AccessibilityServiceInfo info = getServiceInfo();
         if (info != null) {
-            info.eventTypes = AccessibilityEvent.TYPE_ALL_MASK;
+            info.eventTypes = AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED |
+                              AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED |
+                              AccessibilityEvent.TYPE_VIEW_FOCUSED |
+                              AccessibilityEvent.TYPE_VIEW_CLICKED;
             info.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;
             info.flags = AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
             setServiceInfo(info);

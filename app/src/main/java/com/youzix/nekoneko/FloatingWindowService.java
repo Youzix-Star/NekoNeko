@@ -179,7 +179,8 @@ public class FloatingWindowService extends Service implements AccessibilityServi
 
     private void updateCapturedText(String text) {
         if (capturedTextTextView != null && text != null) {
-            runOnUiThread(new Runnable() {
+            // 使用Handler在主线程上更新UI
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     capturedTextTextView.setText(text);
