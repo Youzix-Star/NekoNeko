@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        NavigationBarView nav = findViewById(R.id.bottom_nav);
+        BottomNavigationView nav = findViewById(R.id.bottom_nav);
 
         if (savedInstanceState == null) {
             switchTo(TAG_HOME, R.id.nav_home, false);
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             nav.setSelectedItemId(itemIdOf(currentTag));
         }
 
-        nav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+        nav.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** 供首页"AI 配置"按钮跳转到配置页。 */
     public void selectTab(int menuItemId) {
-        NavigationBarView nav = findViewById(R.id.bottom_nav);
+        BottomNavigationView nav = findViewById(R.id.bottom_nav);
         nav.setSelectedItemId(menuItemId);
     }
 
