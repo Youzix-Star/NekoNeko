@@ -195,24 +195,27 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         minimizeButton.setContentDescription(getString(
                 isMinimized ? R.string.restore_floating_window : R.string.minimize_floating_window));
 
-        // 缩放动画：以顶部中心为轴，主体像"拉链"一样收起/展开
-        windowBody.setPivotX(windowBody.getWidth() / 2f);
-        windowBody.setPivotY(0f);
-
+        // 百叶窗动画：只在垂直方向收缩/展开（scaleY），水平不变
+        // 对整个悬浮窗根视图做动画，背景也跟着一起收缩
         if (isMinimized) {
-            windowBody.animate()
-                    .scaleX(0f).scaleY(0f)
+            floatingView.animate()
+                    .scaleY(0f)
                     .setDuration(180)
                     .withEndAction(() -> {
-                        windowBody.setVisibility(View.GONE);
+                        floatingView.setVisibility(View.INVISIBLE);
+                        // 重置 scaleY，方便下次展开时从 0→1
+                        floatingView.setScaleY(0f);
                         relayoutWindow();
                     })
                     .start();
         } else {
-            windowBody.setScaleX(0f);
-            windowBody.setScaleY(0f);
-            windowBody.setVisibility(View.VISIBLE);
-            windowBody.animate().scaleX(1f).scaleY(1f).setDuration(180).start();
+            // 先让根视图可见但 scaleY=0，再展开
+            floatingView.setVisibility(View.VISIBLE);
+            floatingView.setScaleY(0f);
+            floatingView.animate()
+                    .scaleY(1f)
+                    .setDuration(180)
+                    .start();
             relayoutWindow();
         }
         Logger.d(isMinimized ? "悬浮窗已最小化" : "悬浮窗已展开");
