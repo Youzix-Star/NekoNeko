@@ -17,7 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.FilledTextField
+import androidx.compose.material3.TextField
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -105,7 +105,7 @@ fun AiConfigScreen(padding: PaddingValues) {
         Spacer(Modifier.height(24.dp))
 
         SectionTitle(text = stringResource(R.string.section_service))
-        FilledTextField(
+        TextField(
             value = baseUrl,
             onValueChange = { baseUrl = it },
             label = { Text(stringResource(R.string.ai_base_url)) },
@@ -115,7 +115,7 @@ fun AiConfigScreen(padding: PaddingValues) {
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 8.dp),
         )
-        FilledTextField(
+        TextField(
             value = apiKey,
             onValueChange = { apiKey = it },
             label = { Text(stringResource(R.string.ai_api_key)) },
@@ -127,7 +127,7 @@ fun AiConfigScreen(padding: PaddingValues) {
                 .padding(horizontal = 16.dp)
                 .padding(bottom = 8.dp),
         )
-        FilledTextField(
+        TextField(
             value = model,
             onValueChange = { model = it },
             label = { Text(stringResource(R.string.ai_model)) },
@@ -144,7 +144,7 @@ fun AiConfigScreen(padding: PaddingValues) {
         }
 
         SectionTitle(text = stringResource(R.string.ai_prompt))
-        FilledTextField(
+        TextField(
             value = prompt,
             onValueChange = { prompt = it },
             label = { Text(stringResource(R.string.ai_prompt)) },
@@ -252,7 +252,7 @@ fun AiConfigScreen(padding: PaddingValues) {
             onDismissRequest = { showSavePresetDialog = false },
             title = { Text(stringResource(R.string.ai_save_preset)) },
             text = {
-                FilledTextField(
+                TextField(
                     value = presetName,
                     onValueChange = { presetName = it },
                     label = { Text(stringResource(R.string.ai_preset_name)) },
