@@ -51,9 +51,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         
         // Android 12+ 应用莫奈（Material You）动态取色
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            getTheme().applyStyle(
-                    com.google.android.material.R.style.ThemeOverlay_MaterialComponents_DynamicColors_DayNight,
-                    true);
+            getTheme().applyStyle(R.style.AppTheme_Dynamic, true);
             Logger.d("已应用莫奈动态取色");
         }
         
