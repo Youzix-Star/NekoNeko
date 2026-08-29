@@ -12,9 +12,9 @@
         android:layout_height="88dp"
         android:background="@drawable/accent_swatch"
         android:backgroundTint="?attr/colorPrimaryContainer"
-        android:contentDescription="@string/app_name"
+        android:contentDescription="@string/welcome_privacy_title"
         android:padding="20dp"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/ic_description"
         android:tint="?attr/colorOnPrimaryContainer" />
 
     <TextView
