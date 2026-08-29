@@ -19,6 +19,8 @@
     <string name="please_enable_accessibility">请先启用无障碍服务</string>
     <string name="accessibility_service_enabled">无障碍服务已启用</string>
     <string name="close_floating_window">关闭悬浮窗</string>
+    <string name="minimize_floating_window">最小化悬浮窗</string>
+    <string name="restore_floating_window">展开悬浮窗</string>
     <string name="capture_hint">点击下方按钮，捕获当前正在输入的文本框：</string>
     <string name="running_log">运行日志：</string>
     <string name="clear_log">清除</string>

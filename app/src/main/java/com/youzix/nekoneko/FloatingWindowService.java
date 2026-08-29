@@ -28,6 +28,9 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     private TextView capturedTextTextView;
     private TextView logTextView;
     private ScrollView logScrollView;
+    private View windowBody;
+    private ImageButton minimizeButton;
+    private boolean isMinimized = false;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -45,6 +48,14 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         
         // 设置日志监听器
         Logger.setLogListener(this);
+        
+        // Android 12+ 应用莫奈（Material You）动态取色
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            getTheme().applyStyle(
+                    com.google.android.material.R.style.ThemeOverlay_MaterialComponents_DynamicColors_DayNight,
+                    true);
+            Logger.d("已应用莫奈动态取色");
+        }
         
         // 创建悬浮窗视图
         try {
@@ -68,6 +79,8 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         capturedTextTextView = floatingView.findViewById(R.id.captured_text);
         logTextView = floatingView.findViewById(R.id.log_text);
         logScrollView = floatingView.findViewById(R.id.log_scroll_view);
+        windowBody = floatingView.findViewById(R.id.window_body);
+        minimizeButton = floatingView.findViewById(R.id.minimize_button);
         
         // 设置悬浮窗参数
         int layoutFlag;
@@ -99,6 +112,9 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         
         // 设置关闭按钮
         setupCloseButton();
+        
+        // 设置最小化按钮
+        setupMinimizeButton();
         
         // 设置捕获按钮
         setupCaptureButton();
@@ -153,6 +169,32 @@ public class FloatingWindowService extends Service implements Logger.LogListener
                 stopSelf();
             }
         });
+    }
+
+    private void setupMinimizeButton() {
+        minimizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.i("用户点击最小化按钮");
+                toggleMinimized();
+            }
+        });
+    }
+
+    private void toggleMinimized() {
+        if (windowBody == null || minimizeButton == null) {
+            return;
+        }
+        isMinimized = !isMinimized;
+        windowBody.setVisibility(isMinimized ? View.GONE : View.VISIBLE);
+        minimizeButton.setImageResource(isMinimized ? R.drawable.ic_add : R.drawable.ic_remove);
+        minimizeButton.setContentDescription(getString(
+                isMinimized ? R.string.restore_floating_window : R.string.minimize_floating_window));
+        // 强制按新内容重新测量窗口大小
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        params.width = WindowManager.LayoutParams.WRAP_CONTENT;
+        windowManager.updateViewLayout(floatingView, params);
+        Logger.d(isMinimized ? "悬浮窗已最小化" : "悬浮窗已展开");
     }
 
     private void setupCaptureButton() {

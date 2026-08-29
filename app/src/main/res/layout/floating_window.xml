@@ -21,9 +21,21 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/floating_window_title"
-            android:textColor="@color/colorOnPrimary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
             android:textStyle="bold" />
+
+        <ImageButton
+            android:id="@+id/minimize_button"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/close_button_background"
+            android:contentDescription="@string/minimize_floating_window"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_remove"
+            android:tint="?attr/colorOnSurface" />
 
         <ImageButton
             android:id="@+id/close_button"
@@ -35,157 +47,166 @@
             android:padding="8dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_close"
-            android:tint="@color/colorOnPrimary" />
+            android:tint="?attr/colorOnSurface" />
     </LinearLayout>
 
-    <!-- 说明文字 -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/capture_hint"
-        android:textColor="@color/colorOnPrimary"
-        android:textSize="12sp"
-        android:layout_marginBottom="8dp"
-        android:alpha="0.8" />
-
-    <!-- 捕获的文本显示区域 -->
-    <TextView
-        android:id="@+id/captured_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/waiting_for_text"
-        android:textColor="@color/colorOnPrimary"
-        android:textSize="14sp"
-        android:background="@drawable/text_background"
-        android:padding="12dp"
-        android:layout_marginBottom="12dp"
-        android:minHeight="60dp"
-        android:gravity="start|top" />
-
-    <!-- 捕获按钮 -->
-    <Button
-        android:id="@+id/capture_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/capture_text"
-        android:textColor="@color/colorOnPrimary"
-        android:backgroundTint="@color/colorPrimary"
-        android:drawableStart="@drawable/ic_content_copy"
-        android:drawablePadding="8dp"
-        android:textAllCaps="false"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp" />
-
-    <!-- 替换 / 增加 按钮 -->
+    <!-- 主体内容（最小化时隐藏） -->
     <LinearLayout
+        android:id="@+id/window_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="8dp">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/replace_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/replace_text"
-            android:textColor="@color/colorOnPrimary"
-            android:backgroundTint="@color/colorPrimary"
-            android:drawableStart="@drawable/ic_swap_horiz"
-            android:drawablePadding="6dp"
-            android:textAllCaps="false"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/append_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginStart="8dp"
-            android:text="@string/append_text"
-            android:textColor="@color/colorOnPrimary"
-            android:backgroundTint="@color/colorPrimary"
-            android:drawableStart="@drawable/ic_add"
-            android:drawablePadding="6dp"
-            android:textAllCaps="false"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <!-- AI 修改按钮 -->
-    <Button
-        android:id="@+id/ai_modify_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/ai_modify"
-        android:textColor="@color/colorOnPrimary"
-        android:backgroundTint="@android:color/white"
-        android:drawableStart="@drawable/ic_auto_fix"
-        android:drawablePadding="8dp"
-        android:textAllCaps="false"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp" />
-
-    <!-- 日志区域标题 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="4dp">
-
+        <!-- 说明文字 -->
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/running_log"
-            android:textColor="@color/colorOnPrimary"
-            android:textSize="12sp"
-            android:alpha="0.8" />
-
-        <Button
-            android:id="@+id/clear_log_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/clear_log"
-            android:textColor="@color/colorOnPrimary"
-            android:textSize="10sp"
-            android:backgroundTint="@color/floatingButtonOverlay"
-            android:textAllCaps="false"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:minHeight="0dp"
-            android:minWidth="0dp" />
-    </LinearLayout>
-
-    <!-- 日志显示区域 -->
-    <ScrollView
-        android:id="@+id/log_scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/log_background"
-        android:padding="8dp"
-        android:layout_marginBottom="8dp">
-
-        <TextView
-            android:id="@+id/log_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/log_waiting"
-            android:textColor="@color/logText"
-            android:textSize="10sp"
-            android:fontFamily="monospace"
-            android:lineSpacingExtra="2dp" />
-    </ScrollView>
+            android:text="@string/capture_hint"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="12sp"
+            android:layout_marginBottom="8dp"
+            android:alpha="0.8" />
 
-    <!-- 状态提示 -->
-    <TextView
-        android:id="@+id/status_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/status_hint"
-        android:textColor="@color/colorOnPrimary"
-        android:textSize="10sp"
-        android:alpha="0.6"
-        android:gravity="center" />
+        <!-- 捕获的文本显示区域 -->
+        <TextView
+            android:id="@+id/captured_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/waiting_for_text"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="14sp"
+            android:background="@drawable/text_background"
+            android:padding="12dp"
+            android:layout_marginBottom="12dp"
+            android:minHeight="60dp"
+            android:gravity="start|top" />
+
+        <!-- 捕获按钮 -->
+        <Button
+            android:id="@+id/capture_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/capture_text"
+            android:textColor="?attr/colorOnPrimary"
+            android:backgroundTint="?attr/colorPrimary"
+            android:drawableStart="@drawable/ic_content_copy"
+            android:drawablePadding="8dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- 替换 / 增加 按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <Button
+                android:id="@+id/replace_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/replace_text"
+                android:textColor="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorPrimary"
+                android:drawableStart="@drawable/ic_swap_horiz"
+                android:drawablePadding="6dp"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/append_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="@string/append_text"
+                android:textColor="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorPrimary"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="6dp"
+                android:textAllCaps="false"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- AI 修改按钮 -->
+        <Button
+            android:id="@+id/ai_modify_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ai_modify"
+            android:textColor="?attr/colorOnSurface"
+            android:backgroundTint="@android:color/white"
+            android:drawableStart="@drawable/ic_auto_fix"
+            android:drawablePadding="8dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp" />
+
+        <!-- 日志区域标题 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/running_log"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="12sp"
+                android:alpha="0.8" />
+
+            <Button
+                android:id="@+id/clear_log_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clear_log"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="10sp"
+                android:backgroundTint="@color/floatingButtonOverlay"
+                android:textAllCaps="false"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:minHeight="0dp"
+                android:minWidth="0dp" />
+        </LinearLayout>
+
+        <!-- 日志显示区域 -->
+        <ScrollView
+            android:id="@+id/log_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/log_background"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/log_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/log_waiting"
+                android:textColor="?attr/colorOnSurface"
+                android:textSize="10sp"
+                android:fontFamily="monospace"
+                android:lineSpacingExtra="2dp" />
+        </ScrollView>
+
+        <!-- 状态提示 -->
+        <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/status_hint"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="10sp"
+            android:alpha="0.6"
+            android:gravity="center" />
+
+    </LinearLayout>
 
 </LinearLayout>
