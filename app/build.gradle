@@ -10,18 +10,21 @@ android {
         applicationId "top.youzix.nekoneko"
         minSdk 21
         targetSdk 33
-        versionCode 38
-        versionName "1.4.2"
+        versionCode 39
+        versionName "1.4.3"
     }
 
     signingConfigs {
         release {
             def keystoreFile = file("nekoneko.jks")
-            if (keystoreFile.exists()) {
+            def keystorePassword = System.getenv("KEYSTORE_PASSWORD") ?: (keystoreFile.exists() ? "ADMIN.wxd1y12r" : null)
+            def keyAlias = System.getenv("KEY_ALIAS") ?: (keystoreFile.exists() ? "nekoneko" : null)
+            def keyPassword = System.getenv("KEY_PASSWORD") ?: (keystoreFile.exists() ? "ADMIN.wxd1y12r" : null)
+            if (keystoreFile.exists() && keystorePassword != null) {
                 storeFile keystoreFile
-                storePassword "ADMIN.wxd1y12r"
-                keyAlias "nekoneko"
-                keyPassword "ADMIN.wxd1y12r"
+                storePassword keystorePassword
+                keyAlias keyAlias
+                keyPassword keyPassword
             }
         }
     }
@@ -30,9 +33,6 @@ android {
         release {
             if (signingConfigs.release.storeFile != null) {
                 signingConfig signingConfigs.release
-            } else {
-                // CI 环境没有签名文件，用 debug 签名构建（APK 未正式签名）
-                signingConfig signingConfigs.debug
             }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
