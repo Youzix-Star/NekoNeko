@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FF4081</color>
+    <color name="colorPrimaryVariant">#FF1744</color>
+    <color name="colorOnPrimary">@android:color/white</color>
+    <color name="colorSecondary">#FF5722</color>
+    <color name="colorSecondaryVariant">#E64A19</color>
+    <color name="colorOnSecondary">@android:color/white</color>
+</resources>
