@@ -342,8 +342,12 @@ public class AiManager {
                 int completion = usage.optInt("completion_tokens", 0);
                 int total = usage.optInt("total_tokens", 0);
                 int cached = usage.optInt("prompt_tokens_cached", 0);
-                // 通过 ThreadLocal 传递给调用方
-                _lastUsage = new int[]{prompt, completion, total, cached};
+                UsageRecord rec = new UsageRecord();
+                rec.promptTokens = prompt;
+                rec.completionTokens = completion;
+                rec.totalTokens = total;
+                rec.cachedTokens = cached;
+                _lastUsage = rec;
             } else {
                 _lastUsage = null;
             }
