@@ -27,6 +27,18 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.11.0] - 2026-08-29
+
+### 修复
+- 许可证标注错误：仓库实际为 GNU AGPL v3（此前 README / 关于页 / CONTRIBUTING 误写为 MIT），已全部更正
+
+### 变更
+- 莫奈取色增加最可靠路径：MainActivity.onCreate 显式调用
+  DynamicColors.applyToActivityIfAvailable（官方 API），与 values-v31 动态色主题双保险
+
+### 优化
+- 悬浮窗最小化/恢复增加淡入淡出动画；主要按钮统一最小高度
+
 ## [1.10.0] - 2026-08-29
 
 ### 修复

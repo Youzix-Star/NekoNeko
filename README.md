@@ -61,7 +61,7 @@ cd NekoNeko
 
 ## 许可证
 
-本项目使用MIT许可证，详见[LICENSE](LICENSE)文件。
+本项目基于 GNU AGPL v3 许可证开源，详见[LICENSE](LICENSE)文件。
 
 ## 联系方式
 

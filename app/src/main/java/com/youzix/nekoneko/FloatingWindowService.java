@@ -197,15 +197,33 @@ public class FloatingWindowService extends Service implements Logger.LogListener
             return;
         }
         isMinimized = !isMinimized;
-        windowBody.setVisibility(isMinimized ? View.GONE : View.VISIBLE);
         minimizeButton.setImageResource(isMinimized ? R.drawable.ic_add : R.drawable.ic_remove);
         minimizeButton.setContentDescription(getString(
                 isMinimized ? R.string.restore_floating_window : R.string.minimize_floating_window));
-        // 强制按新内容重新测量窗口大小
+
+        if (isMinimized) {
+            // 收起：淡出主体后隐藏并重新测量窗口
+            windowBody.animate().alpha(0f).setDuration(160)
+                    .withEndAction(() -> {
+                        windowBody.setVisibility(View.GONE);
+                        relayoutWindow();
+                    })
+                    .start();
+        } else {
+            // 展开：显示主体并淡入，重新测量窗口
+            windowBody.setAlpha(0f);
+            windowBody.setVisibility(View.VISIBLE);
+            windowBody.animate().alpha(1f).setDuration(160).start();
+            relayoutWindow();
+        }
+        Logger.d(isMinimized ? "悬浮窗已最小化" : "悬浮窗已展开");
+    }
+
+    /** 按当前内容重新测量悬浮窗大小。 */
+    private void relayoutWindow() {
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
         windowManager.updateViewLayout(floatingView, params);
-        Logger.d(isMinimized ? "悬浮窗已最小化" : "悬浮窗已展开");
     }
 
     private void setupCaptureButton() {

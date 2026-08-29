@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.color.DynamicColors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Android 12+：显式应用莫奈动态取色（官方 API，最可靠路径，
+        // 与 values-v31 的动态色主题双保险）
+        DynamicColors.applyToActivityIfAvailable(this);
+
         setContentView(R.layout.activity_main);
 
         BottomNavigationView nav = findViewById(R.id.bottom_nav);

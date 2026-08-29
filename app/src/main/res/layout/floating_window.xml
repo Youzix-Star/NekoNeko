@@ -96,6 +96,7 @@
         <!-- 捕获按钮 -->
         <Button
             android:id="@+id/capture_button"
+                android:minHeight="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/capture_text"
@@ -118,6 +119,7 @@
 
             <Button
                 android:id="@+id/replace_button"
+                android:minHeight="40dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -133,6 +135,7 @@
 
             <Button
                 android:id="@+id/append_button"
+                android:minHeight="40dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -151,6 +154,7 @@
         <!-- AI 修改按钮 -->
         <Button
             android:id="@+id/ai_modify_button"
+                android:minHeight="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ai_modify"
