@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- 浅蓝色系主色调 (Material Light Blue) -->
-    <color name="colorPrimary">#4FC3F7</color>
-    <color name="colorPrimaryVariant">#0288D1</color>
-    <color name="colorOnPrimary">#003C58</color>
-    <color name="colorSecondary">#81D4FA</color>
-    <color name="colorSecondaryVariant">#0288D1</color>
-    <color name="colorOnSecondary">#003C58</color>
+    <!-- 白蓝浅色系配色（不要太深） -->
+    <color name="colorPrimary">#81D4FA</color>
+    <color name="colorPrimaryVariant">#4FC3F7</color>
+    <color name="colorOnPrimary">#01579B</color>
+    <color name="colorSecondary">#B3E5FC</color>
+    <color name="colorSecondaryVariant">#81D4FA</color>
+    <color name="colorOnSecondary">#01579B</color>
 
     <!-- 补充颜色 -->
-    <color name="windowBackground">#E1F5FE</color>
-    <color name="floatingWindowBackground">#0288D1</color>
-    <color name="textSecondary">#01579B</color>
-    <color name="logText">#B3E5FC</color>
-    <color name="floatingButtonOverlay">#33FFFFFF</color>
+    <color name="windowBackground">#EDF9FF</color>
+    <color name="floatingWindowBackground">#E1F5FE</color>
+    <color name="textSecondary">#0288D1</color>
+    <color name="logText">#01579B</color>
+    <color name="floatingButtonOverlay">#3301529B</color>
 </resources>

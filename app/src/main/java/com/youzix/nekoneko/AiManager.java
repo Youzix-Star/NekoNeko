@@ -15,10 +15,14 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * AI 配置与调用（OpenAI 兼容 chat/completions 接口）。
- * 默认配置为 DeepSeek，提示词默认为"微软式中文"风格。
+ * AI 配置、预设与调用（OpenAI 兼容 chat/completions 接口）。
+ * 默认配置为 DeepSeek（deepseek-v4-flash），提示词默认为"微软式中文"风格。
  */
 public class AiManager {
 
@@ -27,9 +31,10 @@ public class AiManager {
     private static final String KEY_API_KEY = "api_key";
     private static final String KEY_MODEL = "model";
     private static final String KEY_PROMPT = "prompt";
+    private static final String KEY_PRESETS = "presets";
 
     public static final String DEFAULT_BASE_URL = "https://api.deepseek.com";
-    public static final String DEFAULT_MODEL = "deepseek-chat";
+    public static final String DEFAULT_MODEL = "deepseek-v4-flash";
     public static final String DEFAULT_PROMPT =
             "你是一位专业的中文编辑。请将用户提供的文本改写为“微软式中文”风格：" +
             "使用正式、书面、简洁的简体中文；" +
@@ -37,6 +42,18 @@ public class AiManager {
             "避免口语化、网络用语和不必要的英文混排；" +
             "保持原意不变，只优化表达方式。" +
             "直接输出改写后的文本，不要输出任何解释、前缀或多余内容。";
+
+    // 内置预设
+    public static final String PRESET_MS_TRANSLATE = "微软式翻译";
+    public static final String PRESET_MS_CHINESE = "微软式中文";
+    public static final String BUILTIN_TRANSLATE_PROMPT =
+            "你是一位幽默的文本改写专家。请把用户提供的文本改写为“微软式翻译腔”风格：" +
+            "使用正式、书面、略带生硬直译腔调的简体中文；" +
+            "多使用“请”“请确保”“请勿”“请联系您的管理员”“为了继续”“我们对此感到抱歉，但也不是非常抱歉”等典型微软系统提示式表达；" +
+            "语气礼貌、机械，像系统更新提示或错误对话框；" +
+            "保持原意大体不变，允许适度夸张以增强幽默效果。" +
+            "参考风格示例：“我们正在为您的设备准备一些重要的更新。请勿关闭您的计算机。”、“您没有权限执行此操作。请联系您的管理员为了请求这个权限。”" +
+            "直接输出改写后的文本，不要任何解释。";
 
     public static class Config {
         public String baseUrl = DEFAULT_BASE_URL;
@@ -50,7 +67,14 @@ public class AiManager {
         void onError(String message);
     }
 
+    public interface ListCallback {
+        void onSuccess(List<String> models);
+        void onError(String message);
+    }
+
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
+
+    // ---------- 配置读写 ----------
 
     public static Config load(Context context) {
         SharedPreferences sp = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
@@ -65,12 +89,111 @@ public class AiManager {
     public static void save(Context context, Config c) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
                 .edit()
-                .putString(KEY_BASE_URL, c.baseUrl)
-                .putString(KEY_API_KEY, c.apiKey)
-                .putString(KEY_MODEL, c.model)
-                .putString(KEY_PROMPT, c.prompt)
+                .putString(KEY_BASE_URL, c.baseUrl == null ? "" : c.baseUrl)
+                .putString(KEY_API_KEY, c.apiKey == null ? "" : c.apiKey)
+                .putString(KEY_MODEL, c.model == null ? "" : c.model)
+                .putString(KEY_PROMPT, c.prompt == null ? "" : c.prompt)
                 .apply();
     }
+
+    // ---------- 预设 ----------
+
+    /** 内置预设：仅提示词非空，其余字段留空表示沿用当前配置。 */
+    public static Config builtinPreset(String name) {
+        Config c = new Config();
+        c.baseUrl = "";
+        c.apiKey = "";
+        c.model = "";
+        if (PRESET_MS_TRANSLATE.equals(name)) {
+            c.prompt = BUILTIN_TRANSLATE_PROMPT;
+        } else if (PRESET_MS_CHINESE.equals(name)) {
+            c.prompt = DEFAULT_PROMPT;
+        } else {
+            c.prompt = DEFAULT_PROMPT;
+        }
+        return c;
+    }
+
+    public static void savePreset(Context context, String name, Config c) {
+        JSONObject presets = getPresetsJson(context);
+        JSONObject o = new JSONObject();
+        try {
+            o.put(KEY_BASE_URL, c.baseUrl == null ? "" : c.baseUrl);
+            o.put(KEY_API_KEY, c.apiKey == null ? "" : c.apiKey);
+            o.put(KEY_MODEL, c.model == null ? "" : c.model);
+            o.put(KEY_PROMPT, c.prompt == null ? "" : c.prompt);
+            presets.put(name, o);
+            putPresetsJson(context, presets);
+        } catch (Exception ignored) {
+        }
+    }
+
+    public static boolean deletePreset(Context context, String name) {
+        JSONObject presets = getPresetsJson(context);
+        if (presets.has(name)) {
+            presets.remove(name);
+            putPresetsJson(context, presets);
+            return true;
+        }
+        return false;
+    }
+
+    /** 用户自定义预设名（不含内置）。 */
+    public static List<String> getUserPresetNames(Context context) {
+        List<String> names = new ArrayList<>();
+        JSONObject presets = getPresetsJson(context);
+        Iterator<String> it = presets.keys();
+        while (it.hasNext()) {
+            names.add(it.next());
+        }
+        Collections.sort(names);
+        return names;
+    }
+
+    /** 全部可加载预设名（内置 + 用户自定义）。 */
+    public static List<String> getAllPresetNames(Context context) {
+        List<String> names = new ArrayList<>();
+        names.add(PRESET_MS_TRANSLATE);
+        names.add(PRESET_MS_CHINESE);
+        names.addAll(getUserPresetNames(context));
+        return names;
+    }
+
+    /** 读取预设；内置预设或用户预设均可。 */
+    public static Config loadPreset(Context context, String name) {
+        if (PRESET_MS_TRANSLATE.equals(name) || PRESET_MS_CHINESE.equals(name)) {
+            return builtinPreset(name);
+        }
+        JSONObject presets = getPresetsJson(context);
+        JSONObject o = presets.optJSONObject(name);
+        Config c = new Config();
+        if (o != null) {
+            c.baseUrl = o.optString(KEY_BASE_URL, "");
+            c.apiKey = o.optString(KEY_API_KEY, "");
+            c.model = o.optString(KEY_MODEL, "");
+            c.prompt = o.optString(KEY_PROMPT, DEFAULT_PROMPT);
+        }
+        return c;
+    }
+
+    private static JSONObject getPresetsJson(Context context) {
+        String raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .getString(KEY_PRESETS, "{}");
+        try {
+            return new JSONObject(raw);
+        } catch (Exception e) {
+            return new JSONObject();
+        }
+    }
+
+    private static void putPresetsJson(Context context, JSONObject obj) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putString(KEY_PRESETS, obj.toString())
+                .apply();
+    }
+
+    // ---------- AI 调用 ----------
 
     /**
      * 异步调用 AI 修改文本，结果通过回调返回（主线程）。
@@ -102,6 +225,51 @@ public class AiManager {
         thread.start();
     }
 
+    /**
+     * 异步获取模型列表（GET {base}/models），结果通过回调返回（主线程）。
+     */
+    public static void listModels(Config cfg, ListCallback callback) {
+        Thread thread = new Thread(() -> {
+            try {
+                String base = (cfg.baseUrl == null || cfg.baseUrl.trim().isEmpty())
+                        ? DEFAULT_BASE_URL : cfg.baseUrl.trim();
+                base = base.replaceAll("/+$", "");
+                URL url = new URL(base + "/models");
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                try {
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(30000);
+                    conn.setReadTimeout(30000);
+                    conn.setRequestProperty("Authorization", "Bearer " + (cfg.apiKey == null ? "" : cfg.apiKey.trim()));
+
+                    int code = conn.getResponseCode();
+                    InputStream is = code >= 400 ? conn.getErrorStream() : conn.getInputStream();
+                    String resp = readAll(is);
+                    if (code >= 400) {
+                        throw new Exception("HTTP " + code + ": " + truncate(resp, 200));
+                    }
+                    JSONObject root = new JSONObject(resp);
+                    JSONArray data = root.getJSONArray("data");
+                    List<String> models = new ArrayList<>();
+                    for (int i = 0; i < data.length(); i++) {
+                        models.add(data.getJSONObject(i).getString("id"));
+                    }
+                    if (models.isEmpty()) {
+                        throw new Exception("模型列表为空");
+                    }
+                    MAIN.post(() -> callback.onSuccess(models));
+                } finally {
+                    conn.disconnect();
+                }
+            } catch (Exception e) {
+                String msg = e.getMessage() == null ? e.toString() : e.getMessage();
+                MAIN.post(() -> callback.onError(msg));
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+
     private static String requestChatCompletion(Config cfg, String systemPrompt, String userContent)
             throws Exception {
         String base = (cfg.baseUrl == null || cfg.baseUrl.trim().isEmpty())
@@ -114,11 +282,12 @@ public class AiManager {
             conn.setConnectTimeout(30000);
             conn.setReadTimeout(60000);
             conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-            conn.setRequestProperty("Authorization", "Bearer " + cfg.apiKey.trim());
+            conn.setRequestProperty("Authorization", "Bearer " + (cfg.apiKey == null ? "" : cfg.apiKey.trim()));
             conn.setDoOutput(true);
 
             JSONObject body = new JSONObject();
-            body.put("model", cfg.model == null ? DEFAULT_MODEL : cfg.model.trim());
+            body.put("model", cfg.model == null || cfg.model.trim().isEmpty()
+                    ? DEFAULT_MODEL : cfg.model.trim());
             JSONArray messages = new JSONArray();
             messages.put(new JSONObject().put("role", "system").put("content", systemPrompt));
             messages.put(new JSONObject().put("role", "user").put("content", userContent));

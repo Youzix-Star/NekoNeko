@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/floating_window_title"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorOnPrimary"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -35,7 +35,7 @@
             android:padding="8dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_close"
-            android:tint="@color/colorPrimaryVariant" />
+            android:tint="@color/colorOnPrimary" />
     </LinearLayout>
 
     <!-- 说明文字 -->
@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/capture_hint"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorOnPrimary"
         android:textSize="12sp"
         android:layout_marginBottom="8dp"
         android:alpha="0.8" />
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/waiting_for_text"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorOnPrimary"
         android:textSize="14sp"
         android:background="@drawable/text_background"
         android:padding="12dp"
@@ -117,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ai_modify"
-        android:textColor="@color/colorPrimaryVariant"
+        android:textColor="@color/colorOnPrimary"
         android:backgroundTint="@android:color/white"
         android:drawableStart="@drawable/ic_auto_fix"
         android:drawablePadding="8dp"
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/running_log"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorOnPrimary"
             android:textSize="12sp"
             android:alpha="0.8" />
 
@@ -147,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/clear_log"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorOnPrimary"
             android:textSize="10sp"
             android:backgroundTint="@color/floatingButtonOverlay"
             android:textAllCaps="false"
@@ -183,7 +183,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/status_hint"
-        android:textColor="@android:color/white"
+        android:textColor="@color/colorOnPrimary"
         android:textSize="10sp"
         android:alpha="0.6"
         android:gravity="center" />
