@@ -74,6 +74,15 @@ public class AboutFragment extends Fragment {
                 wallpaperColor,
                 primaryHex));
 
+        // 主题色圆点预览（与当前实际解析出的主色一致）
+        if (!"?".equals(primaryHex)) {
+            try {
+                view.findViewById(R.id.about_color_swatch)
+                        .getBackground().setTint(android.graphics.Color.parseColor(primaryHex));
+            } catch (Exception ignored) {
+            }
+        }
+
         // 手动主题色选择
         final int[] buttonIds = {
                 R.id.accent_default_button, R.id.accent_blue_button, R.id.accent_green_button,

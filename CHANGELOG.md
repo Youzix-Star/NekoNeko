@@ -27,6 +27,17 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.13.0] - 2026-08-29
+
+### 新增
+- 首次启动引导流程（仿照 legado-with-MD3 的 WelcomeActivity 结构）：
+  隐私与许可 → 无障碍服务 → 悬浮窗权限 → 主题色选择，带进度条
+- 首页应用图标改为主题色圆形底；关于页新增当前主题色圆点预览
+
+### 变更
+- 主题系统对齐参考实现的 Monet 方案：Android 12+ 显式应用官方
+  ThemeOverlay.Material3.DynamicColors（与 Compose dynamicLightColorScheme 同源的系统动态色板）
+
 ## [1.12.0] - 2026-08-29
 
 ### 修复
