@@ -564,18 +564,19 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         Logger.i("快捷球：开始执行 AI 流程");
 
         // 1. 捕获输入框文本
-        String text = "";
+        String rawText = "";
         AccessibilityService service = AccessibilityService.getInstance();
         if (service != null) {
-            text = service.getCurrentWindowText();
+            rawText = service.getCurrentWindowText();
         }
-        if (text.isEmpty()) {
+        if (rawText.isEmpty()) {
             Logger.w("快捷球：未捕获到文本");
             Toast.makeText(this, R.string.no_text_found, Toast.LENGTH_SHORT).show();
             setQuickBallLoading(false);
             isQuickBallProcessing = false;
             return;
         }
+        final String text = rawText;
         Logger.d("快捷球：捕获到文本: " + text);
         updateCapturedText(text);
 
