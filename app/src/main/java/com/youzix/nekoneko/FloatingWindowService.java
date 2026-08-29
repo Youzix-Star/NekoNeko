@@ -195,24 +195,47 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         minimizeButton.setContentDescription(getString(
                 isMinimized ? R.string.restore_floating_window : R.string.minimize_floating_window));
 
-        // 百叶窗动画：标题栏保持不变，windowBody 沿顶部轴向下折叠/展开
-        windowBody.setPivotX(windowBody.getWidth() / 2f);
-        windowBody.setPivotY(0f);
-
         if (isMinimized) {
+            // 记录当前高度，然后动画收缩到 0
+            final int startHeight = windowBody.getHeight();
             windowBody.animate()
-                    .scaleY(0f)
                     .setDuration(180)
+                    .setUpdateListener(animation -> {
+                        float fraction = animation.getAnimatedFraction();
+                        int h = (int) (startHeight * (1f - fraction));
+                        windowBody.getLayoutParams().height = Math.max(h, 0);
+                        windowBody.requestLayout();
+                    })
                     .withEndAction(() -> {
                         windowBody.setVisibility(View.GONE);
+                        windowBody.getLayoutParams().height = WindowManager.LayoutParams.WRAP_CONTENT;
                         relayoutWindow();
                     })
                     .start();
         } else {
-            windowBody.setScaleY(0f);
+            // 先设为可见并测量原始高度，再从 0 动画展开
             windowBody.setVisibility(View.VISIBLE);
-            windowBody.animate().scaleY(1f).setDuration(180).start();
-            relayoutWindow();
+            windowBody.measure(
+                    View.MeasureSpec.makeMeasureSpec(
+                            ((View) windowBody.getParent()).getWidth(),
+                            View.MeasureSpec.EXACTLY),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            final int targetHeight = windowBody.getMeasuredHeight();
+            windowBody.getLayoutParams().height = 0;
+            windowBody.requestLayout();
+            windowBody.animate()
+                    .setDuration(180)
+                    .setUpdateListener(animation -> {
+                        float fraction = animation.getAnimatedFraction();
+                        int h = (int) (targetHeight * fraction);
+                        windowBody.getLayoutParams().height = h;
+                        windowBody.requestLayout();
+                    })
+                    .withEndAction(() -> {
+                        windowBody.getLayoutParams().height = WindowManager.LayoutParams.WRAP_CONTENT;
+                        relayoutWindow();
+                    })
+                    .start();
         }
         Logger.d(isMinimized ? "悬浮窗已最小化" : "悬浮窗已展开");
     }
