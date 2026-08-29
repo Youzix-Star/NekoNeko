@@ -173,9 +173,13 @@ public class RuleManager {
     // ---------- 导入纯文本格式 ----------
 
     /**
-     * 解析"查找=替换"纯文本格式，每行一条规则，默认非正则。
-     * 空行和 # 开头的注释行会跳过。
-     * 如果某行不含 =，整行作为查找，替换为空（即删除）。
+     * 解析"查找=替换"纯文本格式，每行一条规则。
+     * 支持以下格式：
+     *   查找=替换                          （纯文本，启用）
+     *   # [正则] 查找=替换                  （正则，启用）
+     *   # [已禁用] 查找=替换                （纯文本，禁用）
+     *   # [已禁用] [正则] 查找=替换          （正则，禁用）
+     * 空行跳过。不含 = 的行整行作为查找，替换为空。
      */
     public static List<Rule> importFromText(String text) {
         List<Rule> rules = new ArrayList<>();
@@ -183,19 +187,36 @@ public class RuleManager {
         String[] lines = text.split("\n");
         for (String line : lines) {
             line = line.replace("\r", "");
-            if (line.trim().isEmpty()) continue;
-            if (line.trim().startsWith("#")) continue;
+            String trimmed = line.trim();
+            if (trimmed.isEmpty()) continue;
 
-            int eq = line.indexOf('=');
+            boolean useRegex = false;
+            boolean enabled = true;
+
+            // 解析标记前缀
+            if (trimmed.startsWith("#")) {
+                String content = trimmed.substring(1).trim();
+                if (content.startsWith("[已禁用]") || content.startsWith("[禁用]")) {
+                    enabled = false;
+                    content = content.substring(content.indexOf(']') + 1).trim();
+                }
+                if (content.startsWith("[正则]") || content.startsWith("[regex]")) {
+                    useRegex = true;
+                    content = content.substring(content.indexOf(']') + 1).trim();
+                }
+                trimmed = content;
+            }
+
+            int eq = trimmed.indexOf('=');
             String find, replace;
             if (eq >= 0) {
-                find = line.substring(0, eq);
-                replace = line.substring(eq + 1);
+                find = trimmed.substring(0, eq);
+                replace = trimmed.substring(eq + 1);
             } else {
-                find = line;
+                find = trimmed;
                 replace = "";
             }
-            rules.add(new Rule(find, find, replace, true, false));
+            rules.add(new Rule(find, find, replace, enabled, useRegex));
         }
         return rules;
     }
