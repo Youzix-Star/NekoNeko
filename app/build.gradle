@@ -4,18 +4,28 @@ plugins {
 
 android {
     compileSdk 34
-    namespace "com.youzix.nekoneko"
+    namespace "top.youzix.nekoneko"
 
     defaultConfig {
-        applicationId "com.youzix.nekoneko"
+        applicationId "top.youzix.nekoneko"
         minSdk 21
         targetSdk 33
-        versionCode 35
-        versionName "1.3.5"
+        versionCode 36
+        versionName "1.4.0"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("nekoneko.jks")
+            storePassword "ADMIN.wxd1y12r"
+            keyAlias "nekoneko"
+            keyPassword "ADMIN.wxd1y12r"
+        }
     }
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
