@@ -109,6 +109,9 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         // 设置增加按钮
         setupAppendButton();
         
+        // 设置 AI 修改按钮
+        setupAiModifyButton();
+        
         // 设置清除日志按钮
         setupClearLogButton();
         
@@ -224,6 +227,62 @@ public class FloatingWindowService extends Service implements Logger.LogListener
                     Toast.makeText(FloatingWindowService.this,
                             getString(R.string.no_text_found), Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+    private void setupAiModifyButton() {
+        Button aiModifyButton = floatingView.findViewById(R.id.ai_modify_button);
+        aiModifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.i("用户点击 AI 修改按钮");
+
+                // 优先使用悬浮窗当前显示的捕获文本；没有则现场重新捕获
+                String text = capturedTextTextView != null
+                        ? capturedTextTextView.getText().toString() : "";
+                if (text.isEmpty() || text.equals(getString(R.string.waiting_for_text))) {
+                    AccessibilityService service = AccessibilityService.getInstance();
+                    if (service != null) {
+                        text = service.getCurrentWindowText();
+                    }
+                }
+                if (text.isEmpty()) {
+                    Toast.makeText(FloatingWindowService.this,
+                            getString(R.string.no_text_found), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                AiManager.Config cfg = AiManager.load(FloatingWindowService.this);
+                if (cfg.apiKey == null || cfg.apiKey.trim().isEmpty()) {
+                    Toast.makeText(FloatingWindowService.this,
+                            getString(R.string.ai_key_missing), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                updateCapturedText(getString(R.string.ai_modifying));
+                final String originalText = text;
+                AiManager.modifyText(cfg, originalText, new AiManager.Callback() {
+                    @Override
+                    public void onSuccess(String modifiedText) {
+                        Logger.i("AI 修改成功: " + modifiedText);
+                        updateCapturedText(modifiedText);
+
+                        AccessibilityService service = AccessibilityService.getInstance();
+                        boolean replaced = service != null && service.replaceInputText(modifiedText);
+                        Toast.makeText(FloatingWindowService.this,
+                                replaced ? R.string.ai_replace_success : R.string.ai_no_input,
+                                Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(String message) {
+                        Logger.e("AI 调用失败: " + message);
+                        updateCapturedText(originalText);
+                        Toast.makeText(FloatingWindowService.this,
+                                getString(R.string.ai_call_failed, message), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

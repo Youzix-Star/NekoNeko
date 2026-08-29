@@ -65,9 +65,26 @@
         app:icon="@drawable/ic_picture_in_picture"
         app:iconGravity="textStart"
         app:iconTint="@color/colorOnPrimary"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/ai_config_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/accessibility_button" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ai_config_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:text="@string/ai_config"
+        android:textAllCaps="false"
+        app:backgroundTint="@color/colorSecondary"
+        app:icon="@drawable/ic_settings"
+        app:iconGravity="textStart"
+        app:iconTint="@color/colorOnSecondary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/floating_window_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

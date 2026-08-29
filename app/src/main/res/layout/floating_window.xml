@@ -111,6 +111,20 @@
             android:textSize="14sp" />
     </LinearLayout>
 
+    <!-- AI 修改按钮 -->
+    <Button
+        android:id="@+id/ai_modify_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ai_modify"
+        android:textColor="@color/colorPrimaryVariant"
+        android:backgroundTint="@android:color/white"
+        android:drawableStart="@drawable/ic_auto_fix"
+        android:drawablePadding="8dp"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp" />
+
     <!-- 日志区域标题 -->
     <LinearLayout
         android:layout_width="match_parent"

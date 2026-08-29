@@ -24,4 +24,20 @@
     <string name="clear_log">清除</string>
     <string name="log_waiting">等待日志...</string>
     <string name="status_hint">提示：请确保已启用无障碍服务</string>
+    <string name="ai_modify">AI 修改</string>
+    <string name="ai_config">AI 配置</string>
+    <string name="ai_config_subtitle">配置 AI 服务，用于在悬浮窗中调用 AI 修改捕获的文本</string>
+    <string name="ai_base_url">API 地址</string>
+    <string name="ai_api_key">API Key</string>
+    <string name="ai_model">模型名称</string>
+    <string name="ai_prompt">提示词</string>
+    <string name="ai_prompt_helper">提示词中的 {text} 会替换为捕获的文本；没有 {text} 时，提示词作为指令、捕获文本作为内容发送</string>
+    <string name="ai_restore_default_prompt">恢复默认提示词</string>
+    <string name="ai_save">保存</string>
+    <string name="ai_config_saved">AI 配置已保存</string>
+    <string name="ai_modifying">AI 修改中...</string>
+    <string name="ai_key_missing">请先在 AI 配置中填写 API Key</string>
+    <string name="ai_replace_success">已用 AI 修改结果替换输入框</string>
+    <string name="ai_no_input">未检测到正在输入的文本框，未执行替换</string>
+    <string name="ai_call_failed">AI 调用失败：%1$s</string>
 </resources>

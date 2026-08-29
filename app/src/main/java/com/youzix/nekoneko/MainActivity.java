@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             Toast.makeText(this, "请启用NekoNeko无障碍服务", Toast.LENGTH_LONG).show();
         });
+        
+        // 设置AI配置按钮
+        Button aiConfigButton = findViewById(R.id.ai_config_button);
+        aiConfigButton.setOnClickListener(v -> {
+            startActivity(new Intent(this, AiConfigActivity.class));
+        });
     }
 
     private void startFloatingWindowService() {

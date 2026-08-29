@@ -27,6 +27,15 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.4.0] - 2026-08-29
+
+### 新增
+- AI 配置功能：API 地址 / API Key / 模型 / 提示词（SharedPreferences 持久化）
+- 悬浮窗新增"AI 修改"按钮：调用 AI 改写捕获的文本，并用结果替换输入框内容
+- 默认提示词为"微软式中文"风格；支持 {text} 占位符自定义提示词
+- 支持 OpenAI 兼容接口（默认 DeepSeek：api.deepseek.com / deepseek-chat）
+- 主界面新增"AI 配置"入口；新增 auto_fix / settings Material 图标
+
 ## [1.3.0] - 2026-08-29
 
 ### 新增
