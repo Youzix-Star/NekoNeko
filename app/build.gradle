@@ -35,13 +35,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    // Compose
+    // Compose (Material You)
+    implementation platform('androidx.compose:compose-bom:2026.08.00')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.foundation:foundation'
+    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material:material-icons-extended'
     implementation 'androidx.activity:activity-compose:1.13.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.4'
-
-    // Miuix（MIUI 风格 Compose 组件库）
-    implementation 'top.yukonga.miuix.kmp:miuix-ui:0.9.3'
-    implementation 'top.yukonga.miuix.kmp:miuix-preference:0.9.3'
-    implementation 'top.yukonga.miuix.kmp:miuix-icons:0.9.3'
-    implementation 'top.yukonga.miuix.kmp:miuix-squircle:0.9.3'
 }

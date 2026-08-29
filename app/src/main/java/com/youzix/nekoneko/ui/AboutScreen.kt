@@ -6,6 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +16,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Link
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -23,17 +33,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.foundation.background
-import androidx.compose.foundation.shape.CircleShape
 import com.google.android.material.color.DynamicColors
-import top.yukonga.miuix.kmp.preference.ArrowPreference
-import top.yukonga.miuix.kmp.basic.Icon
-import top.yukonga.miuix.kmp.basic.Text
-import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.extended.Copy
-import top.yukonga.miuix.kmp.icon.extended.Layers
-import top.yukonga.miuix.kmp.icon.extended.Link
-import top.yukonga.miuix.kmp.theme.MiuixTheme
 import com.youzix.nekoneko.R
 
 /** 关于页：应用信息、功能特性、技术栈与 GitHub 链接，附带设备/主题色诊断。 */
@@ -62,7 +62,7 @@ fun AboutScreen(padding: PaddingValues) {
             false
         }
     }
-    val primaryColor = MiuixTheme.colorScheme.primary
+    val primaryColor = MaterialTheme.colorScheme.primary
     val primaryHex = remember(primaryColor) { String.format("#%06X", 0xFFFFFF and primaryColor.toArgb()) }
 
     Column(
@@ -74,27 +74,31 @@ fun AboutScreen(padding: PaddingValues) {
     ) {
         Spacer(Modifier.height(32.dp))
 
-        // 应用图标（Miuix 主题色圆形底）
-        Icon(
-            imageVector = MiuixIcons.Copy,
-            contentDescription = stringResource(R.string.app_name),
+        // 应用图标（主题色圆形底）
+        Box(
             modifier = Modifier
                 .size(88.dp)
-                .background(MiuixTheme.colorScheme.primaryContainer, CircleShape)
-                .padding(20.dp),
-            tint = MiuixTheme.colorScheme.onPrimaryContainer,
-        )
+                .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = Icons.Filled.ContentCopy,
+                contentDescription = stringResource(R.string.app_name),
+                modifier = Modifier.size(48.dp),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
 
         Spacer(Modifier.height(12.dp))
         Text(
             text = stringResource(R.string.app_name),
-            style = MiuixTheme.textStyles.title1,
-            color = MiuixTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Text(
             text = stringResource(R.string.about_version_fmt, versionName),
-            style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Text(
             text = stringResource(
@@ -104,63 +108,45 @@ fun AboutScreen(padding: PaddingValues) {
                 if (wallpaperAvailable) "有" else "无",
                 primaryHex,
             ),
-            style = MiuixTheme.textStyles.footnote2,
-            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(Modifier.height(24.dp))
 
-        // 功能特性
-        ArrowPreference(
-            title = stringResource(R.string.about_features),
-            summary = stringResource(R.string.about_feature_capture),
-            startAction = {
-                Icon(
-                    imageVector = MiuixIcons.Copy,
-                    contentDescription = stringResource(R.string.about_features),
-                )
-            },
-            onClick = null,
-        )
-
-        // 技术栈
-        ArrowPreference(
-            title = stringResource(R.string.about_tech),
-            summary = stringResource(R.string.about_tech_content),
-            startAction = {
-                Icon(
-                    imageVector = MiuixIcons.Layers,
-                    contentDescription = stringResource(R.string.about_tech),
-                )
-            },
-            onClick = null,
-        )
-
-        // GitHub 仓库
-        ArrowPreference(
-            title = stringResource(R.string.about_github),
-            summary = stringResource(R.string.about_github_sub),
-            startAction = {
-                Icon(
-                    imageVector = MiuixIcons.Link,
-                    contentDescription = stringResource(R.string.about_github),
-                )
-            },
-            onClick = {
-                context.startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://github.com/Youzix-Star/NekoNeko")
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            SettingsRow(
+                title = stringResource(R.string.about_features),
+                summary = stringResource(R.string.about_feature_capture),
+                icon = Icons.Filled.ContentCopy,
+            )
+            SettingsRow(
+                title = stringResource(R.string.about_tech),
+                summary = stringResource(R.string.about_tech_content),
+                icon = Icons.Filled.Code,
+            )
+            SettingsRow(
+                title = stringResource(R.string.about_github),
+                summary = stringResource(R.string.about_github_sub),
+                icon = Icons.Filled.Link,
+                onClick = {
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/Youzix-Star/NekoNeko")
+                        )
                     )
-                )
-            },
-        )
+                },
+            )
+        }
 
         Spacer(Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.about_license),
-            style = MiuixTheme.textStyles.footnote2,
-            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
-            modifier = Modifier.padding(horizontal = 28.dp),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Spacer(Modifier.height(24.dp))
     }

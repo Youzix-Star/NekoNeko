@@ -18,7 +18,7 @@ import com.youzix.nekoneko.ui.FloatingWindowContent
 import com.youzix.nekoneko.ui.theme.AppTheme
 
 /**
- * 悬浮窗服务：以 ComposeView 承载 Miuix 风格的悬浮窗 UI。
+ * 悬浮窗服务：以 ComposeView 承载 Material You 风格的悬浮窗 UI。
  * Service 无 Activity 生命周期，手动提供 LifecycleOwner / SavedStateRegistryOwner。
  */
 class FloatingWindowService : Service(), Logger.LogListener {

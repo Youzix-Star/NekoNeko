@@ -17,6 +17,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessibilityNew
+import androidx.compose.material.icons.filled.AutoFixHigh
+import androidx.compose.material.icons.filled.PictureInPicture
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,19 +32,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import top.yukonga.miuix.kmp.preference.ArrowPreference
-import top.yukonga.miuix.kmp.basic.Icon
-import top.yukonga.miuix.kmp.basic.SmallTitle
-import top.yukonga.miuix.kmp.basic.Text
-import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.extended.Pin
-import top.yukonga.miuix.kmp.icon.extended.ScreenCapture
-import top.yukonga.miuix.kmp.icon.extended.Tune
-import top.yukonga.miuix.kmp.theme.MiuixTheme
 import com.youzix.nekoneko.FloatingWindowService
 import com.youzix.nekoneko.R
 
-/** 首页：MIUI 风格设置列表（无障碍服务 / 悬浮窗 / AI 配置）。 */
+/** 首页：MD3 扁平设置列表（无障碍服务 / 悬浮窗 / AI 配置）。 */
 @Composable
 fun HomeScreen(padding: PaddingValues, onOpenAiConfig: () -> Unit) {
     val context = LocalContext.current
@@ -48,7 +45,6 @@ fun HomeScreen(padding: PaddingValues, onOpenAiConfig: () -> Unit) {
     val overlayPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {
-        // 从悬浮窗权限页返回：授予则启动服务
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M || Settings.canDrawOverlays(context)) {
             context.startService(Intent(context, FloatingWindowService::class.java))
             Toast.makeText(context, R.string.floating_window_started, Toast.LENGTH_SHORT).show()
@@ -65,52 +61,45 @@ fun HomeScreen(padding: PaddingValues, onOpenAiConfig: () -> Unit) {
             .padding(padding)
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(24.dp))
         Text(
             text = stringResource(R.string.app_name),
-            style = MiuixTheme.textStyles.title1,
-            color = MiuixTheme.colorScheme.onBackground,
-            modifier = Modifier.padding(horizontal = 28.dp),
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
         Text(
             text = stringResource(R.string.app_subtitle),
-            style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
-            modifier = Modifier.padding(horizontal = 28.dp),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(24.dp))
 
-        SmallTitle(text = stringResource(R.string.section_functions))
+        Text(
+            text = stringResource(R.string.section_functions),
+            style = MaterialTheme.typography.labelLarge,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        )
 
-        // 无障碍服务
-        ArrowPreference(
+        SettingsRow(
             title = stringResource(R.string.row_accessibility),
             summary = stringResource(
                 if (accessibilityOn) R.string.acc_on else R.string.acc_off
             ),
-            startAction = {
-                Icon(
-                    imageVector = MiuixIcons.ScreenCapture,
-                    contentDescription = stringResource(R.string.row_accessibility),
-                )
-            },
+            icon = Icons.Filled.AccessibilityNew,
             onClick = {
                 context.startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
             },
         )
 
-        // 悬浮窗（一键启停）
-        ArrowPreference(
+        SettingsRow(
             title = stringResource(R.string.row_floating),
             summary = stringResource(
                 if (floatingOn) R.string.floating_running else R.string.floating_stopped
             ),
-            startAction = {
-                Icon(
-                    imageVector = MiuixIcons.Pin,
-                    contentDescription = stringResource(R.string.row_floating),
-                )
-            },
+            icon = Icons.Filled.PictureInPicture,
             onClick = {
                 if (isServiceRunning(context)) {
                     context.stopService(Intent(context, FloatingWindowService::class.java))
@@ -132,16 +121,10 @@ fun HomeScreen(padding: PaddingValues, onOpenAiConfig: () -> Unit) {
             },
         )
 
-        // AI 配置
-        ArrowPreference(
+        SettingsRow(
             title = stringResource(R.string.row_ai),
             summary = stringResource(R.string.row_ai_sub),
-            startAction = {
-                Icon(
-                    imageVector = MiuixIcons.Tune,
-                    contentDescription = stringResource(R.string.row_ai),
-                )
-            },
+            icon = Icons.Filled.AutoFixHigh,
             onClick = onOpenAiConfig,
         )
     }

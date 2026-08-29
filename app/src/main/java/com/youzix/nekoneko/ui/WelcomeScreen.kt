@@ -5,6 +5,7 @@ import android.net.Uri
 import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,8 +15,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccessibilityNew
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.filled.PictureInPicture
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -28,17 +39,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import top.yukonga.miuix.kmp.basic.Button
-import top.yukonga.miuix.kmp.basic.Icon
-import top.yukonga.miuix.kmp.basic.LinearProgressIndicator
-import top.yukonga.miuix.kmp.basic.Text
-import top.yukonga.miuix.kmp.basic.TextButton
-import top.yukonga.miuix.kmp.icon.MiuixIcons
-import top.yukonga.miuix.kmp.icon.extended.Lock
-import top.yukonga.miuix.kmp.icon.extended.Pin
-import top.yukonga.miuix.kmp.icon.extended.ScreenCapture
-import top.yukonga.miuix.kmp.icon.extended.Theme
-import top.yukonga.miuix.kmp.theme.MiuixTheme
 import com.youzix.nekoneko.R
 
 /** 首次启动引导：隐私与许可 → 无障碍服务 → 悬浮窗权限 → 主题（4 步）。 */
@@ -54,7 +54,7 @@ fun WelcomeScreen(onFinish: () -> Unit) {
 
     Column(modifier = Modifier.fillMaxSize()) {
         LinearProgressIndicator(
-            progress = (page + 1) / totalPages.toFloat(),
+            progress = { (page + 1) / totalPages.toFloat() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
@@ -69,14 +69,14 @@ fun WelcomeScreen(onFinish: () -> Unit) {
         ) {
             when (page) {
                 0 -> WelcomePage(
-                    icon = MiuixIcons.Lock,
+                    icon = Icons.Filled.Lock,
                     title = stringResource(R.string.welcome_privacy_title),
                     body = stringResource(R.string.welcome_privacy_body),
                     footnote = stringResource(R.string.welcome_privacy_license),
                 )
 
                 1 -> WelcomePage(
-                    icon = MiuixIcons.ScreenCapture,
+                    icon = Icons.Filled.AccessibilityNew,
                     title = stringResource(R.string.welcome_accessibility_title),
                     body = stringResource(R.string.welcome_accessibility_body),
                     actionLabel = stringResource(R.string.welcome_accessibility_action),
@@ -86,7 +86,7 @@ fun WelcomeScreen(onFinish: () -> Unit) {
                 )
 
                 2 -> WelcomePage(
-                    icon = MiuixIcons.Pin,
+                    icon = Icons.Filled.PictureInPicture,
                     title = stringResource(R.string.welcome_overlay_title),
                     body = stringResource(R.string.welcome_overlay_body),
                     actionLabel = stringResource(R.string.welcome_overlay_action),
@@ -101,7 +101,7 @@ fun WelcomeScreen(onFinish: () -> Unit) {
                 )
 
                 else -> WelcomePage(
-                    icon = MiuixIcons.Theme,
+                    icon = Icons.Filled.Palette,
                     title = stringResource(R.string.welcome_theme_title),
                     body = stringResource(R.string.welcome_theme_body),
                 )
@@ -116,10 +116,11 @@ fun WelcomeScreen(onFinish: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TextButton(
-                text = stringResource(R.string.welcome_prev),
                 onClick = { if (page > 0) page-- },
                 enabled = page > 0,
-            )
+            ) {
+                Text(stringResource(R.string.welcome_prev))
+            }
             Spacer(modifier = Modifier.weight(1f))
             Button(
                 onClick = {
@@ -156,40 +157,44 @@ private fun WelcomePage(
         modifier = Modifier.padding(horizontal = 28.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = title,
+        Box(
             modifier = Modifier
                 .size(88.dp)
-                .background(MiuixTheme.colorScheme.primaryContainer, CircleShape)
-                .padding(20.dp),
-            tint = MiuixTheme.colorScheme.onPrimaryContainer,
-        )
+                .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = title,
+                modifier = Modifier.size(48.dp),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            )
+        }
         Spacer(Modifier.height(24.dp))
         Text(
             text = title,
-            style = MiuixTheme.textStyles.title1,
-            color = MiuixTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.onSurface,
         )
         Spacer(Modifier.height(12.dp))
         Text(
             text = body,
-            style = MiuixTheme.textStyles.body2,
-            color = MiuixTheme.colorScheme.onSurfaceVariantSummary,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center,
         )
         if (footnote != null) {
             Spacer(Modifier.height(16.dp))
             Text(
                 text = footnote,
-                style = MiuixTheme.textStyles.footnote2,
-                color = MiuixTheme.colorScheme.primary,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary,
             )
         }
         if (actionLabel != null && onAction != null) {
             Spacer(Modifier.height(24.dp))
             Button(onClick = onAction) {
-                Text(text = actionLabel)
+                Text(actionLabel)
             }
         }
     }
