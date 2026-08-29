@@ -10,8 +10,8 @@ android {
         applicationId "com.youzix.nekoneko"
         minSdk 21
         targetSdk 33
-        versionCode 24
-        versionName "1.2.3"
+        versionCode 25
+        versionName "1.2.4"
     }
 
     buildTypes {
