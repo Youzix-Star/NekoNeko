@@ -1,5 +1,6 @@
 package com.youzix.nekoneko;
 
+import top.youzix.nekoneko.R;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;

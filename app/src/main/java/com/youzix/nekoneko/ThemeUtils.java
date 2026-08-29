@@ -1,5 +1,6 @@
 package com.youzix.nekoneko;
 
+import top.youzix.nekoneko.R;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;

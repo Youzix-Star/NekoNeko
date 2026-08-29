@@ -1,5 +1,6 @@
 package com.youzix.nekoneko;
 
+import top.youzix.nekoneko.R;
 import android.app.WallpaperColors;
 import android.app.WallpaperManager;
 import android.content.Intent;
