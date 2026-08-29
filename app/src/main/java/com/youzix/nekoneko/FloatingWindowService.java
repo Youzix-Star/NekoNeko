@@ -74,9 +74,13 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         
         // 悬浮窗固定使用基础 M3 主题膨胀（AppTheme.Overlay），
         // 避免动态色主题在 Service overlay 窗口中的兼容问题；
-        // Android 12+ 再手动叠加官方莫奈动态色 overlay。
+        // 用户选择手动主题色时优先应用，否则 Android 12+ 应用官方莫奈动态色 overlay。
         Context themed = new ContextThemeWrapper(this, R.style.AppTheme_Overlay);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        int accent = AccentTheme.load(this);
+        if (accent != AccentTheme.DEFAULT) {
+            themed.getTheme().applyStyle(AccentTheme.overlayStyle(accent), true);
+            Logger.d("已应用手动主题色");
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             themed.getTheme().applyStyle(
                     com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
                     true);
@@ -201,19 +205,24 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         minimizeButton.setContentDescription(getString(
                 isMinimized ? R.string.restore_floating_window : R.string.minimize_floating_window));
 
+        // 缩放动画：以顶部中心为轴，主体像"拉链"一样收起/展开
+        windowBody.setPivotX(windowBody.getWidth() / 2f);
+        windowBody.setPivotY(0f);
+
         if (isMinimized) {
-            // 收起：淡出主体后隐藏并重新测量窗口
-            windowBody.animate().alpha(0f).setDuration(160)
+            windowBody.animate()
+                    .scaleX(0f).scaleY(0f)
+                    .setDuration(180)
                     .withEndAction(() -> {
                         windowBody.setVisibility(View.GONE);
                         relayoutWindow();
                     })
                     .start();
         } else {
-            // 展开：显示主体并淡入，重新测量窗口
-            windowBody.setAlpha(0f);
+            windowBody.setScaleX(0f);
+            windowBody.setScaleY(0f);
             windowBody.setVisibility(View.VISIBLE);
-            windowBody.animate().alpha(1f).setDuration(160).start();
+            windowBody.animate().scaleX(1f).scaleY(1f).setDuration(180).start();
             relayoutWindow();
         }
         Logger.d(isMinimized ? "悬浮窗已最小化" : "悬浮窗已展开");

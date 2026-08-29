@@ -39,4 +39,58 @@
          避免 Material/动态主题在 Service overlay 窗口中的兼容问题；
          Android 12+ 由代码手动叠加官方动态色 overlay。 -->
     <style name="AppTheme.Overlay" parent="Theme.Material3.Light.NoActionBar" />
+
+
+
+    <!-- 手动主题色 overlay（莫奈不可用时由用户选择） -->
+    <style name="ThemeOverlay.Accent.Blue">
+        <item name="colorPrimary">#1A73E8</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#D8E2FF</item>
+        <item name="colorOnPrimaryContainer">#001A41</item>
+        <item name="colorSecondary">#575E71</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#DBE2F9</item>
+        <item name="colorOnSecondaryContainer">#141B2C</item>
+    </style>
+    <style name="ThemeOverlay.Accent.Green">
+        <item name="colorPrimary">#00696D</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#9CF1F5</item>
+        <item name="colorOnPrimaryContainer">#002021</item>
+        <item name="colorSecondary">#4A6365</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#CCE8EA</item>
+        <item name="colorOnSecondaryContainer">#071F21</item>
+    </style>
+    <style name="ThemeOverlay.Accent.Purple">
+        <item name="colorPrimary">#6750A4</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#EADDFF</item>
+        <item name="colorOnPrimaryContainer">#21005D</item>
+        <item name="colorSecondary">#625B71</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#E8DEF8</item>
+        <item name="colorOnSecondaryContainer">#1E192B</item>
+    </style>
+    <style name="ThemeOverlay.Accent.Pink">
+        <item name="colorPrimary">#B11474</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#FFD8EA</item>
+        <item name="colorOnPrimaryContainer">#3E0022</item>
+        <item name="colorSecondary">#71566A</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#FAD8F1</item>
+        <item name="colorOnSecondaryContainer">#2A1425</item>
+    </style>
+    <style name="ThemeOverlay.Accent.Orange">
+        <item name="colorPrimary">#8B5000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#FFDCBE</item>
+        <item name="colorOnPrimaryContainer">#2D1600</item>
+        <item name="colorSecondary">#715B46</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#FFDEC3</item>
+        <item name="colorOnSecondaryContainer">#291806</item>
+    </style>
 </resources>

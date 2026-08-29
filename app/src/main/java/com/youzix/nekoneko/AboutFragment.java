@@ -1,5 +1,6 @@
 package com.youzix.nekoneko;
 
+import android.app.WallpaperColors;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +21,7 @@ import com.google.android.material.color.DynamicColors;
 
 /**
  * 关于页：应用信息、版本号、功能特性、技术栈与 GitHub 链接。
- * 附带设备/主题色诊断信息，用于验证莫奈动态取色是否生效。
+ * 附带设备/主题色诊断信息（验证莫奈是否生效），并提供手动主题色兜底选择。
  */
 public class AboutFragment extends Fragment {
 
@@ -43,8 +45,7 @@ public class AboutFragment extends Fragment {
             versionText.setText(getString(R.string.about_version_placeholder));
         }
 
-        // 诊断：Android 版本 + 动态取色是否可用 + 当前解析出的主题主色
-        // （莫奈生效时，主题色会随壁纸变化）
+        // 诊断：Android 版本 + 动态取色是否可用 + 壁纸是否提供取色 + 当前主题主色
         TextView deviceInfo = view.findViewById(R.id.about_device_info);
         String primaryHex = "?";
         TypedValue tv = new TypedValue();
@@ -55,10 +56,39 @@ public class AboutFragment extends Fragment {
             primaryHex = String.format("#%06X", 0xFFFFFF & tv.data);
         }
         boolean dynamicAvailable = DynamicColors.isDynamicColorAvailable();
+        String wallpaperColor = "无";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            try {
+                WallpaperColors wc = WallpaperColors.getInstance(requireContext());
+                if (wc != null) {
+                    wallpaperColor = "有";
+                }
+            } catch (Exception ignored) {
+            }
+        }
         deviceInfo.setText(getString(R.string.about_device_info_fmt,
                 Build.VERSION.SDK_INT,
                 dynamicAvailable ? "可用" : "不可用",
+                wallpaperColor,
                 primaryHex));
+
+        // 手动主题色选择
+        final int[] buttonIds = {
+                R.id.accent_default_button, R.id.accent_blue_button, R.id.accent_green_button,
+                R.id.accent_purple_button, R.id.accent_pink_button, R.id.accent_orange_button
+        };
+        final int[] accents = {
+                AccentTheme.DEFAULT, AccentTheme.BLUE, AccentTheme.GREEN,
+                AccentTheme.PURPLE, AccentTheme.PINK, AccentTheme.ORANGE
+        };
+        for (int i = 0; i < buttonIds.length; i++) {
+            final int accent = accents[i];
+            view.findViewById(buttonIds[i]).setOnClickListener(v -> {
+                AccentTheme.save(requireContext(), accent);
+                Toast.makeText(requireContext(), R.string.about_accent_applied, Toast.LENGTH_SHORT).show();
+                requireActivity().recreate();
+            });
+        }
 
         view.findViewById(R.id.about_github_button).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW,

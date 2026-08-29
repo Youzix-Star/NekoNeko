@@ -26,15 +26,19 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_ABOUT = "about";
 
     private final Map<String, Fragment> fragments = new HashMap<>();
-    private String currentTag = TAG_HOME;
+    private String currentTag = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Android 12+：显式应用莫奈动态取色（官方 API，最可靠路径，
-        // 与 values-v31 的动态色主题双保险）
-        DynamicColors.applyToActivityIfAvailable(this);
+        // 主题：用户选择手动主题色时优先；否则 Android 12+ 应用官方莫奈动态色
+        int accent = AccentTheme.load(this);
+        if (accent == AccentTheme.DEFAULT) {
+            DynamicColors.applyToActivityIfAvailable(this);
+        } else {
+            getTheme().applyStyle(AccentTheme.overlayStyle(accent), true);
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -45,6 +49,13 @@ public class MainActivity extends AppCompatActivity {
         } else {
             currentTag = savedInstanceState.getString("currentTag", TAG_HOME);
             nav.setSelectedItemId(itemIdOf(currentTag));
+            // 恢复 FragmentManager 中已存在的 Fragment 到本地缓存
+            for (String t : new String[]{TAG_HOME, TAG_CONFIG, TAG_ABOUT}) {
+                Fragment f = getSupportFragmentManager().findFragmentByTag(t);
+                if (f != null) {
+                    fragments.put(t, f);
+                }
+            }
         }
 
         nav.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
@@ -95,6 +106,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Fragment target = fragments.get(tag);
+        if (target == null) {
+            // 配置变更后 FragmentManager 可能已恢复该 Fragment
+            target = getSupportFragmentManager().findFragmentByTag(tag);
+            if (target != null) {
+                fragments.put(tag, target);
+            }
+        }
         if (target == null) {
             target = createFragment(menuItemId);
             fragments.put(tag, target);

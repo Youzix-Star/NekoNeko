@@ -142,6 +142,116 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about_accent"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/about_accent_hint"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <Button
+                        android:id="@+id/accent_default_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:backgroundTint="?attr/colorPrimary"
+                        android:contentDescription="@string/about_accent_default"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:text="@string/about_accent_monet"
+                        android:textColor="?attr/colorOnPrimary"
+                        android:textSize="12sp"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/accent_blue_button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/accent_swatch"
+                        android:backgroundTint="@color/accent_blue_primary"
+                        android:contentDescription="@string/about_accent_blue"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp" />
+
+                    <Button
+                        android:id="@+id/accent_green_button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/accent_swatch"
+                        android:backgroundTint="@color/accent_green_primary"
+                        android:contentDescription="@string/about_accent_green"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp" />
+
+                    <Button
+                        android:id="@+id/accent_purple_button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/accent_swatch"
+                        android:backgroundTint="@color/accent_purple_primary"
+                        android:contentDescription="@string/about_accent_purple"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp" />
+
+                    <Button
+                        android:id="@+id/accent_pink_button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/accent_swatch"
+                        android:backgroundTint="@color/accent_pink_primary"
+                        android:contentDescription="@string/about_accent_pink"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp" />
+
+                    <Button
+                        android:id="@+id/accent_orange_button"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/accent_swatch"
+                        android:backgroundTint="@color/accent_orange_primary"
+                        android:contentDescription="@string/about_accent_orange"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/about_github_button"
             style="@style/Widget.Material3.Button.TonalButton"
