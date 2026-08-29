@@ -32,12 +32,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Android 12+：始终应用莫奈动态取色（官方 ThemeOverlay，与系统壁纸同源）
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            getTheme().applyStyle(
-                    com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
-                    true);
-        }
+        // Android 12+：按系统深浅色应用莫奈动态取色（官方 ThemeOverlay，与系统壁纸同源）
+        ThemeUtils.applyDynamicColors(this, getTheme());
 
         setContentView(R.layout.activity_main);
 

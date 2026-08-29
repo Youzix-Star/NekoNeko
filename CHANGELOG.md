@@ -4,6 +4,21 @@
 
 ## [未发布]
 
+### 变更（UI 全面重构，对齐 legado-with-MD3 的 MD3 设计语言）
+- 主题升级为 DayNight（Theme.Material3.DayNight），补齐完整 MD3 颜色 token
+  （surfaceContainer 全系列、fixed 系列、dim/bright、inverse），
+  新增 values-night 深色 GR 色板，深色模式随系统自动切换
+- 莫奈动态取色按系统深浅色叠加官方 Light/Dark overlay（新增 ThemeUtils）
+- 输入框全部由 OutlinedBox（边框式）改为 FilledBox（填充式，无边框），
+  API Key 支持明文切换（password_toggle）
+- 首页/关于页去掉 MaterialCardView"卡片框"与分隔线，改为扁平 MD3 设置列表
+  （分组标题 + 图标 Tonal 圆形底 + 标题/副标题/箭头行）
+- 悬浮窗按钮统一为 MaterialButton 官方样式层级（Filled/Tonal/Outlined/Text），
+  移除手动 backgroundTint 覆盖与分隔线
+- 对话框改为 MaterialAlertDialogBuilder + 28dp 大圆角 + surfaceContainerLow 背景
+- 引导页标题放大为 HeadlineMedium，隐私页图标与其他页统一（Tonal 圆形底）
+- 删除废弃布局 activity_ai_config.xml / activity_splash.xml
+
 ### 新增
 - 项目基础结构
 - GitHub Actions自动构建工作流

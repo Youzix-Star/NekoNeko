@@ -9,9 +9,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
@@ -80,7 +80,7 @@ public class AiConfigFragment extends Fragment {
                     return;
                 }
                 final String[] arr = models.toArray(new String[0]);
-                new AlertDialog.Builder(requireContext())
+                new MaterialAlertDialogBuilder(requireContext())
                         .setTitle(R.string.ai_models)
                         .setItems(arr, (d, w) -> modelInput.setText(arr[w]))
                         .show();
@@ -98,11 +98,11 @@ public class AiConfigFragment extends Fragment {
     }
 
     private void savePreset() {
-        final EditText nameInput = new EditText(requireContext());
-        nameInput.setHint(R.string.ai_preset_name);
-        new AlertDialog.Builder(requireContext())
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_preset_name, null);
+        final EditText nameInput = dialogView.findViewById(R.id.preset_name_input);
+        new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.ai_save_preset)
-                .setView(nameInput)
+                .setView(dialogView)
                 .setPositiveButton(R.string.ai_save, (d, w) -> {
                     String name = nameInput.getText().toString().trim();
                     if (name.isEmpty()) {
@@ -123,7 +123,7 @@ public class AiConfigFragment extends Fragment {
             Toast.makeText(requireContext(), R.string.ai_no_presets, Toast.LENGTH_SHORT).show();
             return;
         }
-        new AlertDialog.Builder(requireContext())
+        new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.ai_load_preset)
                 .setItems(names.toArray(new String[0]), (d, w) ->
                         applyPreset(AiManager.loadPreset(requireContext(), names.get(w))))
@@ -136,11 +136,11 @@ public class AiConfigFragment extends Fragment {
             Toast.makeText(requireContext(), R.string.ai_no_presets, Toast.LENGTH_SHORT).show();
             return;
         }
-        new AlertDialog.Builder(requireContext())
+        new MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.ai_delete_preset)
                 .setItems(names.toArray(new String[0]), (d, w) -> {
                     final String name = names.get(w);
-                    new AlertDialog.Builder(requireContext())
+                    new MaterialAlertDialogBuilder(requireContext())
                             .setMessage(getString(R.string.ai_confirm_delete_preset, name))
                             .setPositiveButton(android.R.string.ok, (d2, w2) -> {
                                 AiManager.deletePreset(requireContext(), name);

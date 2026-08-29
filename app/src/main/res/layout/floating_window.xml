@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -56,18 +57,12 @@
             android:tint="?attr/colorOnSurfaceVariant" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="12dp"
-        android:background="?attr/colorOutlineVariant" />
-
     <!-- 主体内容（最小化时隐藏） -->
     <LinearLayout
         android:id="@+id/window_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:orientation="vertical">
 
         <!-- 捕获内容标签 -->
@@ -93,80 +88,60 @@
             android:minHeight="64dp"
             android:gravity="start|top" />
 
-        <!-- 捕获按钮 -->
-        <Button
+        <!-- 捕获按钮（主操作：Filled） -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/capture_button"
-                android:minHeight="40dp"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/capture_text"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="14sp"
-            android:backgroundTint="?attr/colorPrimary"
-            android:drawableStart="@drawable/ic_content_copy"
-            android:drawablePadding="8dp"
             android:textAllCaps="false"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            app:icon="@drawable/ic_content_copy"
+            app:iconGravity="textStart" />
 
-        <!-- 替换 / 增加 按钮 -->
+        <!-- 替换 / 增加 按钮（次级操作：Tonal） -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginBottom="8dp">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/replace_button"
-                android:minHeight="40dp"
+                style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/replace_text"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                android:textSize="14sp"
-                android:backgroundTint="?attr/colorSecondaryContainer"
-                android:drawableStart="@drawable/ic_swap_horiz"
-                android:drawablePadding="6dp"
                 android:textAllCaps="false"
-                android:insetTop="0dp"
-                android:insetBottom="0dp" />
+                app:icon="@drawable/ic_swap_horiz"
+                app:iconGravity="textStart" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/append_button"
-                android:minHeight="40dp"
+                style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
                 android:text="@string/append_text"
-                android:textColor="?attr/colorOnSecondaryContainer"
-                android:textSize="14sp"
-                android:backgroundTint="?attr/colorSecondaryContainer"
-                android:drawableStart="@drawable/ic_add"
-                android:drawablePadding="6dp"
                 android:textAllCaps="false"
-                android:insetTop="0dp"
-                android:insetBottom="0dp" />
+                app:icon="@drawable/ic_add"
+                app:iconGravity="textStart" />
         </LinearLayout>
 
-        <!-- AI 修改按钮 -->
-        <Button
+        <!-- AI 修改按钮（次要操作：Outlined） -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/ai_modify_button"
-                android:minHeight="40dp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/ai_modify"
-            android:textColor="?attr/colorOnTertiaryContainer"
-            android:textSize="14sp"
-            android:backgroundTint="?attr/colorTertiaryContainer"
-            android:drawableStart="@drawable/ic_auto_fix"
-            android:drawablePadding="8dp"
             android:textAllCaps="false"
-            android:insetTop="0dp"
-            android:insetBottom="0dp"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="8dp"
+            app:icon="@drawable/ic_auto_fix"
+            app:iconGravity="textStart" />
 
         <!-- 日志区域标题 -->
         <LinearLayout
@@ -184,21 +159,19 @@
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="12sp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/clear_log_button"
+                style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/clear_log"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="10sp"
-                android:background="?attr/selectableItemBackground"
+                android:textAllCaps="false"
                 android:minHeight="0dp"
                 android:minWidth="0dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:insetTop="0dp"
-                android:insetBottom="0dp"
-                android:textAllCaps="false" />
+                android:insetBottom="0dp" />
         </LinearLayout>
 
         <!-- 日志显示区域 -->

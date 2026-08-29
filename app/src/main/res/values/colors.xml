@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--
-      Material Design 3 颜色角色 —— 默认配色直接取自 legado-with-MD3 的 GR 色板（其默认主题），
-      其余方案（Lemon/WH/Koharu/Sora/Elink）作为可选主题色，见 styles.xml 的 AccentOverlay*。
+      Material Design 3 颜色角色 —— 完整 token 集。
+      色值取自 legado-with-MD3 的 GR 色板（其默认主题），覆盖全部 MD3 角色：
+      primary/secondary/tertiary、container 系列、surface 系列（含 Dim/Bright/Container*）、
+      fixed 系列、inverse 系列与 outline。
+      深色色板见 values-night/colors.xml（同名覆盖）。
       莫奈动态色（Android 12+）由代码在运行时叠加，不在此处定义。
     -->
 
@@ -11,18 +14,30 @@
     <color name="colorOnPrimary">#FFFFFF</color>
     <color name="colorPrimaryContainer">#CDEDA3</color>
     <color name="colorOnPrimaryContainer">#354E16</color>
+    <color name="colorPrimaryFixed">#CDEDA3</color>
+    <color name="colorOnPrimaryFixed">#102000</color>
+    <color name="colorPrimaryFixedDim">#B1D18A</color>
+    <color name="colorOnPrimaryFixedVariant">#354E16</color>
 
     <!-- Secondary (GR) -->
     <color name="colorSecondary">#586249</color>
     <color name="colorOnSecondary">#FFFFFF</color>
     <color name="colorSecondaryContainer">#DCE7C8</color>
     <color name="colorOnSecondaryContainer">#404A33</color>
+    <color name="colorSecondaryFixed">#DCE7C8</color>
+    <color name="colorOnSecondaryFixed">#151E0B</color>
+    <color name="colorSecondaryFixedDim">#BFCBAD</color>
+    <color name="colorOnSecondaryFixedVariant">#404A33</color>
 
     <!-- Tertiary (GR) -->
     <color name="colorTertiary">#386663</color>
     <color name="colorOnTertiary">#FFFFFF</color>
     <color name="colorTertiaryContainer">#BCECE7</color>
     <color name="colorOnTertiaryContainer">#1F4E4B</color>
+    <color name="colorTertiaryFixed">#BCECE7</color>
+    <color name="colorOnTertiaryFixed">#00201E</color>
+    <color name="colorTertiaryFixedDim">#A0D0CB</color>
+    <color name="colorOnTertiaryFixedVariant">#1F4E4B</color>
 
     <!-- Error -->
     <color name="colorError">#BA1A1A</color>
@@ -37,11 +52,19 @@
     <color name="colorOnSurface">#1A1C16</color>
     <color name="colorSurfaceVariant">#E1E4D5</color>
     <color name="colorOnSurfaceVariant">#44483D</color>
+    <color name="colorSurfaceDim">#DADBD0</color>
+    <color name="colorSurfaceBright">#F9FAEF</color>
+    <color name="colorSurfaceContainerLowest">#FFFFFF</color>
     <color name="colorSurfaceContainerLow">#F3F4E9</color>
     <color name="colorSurfaceContainer">#EEEFE3</color>
     <color name="colorSurfaceContainerHigh">#E8E9DE</color>
+    <color name="colorSurfaceContainerHighest">#E2E3D8</color>
 
-    <!-- Outline (GR) -->
+    <!-- Inverse / Scrim / Outline (GR) -->
+    <color name="colorInverseSurface">#2F312A</color>
+    <color name="colorInverseOnSurface">#F1F2E6</color>
+    <color name="colorInversePrimary">#B1D18A</color>
+    <color name="colorScrim">#000000</color>
     <color name="colorOutline">#75796C</color>
     <color name="colorOutlineVariant">#C5C8BA</color>
 </resources>

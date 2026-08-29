@@ -32,6 +32,7 @@
     <string name="floating_running">运行中</string>
     <string name="floating_stopped">未运行</string>
     <string name="section_service">服务配置</string>
+    <string name="section_functions">功能</string>
     <string name="about_github_sub">在 GitHub 上查看源码与提交问题</string>
     <string name="welcome_theme_body">Android 12+ 自动使用系统莫奈配色（跟随壁纸）；Android 11 及以下使用默认配色。</string>
 

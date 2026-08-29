@@ -1,25 +1,38 @@
 <resources>
     <!--
-      Material Design 3 浅色主题。
-      默认配色 = legado-with-MD3 的 GR 色板（其默认主题）。
+      Material Design 3 浅/深色主题（DayNight）。
+      默认配色 = legado-with-MD3 的 GR 色板（浅色见 values/colors.xml，深色见 values-night/colors.xml）。
       莫奈动态色（Android 12+）由代码在运行时叠加官方 ThemeOverlay.Material3.DynamicColors，
-      不通过 values-v31 主题覆盖，全部由运行时控制。
+      按系统深浅色选择 Light/Dark overlay，不通过 values-v31 主题覆盖。
+      深色下状态栏图标的翻转见 values-night/themes.xml。
     -->
-    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>
         <item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
         <item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainer</item>
+        <item name="colorPrimaryFixed">@color/colorPrimaryFixed</item>
+        <item name="colorOnPrimaryFixed">@color/colorOnPrimaryFixed</item>
+        <item name="colorPrimaryFixedDim">@color/colorPrimaryFixedDim</item>
+        <item name="colorOnPrimaryFixedVariant">@color/colorOnPrimaryFixedVariant</item>
 
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="colorOnSecondary">@color/colorOnSecondary</item>
         <item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
         <item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainer</item>
+        <item name="colorSecondaryFixed">@color/colorSecondaryFixed</item>
+        <item name="colorOnSecondaryFixed">@color/colorOnSecondaryFixed</item>
+        <item name="colorSecondaryFixedDim">@color/colorSecondaryFixedDim</item>
+        <item name="colorOnSecondaryFixedVariant">@color/colorOnSecondaryFixedVariant</item>
 
         <item name="colorTertiary">@color/colorTertiary</item>
         <item name="colorOnTertiary">@color/colorOnTertiary</item>
         <item name="colorTertiaryContainer">@color/colorTertiaryContainer</item>
         <item name="colorOnTertiaryContainer">@color/colorOnTertiaryContainer</item>
+        <item name="colorTertiaryFixed">@color/colorTertiaryFixed</item>
+        <item name="colorOnTertiaryFixed">@color/colorOnTertiaryFixed</item>
+        <item name="colorTertiaryFixedDim">@color/colorTertiaryFixedDim</item>
+        <item name="colorOnTertiaryFixedVariant">@color/colorOnTertiaryFixedVariant</item>
 
         <item name="colorError">@color/colorError</item>
         <item name="colorOnError">@color/colorOnError</item>
@@ -32,19 +45,35 @@
         <item name="colorOnSurface">@color/colorOnSurface</item>
         <item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
+        <item name="colorSurfaceDim">@color/colorSurfaceDim</item>
+        <item name="colorSurfaceBright">@color/colorSurfaceBright</item>
+        <item name="colorSurfaceContainerLowest">@color/colorSurfaceContainerLowest</item>
         <item name="colorSurfaceContainerLow">@color/colorSurfaceContainerLow</item>
         <item name="colorSurfaceContainer">@color/colorSurfaceContainer</item>
         <item name="colorSurfaceContainerHigh">@color/colorSurfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/colorSurfaceContainerHighest</item>
 
+        <item name="colorInverseSurface">@color/colorInverseSurface</item>
+        <item name="colorInverseOnSurface">@color/colorInverseOnSurface</item>
+        <item name="colorInversePrimary">@color/colorInversePrimary</item>
+        <item name="colorScrim">@color/colorScrim</item>
         <item name="colorOutline">@color/colorOutline</item>
         <item name="colorOutlineVariant">@color/colorOutlineVariant</item>
 
         <item name="android:statusBarColor">?attr/colorSurface</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">@bool/window_light_status_bar</item>
+        <item name="alertDialogTheme">@style/AppTheme.AlertDialog</item>
     </style>
 
-    <!-- 悬浮窗专用主题：固定为基础 M3 浅色主题；
-         主题色由代码在运行时按用户选择叠加（莫奈/方案色板）。 -->
-    <style name="AppTheme.Overlay" parent="Theme.Material3.Light.NoActionBar" />
+    <!-- 悬浮窗专用主题：固定为基础 M3 DayNight 主题；
+         主题色由代码在运行时按系统深浅色叠加莫奈（Light/Dark）。 -->
+    <style name="AppTheme.Overlay" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <!-- MD3 对话框：28dp 大圆角 + surfaceContainerLow 背景（对齐 legado-with-MD3）。 -->
+    <style name="AppTheme.AlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="dialogCornerRadius">28dp</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="android:colorBackground">?attr/colorSurfaceContainerLow</item>
+    </style>
 
 </resources>

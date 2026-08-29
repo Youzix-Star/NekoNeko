@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Material Design 3 深色颜色角色 —— 与 values/colors.xml 同名覆盖。
+      色值取自 legado-with-MD3 的 GR 深色色板（values-night）。
+    -->
+
+    <!-- Primary (GR night) -->
+    <color name="colorPrimary">#B1D18A</color>
+    <color name="colorOnPrimary">#1F3701</color>
+    <color name="colorPrimaryContainer">#354E16</color>
+    <color name="colorOnPrimaryContainer">#CDEDA3</color>
+    <color name="colorPrimaryFixed">#CDEDA3</color>
+    <color name="colorOnPrimaryFixed">#102000</color>
+    <color name="colorPrimaryFixedDim">#B1D18A</color>
+    <color name="colorOnPrimaryFixedVariant">#354E16</color>
+
+    <!-- Secondary (GR night) -->
+    <color name="colorSecondary">#BFCBAD</color>
+    <color name="colorOnSecondary">#2A331E</color>
+    <color name="colorSecondaryContainer">#404A33</color>
+    <color name="colorOnSecondaryContainer">#DCE7C8</color>
+    <color name="colorSecondaryFixed">#DCE7C8</color>
+    <color name="colorOnSecondaryFixed">#151E0B</color>
+    <color name="colorSecondaryFixedDim">#BFCBAD</color>
+    <color name="colorOnSecondaryFixedVariant">#404A33</color>
+
+    <!-- Tertiary (GR night) -->
+    <color name="colorTertiary">#A0D0CB</color>
+    <color name="colorOnTertiary">#003735</color>
+    <color name="colorTertiaryContainer">#1F4E4B</color>
+    <color name="colorOnTertiaryContainer">#BCECE7</color>
+    <color name="colorTertiaryFixed">#BCECE7</color>
+    <color name="colorOnTertiaryFixed">#00201E</color>
+    <color name="colorTertiaryFixedDim">#A0D0CB</color>
+    <color name="colorOnTertiaryFixedVariant">#1F4E4B</color>
+
+    <!-- Error (GR night) -->
+    <color name="colorError">#FFB4AB</color>
+    <color name="colorOnError">#690005</color>
+    <color name="colorErrorContainer">#93000A</color>
+    <color name="colorOnErrorContainer">#FFDAD6</color>
+
+    <!-- Surface / Background (GR night) -->
+    <color name="colorBackground">#12140E</color>
+    <color name="colorOnBackground">#E2E3D8</color>
+    <color name="colorSurface">#12140E</color>
+    <color name="colorOnSurface">#E2E3D8</color>
+    <color name="colorSurfaceVariant">#44483D</color>
+    <color name="colorOnSurfaceVariant">#C5C8BA</color>
+    <color name="colorSurfaceDim">#12140E</color>
+    <color name="colorSurfaceBright">#383A32</color>
+    <color name="colorSurfaceContainerLowest">#0C0F09</color>
+    <color name="colorSurfaceContainerLow">#1A1C16</color>
+    <color name="colorSurfaceContainer">#1E201A</color>
+    <color name="colorSurfaceContainerHigh">#282B24</color>
+    <color name="colorSurfaceContainerHighest">#33362E</color>
+
+    <!-- Inverse / Scrim / Outline (GR night) -->
+    <color name="colorInverseSurface">#E2E3D8</color>
+    <color name="colorInverseOnSurface">#2F312A</color>
+    <color name="colorInversePrimary">#4C662B</color>
+    <color name="colorScrim">#000000</color>
+    <color name="colorOutline">#8F9285</color>
+    <color name="colorOutlineVariant">#44483D</color>
+</resources>

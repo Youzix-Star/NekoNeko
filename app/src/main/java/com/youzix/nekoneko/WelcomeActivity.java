@@ -43,12 +43,8 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Android 12+：引导页也显式应用莫奈动态取色，保证与主界面一致
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            getTheme().applyStyle(
-                    com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
-                    true);
-        }
+        // Android 12+：引导页也显式应用莫奈动态取色，保证与主界面一致（随系统深浅色）
+        ThemeUtils.applyDynamicColors(this, getTheme());
 
         // 已完成的引导直接进入主界面
         if (Guide.isDone(this)) {
