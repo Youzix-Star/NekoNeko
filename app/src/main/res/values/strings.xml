@@ -33,7 +33,15 @@
     <string name="rules_confirm">确定</string>
     <string name="rule_name_hint">规则名称</string>
     <string name="rule_pattern_hint">正则表达式</string>
-    <string name="rule_pattern_helper">使用正则匹配文本，$1 $2 引用捕获组</string>
+    <string name="rule_use_regex">使用正则表达式</string>
+    <string name="rule_pattern_helper">输入要查找的文本</string>
+    <string name="rule_pattern_helper_regex">使用正则匹配文本，$1 $2 引用捕获组</string>
+    <string name="import_rules">导入规则</string>
+    <string name="import_rules_title">导入「查找=替换」格式规则</string>
+    <string name="import_rules_hint">每行一条规则：查找=替换\n空行和 # 开头的行会跳过\n例如：\n我=窝\n你=泥</string>
+    <string name="import_rules_confirm">导入</string>
+    <string name="import_rules_empty">未解析到有效规则</string>
+    <string name="import_rules_count">已导入 %1$d 条规则</string>
     <string name="rule_replacement_hint">替换模板</string>
     <string name="rule_replacement_helper">留空则删除匹配内容；$1 引用第 1 个捕获组</string>
     <string name="rule_invalid_pattern">正则表达式语法错误</string>

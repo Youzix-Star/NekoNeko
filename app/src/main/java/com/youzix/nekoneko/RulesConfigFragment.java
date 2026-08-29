@@ -1,5 +1,8 @@
 package com.youzix.nekoneko;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -28,7 +32,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * 文本规则配置页：预设（顶部横向 Chip）+ 规则列表 + 增删改 + 拖拽排序。
+ * 文本规则配置页：预设（顶部横向 Chip）+ 规则列表 + 增删改 + 拖拽排序 + 导入导出。
  */
 public class RulesConfigFragment extends Fragment {
 
@@ -60,7 +64,6 @@ public class RulesConfigFragment extends Fragment {
         adapter = new RuleAdapter();
         recyclerView.setAdapter(adapter);
 
-        // 拖拽排序
         ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
             @Override
@@ -82,6 +85,7 @@ public class RulesConfigFragment extends Fragment {
         view.findViewById(R.id.add_rule_button).setOnClickListener(v -> showRuleDialog(-1));
         view.findViewById(R.id.save_rules_button).setOnClickListener(v -> saveRules());
         view.findViewById(R.id.save_as_preset_button).setOnClickListener(v -> saveAsPreset());
+        view.findViewById(R.id.import_rules_button).setOnClickListener(v -> showImportDialog());
 
         refreshPresetChips();
         refreshEmptyState();
@@ -102,16 +106,56 @@ public class RulesConfigFragment extends Fragment {
         Toast.makeText(requireContext(), R.string.rules_saved, Toast.LENGTH_SHORT).show();
     }
 
+    // ---------- 导入 ----------
+
+    private void showImportDialog() {
+        EditText input = new EditText(requireContext());
+        input.setHint(R.string.import_rules_hint);
+        input.setMinLines(5);
+        input.setMaxLines(15);
+
+        // 检查剪贴板是否有内容
+        ClipboardManager cm = (ClipboardManager) requireContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (cm != null && cm.hasPrimaryClip()) {
+            ClipData clip = cm.getPrimaryClip();
+            if (clip != null && clip.getItemCount() > 0) {
+                CharSequence paste = clip.getItemAt(0).getText();
+                if (paste != null && paste.length() > 0) {
+                    input.setText(paste);
+                }
+            }
+        }
+
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.import_rules_title)
+                .setView(input)
+                .setPositiveButton(R.string.import_rules_confirm, (d, w) -> {
+                    String text = input.getText().toString();
+                    List<RuleManager.Rule> imported = RuleManager.importFromText(text);
+                    if (imported.isEmpty()) {
+                        Toast.makeText(requireContext(), R.string.import_rules_empty,
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    rules.addAll(imported);
+                    adapter.notifyDataSetChanged();
+                    refreshEmptyState();
+                    Toast.makeText(requireContext(),
+                            getString(R.string.import_rules_count, imported.size()),
+                            Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
     // ---------- 预设 ----------
 
     private void refreshPresetChips() {
         presetChipGroup.removeAllViews();
 
-        // 内置预设："当前配置"（始终排第一）
         Chip currentChip = makeChip("当前配置", true);
         presetChipGroup.addView(currentChip);
 
-        // 用户预设
         List<String> presetNames = RuleManager.getPresetNames(requireContext());
         for (String name : presetNames) {
             Chip chip = makeChip(name, false);
@@ -125,16 +169,13 @@ public class RulesConfigFragment extends Fragment {
         chip.setCheckable(true);
         chip.setChecked(isDefault && currentPresetName == null);
 
-        // 长按删除用户预设（非"当前配置"）
         if (!isDefault) {
             chip.setOnLongClickListener(v -> {
                 new MaterialAlertDialogBuilder(requireContext())
                         .setMessage(getString(R.string.preset_confirm_delete, name))
                         .setPositiveButton(android.R.string.ok, (d, w) -> {
                             RuleManager.deletePreset(requireContext(), name);
-                            if (name.equals(currentPresetName)) {
-                                currentPresetName = null;
-                            }
+                            if (name.equals(currentPresetName)) currentPresetName = null;
                             refreshPresetChips();
                         })
                         .setNegativeButton(android.R.string.cancel, null)
@@ -190,19 +231,33 @@ public class RulesConfigFragment extends Fragment {
         TextInputEditText patternInput = dialogView.findViewById(R.id.rule_pattern_input);
         TextInputEditText replacementInput = dialogView.findViewById(R.id.rule_replacement_input);
         TextInputLayout patternLayout = dialogView.findViewById(R.id.rule_pattern_layout);
+        MaterialSwitch regexSwitch = dialogView.findViewById(R.id.rule_use_regex_switch);
 
         if (editIndex >= 0 && editIndex < rules.size()) {
             RuleManager.Rule r = rules.get(editIndex);
             nameInput.setText(r.name);
             patternInput.setText(r.pattern);
             replacementInput.setText(r.replacement);
+            regexSwitch.setChecked(r.useRegex);
         }
 
+        // 正则开关变化时更新 helper 文本
+        regexSwitch.setOnCheckedChangeListener((btn, checked) -> {
+            patternLayout.setHelperText(checked
+                    ? getString(R.string.rule_pattern_helper_regex)
+                    : getString(R.string.rule_pattern_helper));
+        });
+
+        // 非正则模式下不校验正则语法
         patternInput.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
             @Override
             public void afterTextChanged(Editable s) {
+                if (!regexSwitch.isChecked()) {
+                    patternLayout.setError(null);
+                    return;
+                }
                 String text = s.toString();
                 if (text.isEmpty()) {
                     patternLayout.setError(null);
@@ -221,6 +276,7 @@ public class RulesConfigFragment extends Fragment {
                     String name = nameInput.getText().toString().trim();
                     String pattern = patternInput.getText().toString().trim();
                     String replacement = replacementInput.getText().toString();
+                    boolean useRegex = regexSwitch.isChecked();
 
                     if (name.isEmpty()) name = pattern;
                     if (pattern.isEmpty()) {
@@ -228,7 +284,7 @@ public class RulesConfigFragment extends Fragment {
                                 Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if (!RuleManager.isValidPattern(pattern)) {
+                    if (useRegex && !RuleManager.isValidPattern(pattern)) {
                         Toast.makeText(requireContext(), R.string.rule_invalid_pattern,
                                 Toast.LENGTH_SHORT).show();
                         return;
@@ -239,9 +295,10 @@ public class RulesConfigFragment extends Fragment {
                         r.name = name;
                         r.pattern = pattern;
                         r.replacement = replacement;
+                        r.useRegex = useRegex;
                         adapter.notifyItemChanged(editIndex);
                     } else {
-                        rules.add(new RuleManager.Rule(name, pattern, replacement, true));
+                        rules.add(new RuleManager.Rule(name, pattern, replacement, true, useRegex));
                         adapter.notifyItemInserted(rules.size() - 1);
                     }
                     refreshEmptyState();
@@ -280,8 +337,12 @@ public class RulesConfigFragment extends Fragment {
         public void onBindViewHolder(@NonNull VH holder, int position) {
             RuleManager.Rule r = rules.get(position);
             holder.nameText.setText(r.name);
-            holder.patternText.setText("正则: " + r.pattern);
-            holder.replacementText.setText("替换: " + r.replacement);
+
+            // 显示模式标记
+            String modeTag = r.useRegex ? "[正则] " : "[文本] ";
+            holder.patternText.setText(modeTag + r.pattern);
+            holder.replacementText.setText("→ " + r.replacement);
+
             holder.toggle.setChecked(r.enabled);
             holder.toggle.setOnCheckedChangeListener((btn, checked) -> r.enabled = checked);
             holder.editBtn.setOnClickListener(v -> showRuleDialog(holder.getAdapterPosition()));
