@@ -1,6 +1,5 @@
-package com.youzix.nekoneko;
+package top.youzix.nekoneko;
 
-import top.youzix.nekoneko.R;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;

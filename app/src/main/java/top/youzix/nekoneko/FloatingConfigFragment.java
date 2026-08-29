@@ -1,6 +1,5 @@
-package com.youzix.nekoneko;
+package top.youzix.nekoneko;
 
-import top.youzix.nekoneko.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

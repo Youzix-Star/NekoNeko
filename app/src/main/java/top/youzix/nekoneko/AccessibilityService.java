@@ -1,4 +1,4 @@
-package com.youzix.nekoneko;
+package top.youzix.nekoneko;
 
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.os.Bundle;

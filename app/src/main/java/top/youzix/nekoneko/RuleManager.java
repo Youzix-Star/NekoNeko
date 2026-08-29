@@ -1,4 +1,4 @@
-package com.youzix.nekoneko;
+package top.youzix.nekoneko;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -1,4 +1,4 @@
-package com.youzix.nekoneko;
+package top.youzix.nekoneko;
 
 import android.util.Log;
 import java.text.SimpleDateFormat;
