@@ -34,15 +34,15 @@ public class AccentTheme {
     public static int overlayStyle(int index) {
         switch (index) {
             case BLUE:
-                return R.style.ThemeOverlay_Accent_Blue;
+                return R.style.AccentOverlayBlue;
             case GREEN:
-                return R.style.ThemeOverlay_Accent_Green;
+                return R.style.AccentOverlayGreen;
             case PURPLE:
-                return R.style.ThemeOverlay_Accent_Purple;
+                return R.style.AccentOverlayPurple;
             case PINK:
-                return R.style.ThemeOverlay_Accent_Pink;
+                return R.style.AccentOverlayPink;
             case ORANGE:
-                return R.style.ThemeOverlay_Accent_Orange;
+                return R.style.AccentOverlayOrange;
             default:
                 return 0;
         }
