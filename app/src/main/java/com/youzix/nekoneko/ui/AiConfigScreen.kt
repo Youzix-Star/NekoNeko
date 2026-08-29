@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.setText
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -136,11 +136,11 @@ fun AiConfigScreen(padding: PaddingValues) {
                 state = promptState,
                 label = stringResource(R.string.ai_prompt),
                 useLabelAsPlaceholder = true,
-                lineLimits = TextFieldLineLimits.Multiline(minLines = 6, maxLines = 6),
+                lineLimits = TextFieldLineLimits.MultiLine(minHeightInLines = 6, maxHeightInLines = 6),
             )
             TextButton(
                 text = stringResource(R.string.ai_restore_default_prompt),
-                onClick = { promptState.setText(AiManager.DEFAULT_PROMPT) },
+                onClick = { promptState.setTextAndPlaceCursorAtEnd(AiManager.DEFAULT_PROMPT) },
             )
         }
 
@@ -215,7 +215,7 @@ fun AiConfigScreen(padding: PaddingValues) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                modelState.setText(m)
+                                modelState.setTextAndPlaceCursorAtEnd(m)
                                 showModelsDialog = false
                             }
                             .padding(vertical = 12.dp),
@@ -337,9 +337,9 @@ private fun applyPreset(
     modelState: TextFieldState,
     promptState: TextFieldState,
 ) {
-    if (!preset.baseUrl.isNullOrBlank()) baseUrlState.setText(preset.baseUrl)
-    if (!preset.apiKey.isNullOrBlank()) apiKeyState.setText(preset.apiKey)
-    if (!preset.model.isNullOrBlank()) modelState.setText(preset.model)
-    if (!preset.prompt.isNullOrBlank()) promptState.setText(preset.prompt)
+    if (!preset.baseUrl.isNullOrBlank()) baseUrlState.setTextAndPlaceCursorAtEnd(preset.baseUrl)
+    if (!preset.apiKey.isNullOrBlank()) apiKeyState.setTextAndPlaceCursorAtEnd(preset.apiKey)
+    if (!preset.model.isNullOrBlank()) modelState.setTextAndPlaceCursorAtEnd(preset.model)
+    if (!preset.prompt.isNullOrBlank()) promptState.setTextAndPlaceCursorAtEnd(preset.prompt)
     // 与旧行为一致：合并语义（空字段沿用当前值）——current 参数保留用于说明
 }

@@ -14,10 +14,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.setViewTreeLifecycleOwner
-import androidx.lifecycle.setViewTreeSavedStateRegistryOwner
-import androidx.savedstate.SavedStateRegistry
-import androidx.savedstate.SavedStateRegistryController
-import androidx.savedstate.SavedStateRegistryOwner
 import com.youzix.nekoneko.ui.FloatingWindowContent
 import com.youzix.nekoneko.ui.theme.AppTheme
 
@@ -32,15 +28,11 @@ class FloatingWindowService : Service(), Logger.LogListener {
     private var params: WindowManager.LayoutParams? = null
 
     private val lifecycleOwner = object : LifecycleOwner {
-        private val registry = LifecycleRegistry(this)
+        private val registry = LifecycleRegistry(this).apply {
+            currentState = Lifecycle.State.RESUMED
+        }
         override val lifecycle: Lifecycle
             get() = registry
-    }
-
-    private val savedStateRegistryOwner = object : SavedStateRegistryOwner {
-        private val controller = SavedStateRegistryController.create(this)
-        override val savedStateRegistry: SavedStateRegistry
-            get() = controller.savedStateRegistry
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -50,7 +42,6 @@ class FloatingWindowService : Service(), Logger.LogListener {
         Logger.i("悬浮窗服务正在启动...")
         Logger.setLogListener(this)
 
-        lifecycleOwner.lifecycle.currentState = Lifecycle.State.RESUMED
         try {
             createFloatingView()
             Logger.i("悬浮窗服务启动完成")
@@ -73,7 +64,6 @@ class FloatingWindowService : Service(), Logger.LogListener {
 
         val composeView = ComposeView(this)
         composeView.setViewTreeLifecycleOwner(lifecycleOwner)
-        composeView.setViewTreeSavedStateRegistryOwner(savedStateRegistryOwner)
         composeView.setContent {
             AppTheme {
                 FloatingWindowContent(
