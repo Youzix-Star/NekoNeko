@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class AiConfigFragment extends Fragment {
         apiKeyInput = view.findViewById(R.id.ai_api_key_input);
         modelInput = view.findViewById(R.id.ai_model_input);
         promptInput = view.findViewById(R.id.ai_prompt_input);
+        promptInput.setMovementMethod(new ScrollingMovementMethod());
 
         // 回填已保存的配置
         AiManager.Config cfg = AiManager.load(requireContext());
