@@ -27,6 +27,16 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.8.0] - 2026-08-29
+
+### 变更
+- 重构为单 Activity + Fragment 结构，新增 Material 3 底部导航栏（首页 / AI 配置 / 关于）
+- 新增"关于"页面：应用信息、版本号、功能特性、技术栈、GitHub 链接、许可证
+- 莫奈取色改为官方方案：Android 12+ 直接使用 Theme.Material3.DynamicColors.Light
+  （移除手动 DynamicColors 调用与自定义动态 overlay）
+- 悬浮窗按 M3 规范重设计：24dp 圆角卡片、应用图标头像、分隔线、
+  "捕获内容"标签、Filled/Tonal/Icon/Text 按钮层级
+
 ## [1.7.0] - 2026-08-29
 
 ### 变更

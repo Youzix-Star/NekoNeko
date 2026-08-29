@@ -1,33 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Android 12+ 莫奈动态色 overlay（悬浮窗等非 Activity 场景使用） -->
-    <style name="AppTheme.Dynamic" parent="AppTheme">
-        <item name="colorPrimary">@android:color/system_accent1_600</item>
-        <item name="colorOnPrimary">@android:color/system_neutral1_100</item>
-        <item name="colorPrimaryContainer">@android:color/system_accent1_100</item>
-        <item name="colorOnPrimaryContainer">@android:color/system_accent1_900</item>
-
-        <item name="colorSecondary">@android:color/system_accent2_600</item>
-        <item name="colorOnSecondary">@android:color/system_neutral1_100</item>
-        <item name="colorSecondaryContainer">@android:color/system_accent2_100</item>
-        <item name="colorOnSecondaryContainer">@android:color/system_accent2_900</item>
-
-        <item name="colorTertiary">@android:color/system_accent3_600</item>
-        <item name="colorOnTertiary">@android:color/system_neutral1_100</item>
-        <item name="colorTertiaryContainer">@android:color/system_accent3_100</item>
-        <item name="colorOnTertiaryContainer">@android:color/system_accent3_900</item>
-
-        <item name="android:colorBackground">@android:color/system_neutral1_100</item>
-        <item name="colorOnBackground">@android:color/system_neutral1_900</item>
-        <item name="colorSurface">@android:color/system_neutral1_100</item>
-        <item name="colorOnSurface">@android:color/system_neutral1_900</item>
-        <item name="colorSurfaceVariant">@android:color/system_neutral1_200</item>
-        <item name="colorOnSurfaceVariant">@android:color/system_neutral1_700</item>
-        <item name="colorSurfaceContainerLow">@android:color/system_neutral1_50</item>
-        <item name="colorSurfaceContainer">@android:color/system_neutral1_200</item>
-        <item name="colorSurfaceContainerHigh">@android:color/system_neutral1_200</item>
-
-        <item name="colorOutline">@android:color/system_neutral1_500</item>
-        <item name="colorOutlineVariant">@android:color/system_neutral1_200</item>
+    <!-- Android 12+：官方动态色主题（跟随壁纸/系统配色）。
+         material 库的 DynamicColors 主题无 NoActionBar 变体，需手动隐藏 ActionBar。 -->
+    <style name="AppTheme" parent="Theme.Material3.DynamicColors.Light">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

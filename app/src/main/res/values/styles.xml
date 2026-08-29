@@ -1,5 +1,5 @@
 <resources>
-    <!-- Material Design 3 主题（浅色）；Android 12+ 由 NekoApplication 应用莫奈动态色 -->
+    <!-- Material Design 3 主题（浅色）；Android 12+ 由 values-v31 官方动态色主题覆盖 -->
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorOnPrimary">@color/colorOnPrimary</item>

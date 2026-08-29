@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="24dp"
     app:cardElevation="8dp">
 
     <LinearLayout
@@ -14,19 +14,25 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:minWidth="280dp">
+        android:minWidth="300dp">
 
         <!-- 标题栏 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="8dp">
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_launcher" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:text="@string/floating_window_title"
                 android:textAppearance="?attr/textAppearanceTitleMedium"
@@ -59,6 +65,13 @@
                 app:iconTint="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="12dp"
+            android:background="?attr/colorOutlineVariant" />
+
         <!-- 主体内容（最小化时隐藏） -->
         <LinearLayout
             android:id="@+id/window_body"
@@ -66,14 +79,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- 说明文字 -->
+            <!-- 捕获内容标签 -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/capture_hint"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:textColor="?attr/colorOnSurfaceVariant"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="4dp"
+                android:text="@string/capture_label"
+                android:textAppearance="?attr/textAppearanceLabelMedium"
+                android:textColor="?attr/colorOnSurfaceVariant" />
 
             <!-- 捕获的文本显示区域 -->
             <TextView
@@ -86,7 +99,7 @@
                 android:background="@drawable/text_background"
                 android:padding="12dp"
                 android:layout_marginBottom="12dp"
-                android:minHeight="60dp"
+                android:minHeight="64dp"
                 android:gravity="start|top" />
 
             <!-- 捕获按钮 -->
@@ -192,7 +205,7 @@
             <ScrollView
                 android:id="@+id/log_scroll_view"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="110dp"
                 android:background="@drawable/log_background"
                 android:padding="8dp"
                 android:layout_marginBottom="8dp">
