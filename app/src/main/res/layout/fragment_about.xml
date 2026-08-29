@@ -62,7 +62,7 @@
                     android:id="@+id/about_color_swatch"
                     android:layout_width="14dp"
                     android:layout_height="14dp"
-                    android:background="@drawable/accent_swatch"
+                    android:background="@drawable/accent_swatch" />
 
                 <TextView
                     android:id="@+id/about_device_info"
