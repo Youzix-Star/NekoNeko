@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.text.method.ScrollingMovementMethod;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ public class AiConfigFragment extends Fragment {
     private TextInputEditText baseUrlInput;
     private TextInputEditText apiKeyInput;
     private TextInputEditText modelInput;
-    private EditText promptInput;
+    private TextInputEditText promptInput;
 
     @Nullable
     @Override
@@ -42,7 +41,22 @@ public class AiConfigFragment extends Fragment {
         apiKeyInput = view.findViewById(R.id.ai_api_key_input);
         modelInput = view.findViewById(R.id.ai_model_input);
         promptInput = view.findViewById(R.id.ai_prompt_input);
-        promptInput.setMovementMethod(new ScrollingMovementMethod());
+
+        // 展开按钮：弹出全屏对话框编辑提示词
+        view.findViewById(R.id.expand_prompt_button).setOnClickListener(v -> {
+            View dialogView = getLayoutInflater().inflate(R.layout.dialog_prompt_edit, null);
+            EditText fullEditor = dialogView.findViewById(R.id.prompt_edit_full);
+            fullEditor.setText(promptInput.getText());
+
+            new MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.ai_prompt)
+                    .setView(dialogView)
+                    .setPositiveButton(R.string.ai_save, (d, w) -> {
+                        promptInput.setText(fullEditor.getText());
+                    })
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show();
+        });
 
         // 回填已保存的配置
         AiManager.Config cfg = AiManager.load(requireContext());

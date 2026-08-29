@@ -138,6 +138,7 @@
     <string name="ai_prompt">提示词</string>
     <string name="ai_prompt_helper">提示词中的 {text} 会替换为捕获的文本；没有 {text} 时，提示词作为指令、捕获文本作为内容发送</string>
     <string name="ai_restore_default_prompt">恢复默认提示词</string>
+    <string name="ai_expand_prompt">展开编辑</string>
     <string name="ai_save">保存</string>
     <string name="ai_config_saved">AI 配置已保存</string>
     <string name="ai_modifying">AI 修改中...</string>
