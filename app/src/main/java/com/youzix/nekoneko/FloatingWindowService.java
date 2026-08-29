@@ -15,10 +15,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FloatingWindowService extends Service implements AccessibilityService.TextCaptureListener {
+public class FloatingWindowService extends Service implements AccessibilityService.TextCaptureListener, Logger.LogListener {
 
     private static final String TAG = "FloatingWindowService";
     private WindowManager windowManager;
@@ -27,6 +29,8 @@ public class FloatingWindowService extends Service implements AccessibilityServi
     private float initialTouchX, initialTouchY;
     private int initialX, initialY;
     private TextView capturedTextTextView;
+    private TextView logTextView;
+    private ScrollView logScrollView;
     private BroadcastReceiver textCapturedReceiver;
 
     @Override
@@ -38,8 +42,13 @@ public class FloatingWindowService extends Service implements AccessibilityServi
     public void onCreate() {
         super.onCreate();
         
+        Logger.i("悬浮窗服务正在启动...");
+        
         // 获取WindowManager系统服务
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
+        
+        // 设置日志监听器
+        Logger.setLogListener(this);
         
         // 设置文本捕获监听器
         AccessibilityService.setTextCaptureListener(this);
@@ -49,6 +58,8 @@ public class FloatingWindowService extends Service implements AccessibilityServi
         
         // 创建悬浮窗视图
         createFloatingView();
+        
+        Logger.i("悬浮窗服务启动完成");
     }
 
     private void registerTextCapturedReceiver() {
@@ -58,6 +69,7 @@ public class FloatingWindowService extends Service implements AccessibilityServi
                 if ("com.youzix.nekoneko.TEXT_CAPTURED".equals(intent.getAction())) {
                     String capturedText = intent.getStringExtra("captured_text");
                     if (capturedText != null && !capturedText.isEmpty()) {
+                        Logger.i("通过广播接收到捕获的文本");
                         updateCapturedText(capturedText);
                     }
                 }
@@ -70,14 +82,20 @@ public class FloatingWindowService extends Service implements AccessibilityServi
         } else {
             registerReceiver(textCapturedReceiver, filter);
         }
+        
+        Logger.d("广播接收器注册完成");
     }
 
     private void createFloatingView() {
+        Logger.d("正在创建悬浮窗视图...");
+        
         // 加载悬浮窗布局
         floatingView = LayoutInflater.from(this).inflate(R.layout.floating_window, null);
         
         // 获取文本显示控件
         capturedTextTextView = floatingView.findViewById(R.id.captured_text);
+        logTextView = floatingView.findViewById(R.id.log_text);
+        logScrollView = floatingView.findViewById(R.id.log_scroll_view);
         
         // 设置悬浮窗参数
         int layoutFlag;
@@ -111,6 +129,11 @@ public class FloatingWindowService extends Service implements AccessibilityServi
         
         // 设置捕获按钮
         setupCaptureButton();
+        
+        // 设置清除日志按钮
+        setupClearLogButton();
+        
+        Logger.d("悬浮窗视图创建完成");
     }
 
     private void setupTouchListener() {
@@ -139,10 +162,11 @@ public class FloatingWindowService extends Service implements AccessibilityServi
     }
 
     private void setupCloseButton() {
-        Button closeButton = floatingView.findViewById(R.id.close_button);
+        ImageButton closeButton = floatingView.findViewById(R.id.close_button);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Logger.i("用户点击关闭按钮");
                 // 关闭悬浮窗服务
                 stopSelf();
             }
@@ -154,17 +178,22 @@ public class FloatingWindowService extends Service implements AccessibilityServi
         captureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Logger.i("用户点击捕获按钮");
+                
                 // 尝试获取当前窗口文本
                 AccessibilityService accessibilityService = AccessibilityService.getInstance();
                 if (accessibilityService != null) {
+                    Logger.d("无障碍服务已连接，尝试获取文本...");
                     String text = accessibilityService.getCurrentWindowText();
                     if (!text.isEmpty()) {
                         updateCapturedText(text);
                     } else {
+                        Logger.w("未捕获到文本");
                         Toast.makeText(FloatingWindowService.this, 
                             "未找到可捕获的文本", Toast.LENGTH_SHORT).show();
                     }
                 } else {
+                    Logger.w("无障碍服务未连接");
                     Toast.makeText(FloatingWindowService.this, 
                         "请先启用无障碍服务", Toast.LENGTH_SHORT).show();
                 }
@@ -172,9 +201,27 @@ public class FloatingWindowService extends Service implements AccessibilityServi
         });
     }
 
+    private void setupClearLogButton() {
+        Button clearLogButton = floatingView.findViewById(R.id.clear_log_button);
+        clearLogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.i("用户点击清除日志按钮");
+                Logger.clearLogs();
+                updateLogDisplay();
+            }
+        });
+    }
+
     @Override
     public void onTextCaptured(String text) {
+        Logger.i("通过监听器接收到捕获的文本");
         updateCapturedText(text);
+    }
+
+    @Override
+    public void onLogAdded(String logEntry) {
+        updateLogDisplay();
     }
 
     private void updateCapturedText(String text) {
@@ -184,6 +231,29 @@ public class FloatingWindowService extends Service implements AccessibilityServi
                 @Override
                 public void run() {
                     capturedTextTextView.setText(text);
+                    Logger.d("悬浮窗文本显示已更新");
+                }
+            });
+        }
+    }
+
+    private void updateLogDisplay() {
+        if (logTextView != null) {
+            new android.os.Handler(android.os.Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    String logText = Logger.getLogEntriesAsString();
+                    logTextView.setText(logText);
+                    
+                    // 自动滚动到底部
+                    if (logScrollView != null) {
+                        logScrollView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                logScrollView.fullScroll(View.FOCUS_DOWN);
+                            }
+                        });
+                    }
                 }
             });
         }
@@ -193,17 +263,26 @@ public class FloatingWindowService extends Service implements AccessibilityServi
     public void onDestroy() {
         super.onDestroy();
         
+        Logger.i("悬浮窗服务正在销毁...");
+        
         // 注销广播接收器
         if (textCapturedReceiver != null) {
             unregisterReceiver(textCapturedReceiver);
+            Logger.d("广播接收器已注销");
         }
         
         // 移除文本捕获监听器
         AccessibilityService.setTextCaptureListener(null);
         
+        // 移除日志监听器
+        Logger.setLogListener(null);
+        
         // 移除悬浮窗
         if (floatingView != null) {
             windowManager.removeView(floatingView);
+            Logger.d("悬浮窗已移除");
         }
+        
+        Logger.w("悬浮窗服务已销毁");
     }
 }

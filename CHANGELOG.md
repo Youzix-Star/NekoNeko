@@ -13,10 +13,18 @@
 - 项目文档（README、贡献指南、APK下载指南）
 
 ### 变更
-- 无
+- 配色从粉/红/橙改为浅蓝色系（Material Light Blue）
+- 主题升级为 Material Design 2（Theme.MaterialComponents）
+- 悬浮窗改用 MaterialCardView + MaterialButton，MD2 风格化
+- 按钮全部使用 Material 图标（关闭/复制/删除/无障碍/画中画）
 
 ### 修复
-- 无
+- 文本捕获不再依赖固定 view id，改为递归遍历节点树，兼容更多应用
+- 捕获文本无变化时不再重复通知，避免刷屏
+- 窗口内容变化事件加入节流，避免频繁全量捕获
+- 常规无障碍事件降为 DEBUG 日志，不再刷屏日志区
+- 修复缺失的 log_background drawable（此前会导致编译失败）
+- 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 
 ## [1.0.0] - 2024-01-01
 

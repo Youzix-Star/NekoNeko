@@ -14,4 +14,10 @@
     <string name="no_text_found">未找到可捕获的文本</string>
     <string name="please_enable_accessibility">请先启用无障碍服务</string>
     <string name="accessibility_service_enabled">无障碍服务已启用</string>
+    <string name="close_floating_window">关闭悬浮窗</string>
+    <string name="capture_hint">通过无障碍服务捕获屏幕文本：</string>
+    <string name="running_log">运行日志：</string>
+    <string name="clear_log">清除</string>
+    <string name="log_waiting">等待日志...</string>
+    <string name="status_hint">提示：请确保已启用无障碍服务</string>
 </resources>
