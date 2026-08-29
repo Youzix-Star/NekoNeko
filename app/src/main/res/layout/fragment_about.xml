@@ -31,6 +31,8 @@
                 android:backgroundTint="?attr/colorPrimaryContainer"
                 android:contentDescription="@string/app_name"
                 android:padding="14dp"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher" />
 
             <TextView
@@ -94,6 +96,8 @@
                 android:backgroundTint="?attr/colorSecondaryContainer"
                 android:contentDescription="@string/about_features"
                 android:padding="8dp"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_content_copy"
                 android:tint="?attr/colorOnSecondaryContainer" />
 
@@ -138,6 +142,8 @@
                 android:backgroundTint="?attr/colorSecondaryContainer"
                 android:contentDescription="@string/about_tech"
                 android:padding="8dp"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_auto_fix"
                 android:tint="?attr/colorOnSecondaryContainer" />
 
@@ -184,6 +190,8 @@
                 android:backgroundTint="?attr/colorSecondaryContainer"
                 android:contentDescription="@string/about_sponsor"
                 android:padding="8dp"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_coffee"
                 android:tint="?attr/colorOnSecondaryContainer" />
 
@@ -237,6 +245,8 @@
                 android:backgroundTint="?attr/colorSecondaryContainer"
                 android:contentDescription="@string/about_github"
                 android:padding="8dp"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_open_in_new"
                 android:tint="?attr/colorOnSecondaryContainer" />
 

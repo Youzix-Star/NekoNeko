@@ -142,12 +142,12 @@
     <string name="welcome_theme_title">主题色</string>
 
     <string name="about_description">NekoNeko 是一个轻量的文本捕获悬浮窗工具：手动捕获正在输入的文本框，支持替换、追加，并可通过 AI 改写文本。</string>
-    <string name="about_features">功能特性</string>
+    <string name="about_features">Ciallo～(∠·ω< )⌒★</string>
     <string name="about_feature_capture">手动捕获当前输入框文本，支持替换与追加</string>
     <string name="about_feature_ai">AI 修改：调用自选模型改写文本并替换回输入框</string>
     <string name="about_feature_float">可拖动、可最小化的悬浮窗，Android 12+ 跟随系统莫奈配色</string>
     <string name="about_tech">技术栈</string>
-    <string name="about_tech_content">Material Design 3 Expressive（material 1.12.0）· AndroidX · 无障碍服务 · 悬浮窗 · OpenAI 兼容 AI 接口</string>
+    <string name="about_tech_content">Java · Material 3 · 无障碍服务 · OpenAI 兼容接口</string>
     <string name="about_sponsor">赞助</string>
     <string name="about_sponsor_sub">请作者喝杯咖啡</string>
     <string name="about_sponsor_message">不用给我赞助的，谢谢你的好意啦！\n\n如果你真想赞助我的话，那就拿这钱去给你自己买颗糖吧😉</string>

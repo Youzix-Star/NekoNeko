@@ -65,6 +65,8 @@
                 android:backgroundTint="?attr/colorSecondaryContainer"
                 android:contentDescription="@string/row_accessibility"
                 android:padding="8dp"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_accessibility"
                 android:tint="?attr/colorOnSecondaryContainer" />
 
@@ -119,6 +121,8 @@
                 android:backgroundTint="?attr/colorSecondaryContainer"
                 android:contentDescription="@string/row_floating"
                 android:padding="8dp"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_picture_in_picture"
                 android:tint="?attr/colorOnSecondaryContainer" />
 
