@@ -27,6 +27,13 @@
 - 忽略 NekoNeko 自身窗口，避免捕获到悬浮窗内文本
 - 修复悬浮窗不显示（Material 组件在 overlay 窗口的兼容问题，改用普通 View 方案）
 
+## [1.3.0] - 2026-08-29
+
+### 新增
+- 悬浮窗新增"替换"按钮：将当前输入框内容整体替换为 test（ACTION_SET_TEXT）
+- 悬浮窗新增"增加"按钮：在当前输入框文本末尾追加 test（ACTION_SET_TEXT）
+- 新增 swap_horiz / add Material 图标
+
 ## [1.2.0] - 2026-08-29
 
 ### 变更

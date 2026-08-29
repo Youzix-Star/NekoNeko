@@ -10,6 +10,10 @@
     <string name="enable_accessibility_service">启用无障碍服务</string>
     <string name="accessibility_service_description">NekoNeko无障碍服务用于捕获屏幕文本，实现悬浮窗文本显示功能。</string>
     <string name="capture_text">捕获文本</string>
+    <string name="replace_text">替换</string>
+    <string name="append_text">增加</string>
+    <string name="replace_success">已将输入框内容替换为 test</string>
+    <string name="append_success">已在文本末尾追加 test</string>
     <string name="waiting_for_text">等待捕获文本...</string>
     <string name="no_text_found">未检测到正在输入的文本框</string>
     <string name="please_enable_accessibility">请先启用无障碍服务</string>

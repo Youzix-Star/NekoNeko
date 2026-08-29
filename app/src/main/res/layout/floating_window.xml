@@ -76,6 +76,41 @@
         android:textSize="14sp"
         android:layout_marginBottom="8dp" />
 
+    <!-- 替换 / 增加 按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="8dp">
+
+        <Button
+            android:id="@+id/replace_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/replace_text"
+            android:textColor="@color/colorOnPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableStart="@drawable/ic_swap_horiz"
+            android:drawablePadding="6dp"
+            android:textAllCaps="false"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/append_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/append_text"
+            android:textColor="@color/colorOnPrimary"
+            android:backgroundTint="@color/colorPrimary"
+            android:drawableStart="@drawable/ic_add"
+            android:drawablePadding="6dp"
+            android:textAllCaps="false"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <!-- 日志区域标题 -->
     <LinearLayout
         android:layout_width="match_parent"

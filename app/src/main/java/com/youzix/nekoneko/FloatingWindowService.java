@@ -103,6 +103,12 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         // 设置捕获按钮
         setupCaptureButton();
         
+        // 设置替换按钮
+        setupReplaceButton();
+        
+        // 设置增加按钮
+        setupAppendButton();
+        
         // 设置清除日志按钮
         setupClearLogButton();
         
@@ -169,6 +175,54 @@ public class FloatingWindowService extends Service implements Logger.LogListener
                     Logger.w("无障碍服务未连接");
                     Toast.makeText(FloatingWindowService.this, 
                         "请先启用无障碍服务", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void setupReplaceButton() {
+        Button replaceButton = floatingView.findViewById(R.id.replace_button);
+        replaceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.i("用户点击替换按钮");
+                AccessibilityService service = AccessibilityService.getInstance();
+                if (service == null) {
+                    Logger.w("无障碍服务未连接");
+                    Toast.makeText(FloatingWindowService.this,
+                            "请先启用无障碍服务", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (service.replaceInputText("test")) {
+                    Toast.makeText(FloatingWindowService.this,
+                            getString(R.string.replace_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(FloatingWindowService.this,
+                            getString(R.string.no_text_found), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void setupAppendButton() {
+        Button appendButton = floatingView.findViewById(R.id.append_button);
+        appendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.i("用户点击增加按钮");
+                AccessibilityService service = AccessibilityService.getInstance();
+                if (service == null) {
+                    Logger.w("无障碍服务未连接");
+                    Toast.makeText(FloatingWindowService.this,
+                            "请先启用无障碍服务", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (service.appendInputText("test")) {
+                    Toast.makeText(FloatingWindowService.this,
+                            getString(R.string.append_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(FloatingWindowService.this,
+                            getString(R.string.no_text_found), Toast.LENGTH_SHORT).show();
                 }
             }
         });
