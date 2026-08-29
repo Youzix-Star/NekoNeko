@@ -278,11 +278,21 @@
                 android:tint="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
+        <!-- 设备信息 -->
+        <TextView
+            android:id="@+id/about_device_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/about_device_info_placeholder"
+            android:textAppearance="?attr/textAppearanceLabelSmall"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="4dp"
             android:gravity="center"
             android:text="@string/about_license"
             android:textAppearance="?attr/textAppearanceLabelSmall"
