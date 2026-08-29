@@ -57,9 +57,15 @@ public class FloatingWindowService extends Service implements AccessibilityServi
         registerTextCapturedReceiver();
         
         // 创建悬浮窗视图
-        createFloatingView();
-        
-        Logger.i("悬浮窗服务启动完成");
+        try {
+            createFloatingView();
+            Logger.i("悬浮窗服务启动完成");
+        } catch (Exception e) {
+            // 创建失败时给出可见提示，避免"提示已启动但窗口未显示"
+            Logger.e("悬浮窗创建失败", e);
+            Toast.makeText(this, "悬浮窗创建失败: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            stopSelf();
+        }
     }
 
     private void registerTextCapturedReceiver() {
@@ -109,7 +115,8 @@ public class FloatingWindowService extends Service implements AccessibilityServi
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 layoutFlag,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
                 PixelFormat.TRANSLUCENT
         );
 
