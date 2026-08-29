@@ -44,11 +44,4 @@
     <!-- Outline (GR) -->
     <color name="colorOutline">#75796C</color>
     <color name="colorOutlineVariant">#C5C8BA</color>
-
-    <!-- 主题色选择器色块（各方案主色） -->
-    <color name="accent_lemon_primary">#6D5E0F</color>
-    <color name="accent_wh_primary">#5C5C5C</color>
-    <color name="accent_koharu_primary">#8F4A4D</color>
-    <color name="accent_sora_primary">#3B608F</color>
-    <color name="accent_elink_primary">#000000</color>
 </resources>

@@ -32,20 +32,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 主题：DEFAULT=GR（静态主题本身即 GR）；MONET=Android 12+ 系统莫奈动态色；
-        // 其余 = 预设色板 overlay
-        int accent = AccentTheme.load(this);
-        if (accent == AccentTheme.MONET) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                getTheme().applyStyle(
-                        com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
-                        true);
-            }
-        } else {
-            int overlay = AccentTheme.overlayStyle(accent);
-            if (overlay != 0) {
-                getTheme().applyStyle(overlay, true);
-            }
+        // Android 12+：始终应用莫奈动态取色（官方 ThemeOverlay，与系统壁纸同源）
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            getTheme().applyStyle(
+                    com.google.android.material.R.style.ThemeOverlay_Material3_DynamicColors_Light,
+                    true);
         }
 
         setContentView(R.layout.activity_main);

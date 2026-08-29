@@ -151,23 +151,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         android.net.Uri.parse("package:" + getPackageName())));
             });
-        } else if (position == 3) {
-            final int[] buttonIds = {
-                    R.id.accent_default_button, R.id.accent_monet_button,
-                    R.id.accent_lemon_button, R.id.accent_wh_button,
-                    R.id.accent_koharu_button, R.id.accent_sora_button, R.id.accent_elink_button
-            };
-            final int[] accents = {
-                    AccentTheme.DEFAULT, AccentTheme.MONET, AccentTheme.LEMON, AccentTheme.WH,
-                    AccentTheme.KOHARU, AccentTheme.SORA, AccentTheme.ELINK
-            };
-            for (int i = 0; i < buttonIds.length; i++) {
-                final int accent = accents[i];
-                page.findViewById(buttonIds[i]).setOnClickListener(v -> {
-                    AccentTheme.save(WelcomeActivity.this, accent);
-                    Toast.makeText(WelcomeActivity.this, R.string.about_accent_applied, Toast.LENGTH_SHORT).show();
-                });
-            }
         }
     }
 

@@ -83,25 +83,6 @@ public class AboutFragment extends Fragment {
             }
         }
 
-        // 手动主题色选择
-        final int[] buttonIds = {
-                R.id.accent_default_button, R.id.accent_monet_button,
-                R.id.accent_lemon_button, R.id.accent_wh_button,
-                R.id.accent_koharu_button, R.id.accent_sora_button, R.id.accent_elink_button
-        };
-        final int[] accents = {
-                AccentTheme.DEFAULT, AccentTheme.MONET, AccentTheme.LEMON, AccentTheme.WH,
-                AccentTheme.KOHARU, AccentTheme.SORA, AccentTheme.ELINK
-        };
-        for (int i = 0; i < buttonIds.length; i++) {
-            final int accent = accents[i];
-            view.findViewById(buttonIds[i]).setOnClickListener(v -> {
-                AccentTheme.save(requireContext(), accent);
-                Toast.makeText(requireContext(), R.string.about_accent_applied, Toast.LENGTH_SHORT).show();
-                requireActivity().recreate();
-            });
-        }
-
         view.findViewById(R.id.about_github_button).setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://github.com/Youzix-Star/NekoNeko"));

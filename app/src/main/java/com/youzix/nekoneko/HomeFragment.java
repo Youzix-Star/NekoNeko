@@ -1,5 +1,6 @@
 package com.youzix.nekoneko;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,11 +18,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 /**
- * 首页：应用介绍 + 无障碍 / 悬浮窗 / AI 配置入口。
+ * 首页（设置列表式）：无障碍服务 / 悬浮窗 / AI 配置。
  */
 public class HomeFragment extends Fragment {
 
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 1234;
+
+    private TextView statusAccessibility;
+    private TextView statusFloating;
 
     @Nullable
     @Override
@@ -34,37 +38,57 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        TextView welcomeText = view.findViewById(R.id.welcome_text);
-        welcomeText.setText("NekoNeko");
+        statusAccessibility = view.findViewById(R.id.status_accessibility);
+        statusFloating = view.findViewById(R.id.status_floating);
 
-        view.findViewById(R.id.accessibility_button).setOnClickListener(v -> {
-            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-            startActivity(intent);
-            Toast.makeText(requireContext(), "请启用NekoNeko无障碍服务", Toast.LENGTH_LONG).show();
+        view.findViewById(R.id.row_accessibility).setOnClickListener(v -> {
+            startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
         });
 
-        view.findViewById(R.id.floating_window_button).setOnClickListener(v -> {
-            Context ctx = requireContext();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(ctx)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + ctx.getPackageName()));
-                startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE);
-            } else {
-                startFloatingWindowService();
-            }
-        });
+        view.findViewById(R.id.row_floating).setOnClickListener(v -> toggleFloatingWindow());
 
-        view.findViewById(R.id.ai_config_button).setOnClickListener(v -> {
+        view.findViewById(R.id.row_ai_config).setOnClickListener(v -> {
             if (getActivity() instanceof MainActivity) {
                 ((MainActivity) getActivity()).selectTab(R.id.nav_config);
             }
         });
     }
 
-    private void startFloatingWindowService() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshStatus();
+    }
+
+    private void refreshStatus() {
         Context ctx = requireContext();
-        ctx.startService(new Intent(ctx, FloatingWindowService.class));
-        Toast.makeText(ctx, R.string.floating_window_started, Toast.LENGTH_SHORT).show();
+        if (statusAccessibility != null) {
+            statusAccessibility.setText(isAccessibilityEnabled(ctx)
+                    ? R.string.acc_on : R.string.acc_off);
+        }
+        if (statusFloating != null) {
+            statusFloating.setText(isServiceRunning(ctx, FloatingWindowService.class)
+                    ? R.string.floating_running : R.string.floating_stopped);
+        }
+    }
+
+    private void toggleFloatingWindow() {
+        Context ctx = requireContext();
+        if (isServiceRunning(ctx, FloatingWindowService.class)) {
+            ctx.stopService(new Intent(ctx, FloatingWindowService.class));
+            Toast.makeText(ctx, R.string.floating_stopped, Toast.LENGTH_SHORT).show();
+            refreshStatus();
+            return;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(ctx)) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + ctx.getPackageName()));
+            startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE);
+        } else {
+            ctx.startService(new Intent(ctx, FloatingWindowService.class));
+            Toast.makeText(ctx, R.string.floating_window_started, Toast.LENGTH_SHORT).show();
+            refreshStatus();
+        }
     }
 
     @Override
@@ -73,10 +97,31 @@ public class HomeFragment extends Fragment {
         if (requestCode == OVERLAY_PERMISSION_REQUEST_CODE) {
             Context ctx = requireContext();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(ctx)) {
-                startFloatingWindowService();
+                ctx.startService(new Intent(ctx, FloatingWindowService.class));
+                Toast.makeText(ctx, R.string.floating_window_started, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(ctx, R.string.floating_window_permission_needed, Toast.LENGTH_SHORT).show();
             }
+            refreshStatus();
         }
+    }
+
+    private boolean isAccessibilityEnabled(Context ctx) {
+        String enabled = Settings.Secure.getString(ctx.getContentResolver(),
+                Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+        return enabled != null && enabled.contains(ctx.getPackageName());
+    }
+
+    private boolean isServiceRunning(Context ctx, Class<?> serviceClass) {
+        ActivityManager am = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+        if (am == null) {
+            return false;
+        }
+        for (ActivityManager.RunningServiceInfo info : am.getRunningServices(200)) {
+            if (serviceClass.getName().equals(info.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

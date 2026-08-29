@@ -20,20 +20,24 @@
     <string name="tab_config">AI 配置</string>
     <string name="tab_about">关于</string>
     <string name="about_version_placeholder">版本 v1.0</string>
+    <string name="row_accessibility">无障碍服务</string>
+    <string name="row_accessibility_sub">捕获当前正在输入的文本框内容</string>
+    <string name="row_floating">悬浮窗</string>
+    <string name="row_floating_sub">在任意界面显示捕获文本与操作按钮</string>
+    <string name="row_ai">AI 配置</string>
+    <string name="row_ai_sub">模型、提示词与预设设置</string>
+    <string name="row_enter">进入</string>
+    <string name="acc_on">已启用</string>
+    <string name="acc_off">未启用</string>
+    <string name="floating_running">运行中</string>
+    <string name="floating_stopped">未运行</string>
+    <string name="section_service">服务配置</string>
+    <string name="about_github_sub">在 GitHub 上查看源码与提交问题</string>
+    <string name="welcome_theme_body">Android 12+ 自动使用系统莫奈配色（跟随壁纸）；Android 11 及以下使用默认配色。</string>
+
     <string name="about_version_fmt">版本 v%1$s</string>
     <string name="about_device_info_placeholder">Android 系统 · 动态取色 ?</string>
     <string name="about_device_info_fmt">Android %1$d · 动态取色%2$s · 壁纸色%3$s · 主题色 %4$s</string>
-    <string name="about_accent">主题色</string>
-    <string name="about_accent_hint">主题色板取自 legado-with-MD3；莫奈仅在 Android 12+ 可用</string>
-    <string name="about_accent_monet">莫奈</string>
-    <string name="about_accent_gr">默认</string>
-    <string name="about_accent_default">默认配色（GR）</string>
-    <string name="about_accent_lemon">柠檬</string>
-    <string name="about_accent_wh">白灰</string>
-    <string name="about_accent_koharu">小春</string>
-    <string name="about_accent_sora">苍穹</string>
-    <string name="about_accent_elink">墨水</string>
-    <string name="about_accent_applied">已应用主题色</string>
     <string name="welcome_prev">上一步</string>
     <string name="welcome_next">下一步</string>
     <string name="welcome_agree">阅读并同意</string>
@@ -56,7 +60,6 @@
     <string name="welcome_3_title">选择主题</string>
     <string name="welcome_3_summary">Android 12+ 默认跟随系统莫奈配色；也可手动选择喜欢的主题色，随时可在"关于"页更改。</string>
     <string name="welcome_theme_title">主题色</string>
-    <string name="welcome_theme_body">选择你喜欢的主题色，或保留"莫奈"跟随系统壁纸配色。</string>
 
     <string name="about_description">NekoNeko 是一个轻量的文本捕获悬浮窗工具：手动捕获正在输入的文本框，支持替换、追加，并可通过 AI 改写文本。</string>
     <string name="about_features">功能特性</string>
