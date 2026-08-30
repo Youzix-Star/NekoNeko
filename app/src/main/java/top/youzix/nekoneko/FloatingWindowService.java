@@ -526,7 +526,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         FrameLayout.LayoutParams innerLp = new FrameLayout.LayoutParams(innerPx, innerPx);
         innerLp.gravity = android.view.Gravity.CENTER;
 
-        View iconView = quickBallView.findViewById(R.id.quick_ball_icon);
+        ImageView iconView = quickBallView.findViewById(R.id.quick_ball_icon);
         TextView textView = quickBallView.findViewById(R.id.quick_ball_text);
         ProgressBar progressView = quickBallView.findViewById(R.id.quick_ball_progress);
 
@@ -664,7 +664,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         FrameLayout.LayoutParams innerLp = new FrameLayout.LayoutParams(innerPx, innerPx);
         innerLp.gravity = android.view.Gravity.CENTER;
 
-        View iconView = quickBallView.findViewById(R.id.quick_ball_icon);
+        ImageView iconView = quickBallView.findViewById(R.id.quick_ball_icon);
         TextView textView = quickBallView.findViewById(R.id.quick_ball_text);
 
         if (FloatingWindowPrefs.BALL_TEXT.equals(prefs.ballContentType)) {
