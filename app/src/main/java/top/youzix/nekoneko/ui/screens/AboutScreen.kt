@@ -11,8 +11,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -43,6 +43,12 @@ fun AboutScreen() {
     var showUpdateDialog by remember { mutableStateOf(false) }
     var updateDialogText by remember { mutableStateOf("") }
 
+    // Pre-resolve strings outside callbacks (strings require Composable context)
+    val checkUpdateSub = stringResource(R.string.about_check_update_sub)
+    val updateAvailableSub = stringResource(R.string.about_update_available_sub)
+    val updateLatest = stringResource(R.string.about_update_latest)
+    val aboutCheckUpdate = stringResource(R.string.about_check_update)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,9 +71,9 @@ fun AboutScreen() {
             Spacer(Modifier.height(12.dp))
             Text("NekoNeko", style = MaterialTheme.typography.headlineSmall)
             Text(versionText, style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.alpha(0.7f))
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
             Text(deviceInfo, style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant.alpha(0.7f))
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
         }
 
         // 功能特性
@@ -102,23 +108,23 @@ fun AboutScreen() {
             // 检测更新
             Row(modifier = Modifier.fillMaxWidth().clickable {
                 updateStatus = "正在检查更新…"
-                updateSub = stringResource(R.string.about_check_update_sub)
+                updateSub = checkUpdateSub
                 UpdateChecker.checkForUpdate(context, object : UpdateChecker.Callback {
                     override fun onUpdateAvailable(latestVersion: String, body: String?, apkUrl: String?) {
                         updateStatus = "发现新版本 v$latestVersion"
-                        updateSub = stringResource(R.string.about_update_available_sub)
+                        updateSub = updateAvailableSub
                         updateDialogText = body?.trim()?.ifEmpty { updateStatus } ?: updateStatus
                         showUpdateDialog = true
                     }
                     override fun onNoUpdate() {
-                        updateStatus = stringResource(R.string.about_update_latest)
+                        updateStatus = updateLatest
                         try {
                             val ver = context.packageManager.getPackageInfo(context.packageName, 0).versionName
                             updateSub = "当前版本 v$ver"
-                        } catch (_: Exception) { updateSub = stringResource(R.string.about_check_update_sub) }
+                        } catch (_: Exception) { updateSub = checkUpdateSub }
                     }
                     override fun onError(message: String?) {
-                        updateStatus = stringResource(R.string.about_check_update)
+                        updateStatus = aboutCheckUpdate
                         updateSub = "检查失败：${message ?: "未知错误"}"
                     }
                 })
@@ -126,16 +132,16 @@ fun AboutScreen() {
                 Icon(painterResource(R.drawable.ic_info), null,
                     modifier = Modifier.size(40.dp).padding(8.dp), tint = MaterialTheme.colorScheme.onSecondaryContainer)
                 Column(Modifier.weight(1f).padding(start = 12.dp)) {
-                    Text(updateStatus.ifEmpty { stringResource(R.string.about_check_update) }, style = MaterialTheme.typography.titleSmall)
-                    Text(updateSub.ifEmpty { stringResource(R.string.about_check_update_sub) }, style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.alpha(0.7f))
+                    Text(updateStatus.ifEmpty { aboutCheckUpdate }, style = MaterialTheme.typography.titleSmall)
+                    Text(updateSub.ifEmpty { checkUpdateSub }, style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
                 }
                 Icon(painterResource(R.drawable.ic_chevron_right), null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
 
         Text(stringResource(R.string.about_license), style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant.alpha(0.5f),
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
             modifier = Modifier.fillMaxWidth().padding(top = 12.dp).wrapContentWidth(Alignment.CenterHorizontally))
         Spacer(Modifier.height(16.dp))
     }
@@ -168,7 +174,7 @@ fun FeatureRow(iconRes: Int, title: String, subtitle: String, trailing: Boolean 
         Icon(painterResource(iconRes), null, modifier = Modifier.size(40.dp).padding(8.dp), tint = MaterialTheme.colorScheme.onSecondaryContainer)
         Column(Modifier.weight(1f).padding(start = 12.dp)) {
             Text(title, style = MaterialTheme.typography.titleSmall)
-            Text(subtitle, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant.alpha(0.7f))
+            Text(subtitle, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
         }
         if (trailing) Icon(painterResource(R.drawable.ic_chevron_right), null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
     }
@@ -176,5 +182,5 @@ fun FeatureRow(iconRes: Int, title: String, subtitle: String, trailing: Boolean 
 
 @Composable
 fun DividerRow() {
-    HorizontalDivider(modifier = Modifier.padding(start = 58.dp), color = MaterialTheme.colorScheme.outline.alpha(0.15f), thickness = 1.dp)
+    HorizontalDivider(modifier = Modifier.padding(start = 58.dp), color = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f), thickness = 1.dp)
 }
