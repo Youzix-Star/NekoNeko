@@ -41,7 +41,7 @@
         app:trackThickness="3dp"
         app:trackCornerRadius="1.5dp"
         app:indicatorInset="0dp"
-        app:indeterminateAnimationType="non_syncing"
+        app:indeterminateAnimationType="contiguous"
         android:visibility="gone" />
 
 </FrameLayout>
