@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -280,12 +279,7 @@ fun AiConfigScreen() {
                     visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(onClick = { showPassword = !showPassword }) {
-                            Icon(
-                                painter = painterResource(
-                                    if (showPassword) R.drawable.ic_visibility_off else R.drawable.ic_visibility
-                                ),
-                                contentDescription = if (showPassword) "隐藏" else "显示"
-                            )
+                            Text(if (showPassword) "🙈" else "👁")
                         }
                     }
                 )
