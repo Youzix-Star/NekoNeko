@@ -71,7 +71,7 @@ public class AboutFragment extends Fragment {
 
         view.findViewById(R.id.about_check_update_button).setOnClickListener(v -> {
             updateStatus.setText(R.string.about_update_checking);
-            updateSub.setText("");
+            updateSub.setText(R.string.about_check_update_sub);
             UpdateChecker.checkForUpdate(requireContext(), new UpdateChecker.Callback() {
                 @Override
                 public void onUpdateAvailable(String latestVersion, String body, String apkUrl) {
@@ -97,7 +97,14 @@ public class AboutFragment extends Fragment {
                 public void onNoUpdate() {
                     if (!isAdded()) return;
                     updateStatus.setText(R.string.about_update_latest);
-                    updateSub.setText("");
+                    // 显示当前版本号作为副标题
+                    try {
+                        String ver = requireContext().getPackageManager()
+                                .getPackageInfo(requireContext().getPackageName(), 0).versionName;
+                        updateSub.setText(getString(R.string.about_update_latest_sub, ver));
+                    } catch (PackageManager.NameNotFoundException e) {
+                        updateSub.setText(R.string.about_check_update_sub);
+                    }
                 }
 
                 @Override
