@@ -49,11 +49,47 @@ fun RingChart(
         val sweepCached = 360f * cachedTokens / total
         val sweepCompletion = 360f * completionTokens / total
 
-        drawArc(colorBackground, 0f, 360f, false, topLeft, arcSize, Stroke(stroke, cap = StrokeCap.Round))
-        drawArc(colorPrompt, -90f, sweepPrompt, false, topLeft, arcSize, Stroke(stroke, cap = StrokeCap.Round))
+        // Background ring
+        drawArc(
+            color = colorBackground,
+            startAngle = 0f,
+            sweepAngle = 360f,
+            useCenter = false,
+            topLeft = topLeft,
+            size = arcSize,
+            style = Stroke(width = stroke, cap = StrokeCap.Round),
+        )
+        // Prompt tokens
+        drawArc(
+            color = colorPrompt,
+            startAngle = -90f,
+            sweepAngle = sweepPrompt,
+            useCenter = false,
+            topLeft = topLeft,
+            size = arcSize,
+            style = Stroke(width = stroke, cap = StrokeCap.Round),
+        )
+        // Cached tokens
         if (cachedTokens > 0) {
-            drawArc(colorCached, -90f, sweepCached, false, topLeft, arcSize, Stroke(stroke, cap = StrokeCap.Round))
+            drawArc(
+                color = colorCached,
+                startAngle = -90f,
+                sweepAngle = sweepCached,
+                useCenter = false,
+                topLeft = topLeft,
+                size = arcSize,
+                style = Stroke(width = stroke, cap = StrokeCap.Round),
+            )
         }
-        drawArc(colorCompletion, -90f + sweepPrompt, sweepCompletion, false, topLeft, arcSize, Stroke(stroke, cap = StrokeCap.Round))
+        // Completion tokens
+        drawArc(
+            color = colorCompletion,
+            startAngle = -90f + sweepPrompt,
+            sweepAngle = sweepCompletion,
+            useCenter = false,
+            topLeft = topLeft,
+            size = arcSize,
+            style = Stroke(width = stroke, cap = StrokeCap.Round),
+        )
     }
 }

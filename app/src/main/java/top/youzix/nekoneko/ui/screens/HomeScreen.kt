@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -37,7 +38,8 @@ fun HomeScreen() {
     var accessibilityEnabled by remember { mutableStateOf(checkAccessibilityEnabled(context)) }
     var floatingRunning by remember { mutableStateOf(checkServiceRunning(context, FloatingWindowService::class.java)) }
     var darkModeLabel by remember { mutableStateOf(getDarkModeLabel(context)) }
-    var colorThemeLabel by remember { mutableStateOf(ComposeThemeManager.getThemeName(context, ComposeThemeManager.currentThemeId.collectAsState().value)) }
+    val currentThemeId by ComposeThemeManager.currentThemeId.collectAsState()
+    var colorThemeLabel by remember(currentThemeId) { mutableStateOf(ComposeThemeManager.getThemeName(context, currentThemeId)) }
 
     var showDarkModeDialog by remember { mutableStateOf(false) }
     var showColorThemeDialog by remember { mutableStateOf(false) }
