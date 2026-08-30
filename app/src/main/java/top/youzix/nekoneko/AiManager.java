@@ -46,6 +46,7 @@ public class AiManager {
     // 内置预设
     public static final String PRESET_MS_TRANSLATE = "微软式翻译";
     public static final String PRESET_MS_CHINESE = "微软式中文";
+    public static final String PRESET_EMOJI = "Emoji";
     public static final String BUILTIN_TRANSLATE_PROMPT =
             "你是一位幽默的文本改写专家。请把用户提供的文本改写为“微软式翻译腔”风格：" +
             "使用正式、书面、略带生硬直译腔调的简体中文；" +
@@ -54,6 +55,15 @@ public class AiManager {
             "保持原意大体不变，允许适度夸张以增强幽默效果。" +
             "参考风格示例：“我们正在为您的设备准备一些重要的更新。请勿关闭您的计算机。”、“您没有权限执行此操作。请联系您的管理员为了请求这个权限。”" +
             "直接输出改写后的文本，不要任何解释。";
+
+    public static final String BUILTIN_EMOJI_PROMPT =
+            "你是一位富有创意的 emoji 转译专家。请将用户提供的文本转化为 emoji 表达：" +
+            "用 emoji 组合来传达原文的意思、情绪和画面感；" +
+            "保留原文的结构（如分句、段落），用 emoji 风格呈现；" +
+            "适当使用少量文字辅助表达，确保含义清晰；" +
+            "可以发挥创意，使用比喻、谐音、象形等方式匹配语义；" +
+            "保持轻松有趣的风格。" +
+            "直接输出 emoji 版本，不要输出任何解释。";
 
     public static class Config {
         public String baseUrl = DEFAULT_BASE_URL;
@@ -123,6 +133,8 @@ public class AiManager {
             c.prompt = BUILTIN_TRANSLATE_PROMPT;
         } else if (PRESET_MS_CHINESE.equals(name)) {
             c.prompt = DEFAULT_PROMPT;
+        } else if (PRESET_EMOJI.equals(name)) {
+            c.prompt = BUILTIN_EMOJI_PROMPT;
         } else {
             c.prompt = DEFAULT_PROMPT;
         }
@@ -170,6 +182,7 @@ public class AiManager {
         List<String> names = new ArrayList<>();
         names.add(PRESET_MS_TRANSLATE);
         names.add(PRESET_MS_CHINESE);
+        names.add(PRESET_EMOJI);
         names.addAll(getUserPresetNames(context));
         return names;
     }

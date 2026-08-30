@@ -85,7 +85,8 @@ public class AiConfigFragment extends Fragment {
         chip.setOnLongClickListener(v -> {
             // 内置预设不能删除
             if (AiManager.PRESET_MS_TRANSLATE.equals(name)
-                    || AiManager.PRESET_MS_CHINESE.equals(name)) {
+                    || AiManager.PRESET_MS_CHINESE.equals(name)
+                    || AiManager.PRESET_EMOJI.equals(name)) {
                 return true;
             }
             new MaterialAlertDialogBuilder(requireContext())
