@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -528,7 +527,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
 
         ImageView iconView = quickBallView.findViewById(R.id.quick_ball_icon);
         TextView textView = quickBallView.findViewById(R.id.quick_ball_text);
-        ProgressBar progressView = quickBallView.findViewById(R.id.quick_ball_progress);
+        View progressView = quickBallView.findViewById(R.id.quick_ball_progress);
 
         if (FloatingWindowPrefs.BALL_TEXT.equals(prefs.ballContentType)) {
             // 文字模式
@@ -692,7 +691,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         }
 
         // 更新 ProgressBar 大小
-        ProgressBar progressView = quickBallView.findViewById(R.id.quick_ball_progress);
+        View progressView = quickBallView.findViewById(R.id.quick_ball_progress);
         if (progressView != null) {
             progressView.setLayoutParams(innerLp);
         }
@@ -855,7 +854,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     private void setQuickBallLoading(boolean loading) {
         if (quickBallView == null) return;
         ImageView icon = quickBallView.findViewById(R.id.quick_ball_icon);
-        ProgressBar progress = quickBallView.findViewById(R.id.quick_ball_progress);
+        View progress = quickBallView.findViewById(R.id.quick_ball_progress);
         if (icon != null && progress != null) {
             icon.setVisibility(loading ? View.GONE : View.VISIBLE);
             progress.setVisibility(loading ? View.VISIBLE : View.GONE);
