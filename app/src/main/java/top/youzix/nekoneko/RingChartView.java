@@ -39,10 +39,10 @@ public class RingChartView extends View {
 
         // 每次绘制时从当前主题动态解析颜色，跟随动态取色 / 主题切换
         Context ctx = getContext();
-        int colorPrompt = MaterialColors.getColor(ctx, R.attr.colorPrimary, 0);
-        int colorCompletion = MaterialColors.getColor(ctx, R.attr.colorTertiary, 0);
-        int colorCached = MaterialColors.getColor(ctx, R.attr.colorSecondaryContainer, 0);
-        int colorBackground = MaterialColors.getColor(ctx, R.attr.colorSurfaceContainerHigh, 0);
+        int colorPrompt = MaterialColors.getColor(ctx, com.google.android.material.R.attr.colorPrimary, 0);
+        int colorCompletion = MaterialColors.getColor(ctx, com.google.android.material.R.attr.colorTertiary, 0);
+        int colorCached = MaterialColors.getColor(ctx, com.google.android.material.R.attr.colorSecondaryContainer, 0);
+        int colorBackground = MaterialColors.getColor(ctx, com.google.android.material.R.attr.colorSurfaceContainerHigh, 0);
 
         float w = getWidth();
         float h = getHeight();
