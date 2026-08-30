@@ -17,7 +17,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import top.youzix.nekoneko.*
+import top.youzix.nekoneko.R
+import top.youzix.nekoneko.Guide
+import top.youzix.nekoneko.UpdateChecker
+import top.youzix.nekoneko.WelcomeActivity
 
 @Composable
 fun AboutScreen() {

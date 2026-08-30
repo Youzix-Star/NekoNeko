@@ -21,12 +21,15 @@ public class AboutFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         ComposeView composeView = new ComposeView(requireContext());
-        composeView.setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed);
+        composeView.setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed);
         composeView.setContent(() -> {
-            return NekoNekoThemeKt.NekoNekoTheme(false, false, () -> {
-                AboutScreenKt.AboutScreen();
-                return kotlin.Unit.INSTANCE;
-            });
+            NekoNekoThemeKt.NekoNekoTheme(
+                    false, false, () -> {
+                        AboutScreenKt.AboutScreen();
+                        return kotlin.Unit.INSTANCE;
+                    });
+            return kotlin.Unit.INSTANCE;
         });
         return composeView;
     }
