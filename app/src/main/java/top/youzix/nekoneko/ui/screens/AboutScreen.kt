@@ -176,5 +176,5 @@ fun FeatureRow(iconRes: Int, title: String, subtitle: String, trailing: Boolean 
 
 @Composable
 fun DividerRow() {
-    Divider(modifier = Modifier.padding(start = 58.dp), color = MaterialTheme.colorScheme.outline.alpha(0.15f), thickness = 1.dp)
+    HorizontalDivider(modifier = Modifier.padding(start = 58.dp), color = MaterialTheme.colorScheme.outline.alpha(0.15f), thickness = 1.dp)
 }

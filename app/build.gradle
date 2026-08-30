@@ -5,15 +5,15 @@ plugins {
 }
 
 android {
-    compileSdk 34
+    compileSdk 35
     namespace "top.youzix.nekoneko"
 
     defaultConfig {
         applicationId "top.youzix.nekoneko"
         minSdk 21
-        targetSdk 33
-        versionCode 89
-        versionName "1.12.0-alpha.2"
+        targetSdk 34
+        versionCode 90
+        versionName "1.12.0-alpha.3"
     }
 
     signingConfigs {
@@ -51,7 +51,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = '1.5.10'
+        kotlinCompilerExtensionVersion = '2.0.21'
     }
 }
 
@@ -61,15 +61,30 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
 
-    // Compose
-    def composeBom = platform('androidx.compose:compose-bom:2024.12.01')
+    // Compose BOM — controls all Compose library versions (August '26 release)
+    def composeBom = platform('androidx.compose:compose-bom:2026.08.00')
     implementation composeBom
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material3:material3-window-size-class'
     implementation 'androidx.compose.runtime:runtime-livedata'
-    implementation 'androidx.activity:activity-compose:1.9.3'
-    implementation 'androidx.fragment:fragment-compose:1.8.5'
+    implementation 'androidx.compose.animation:animation'
+    implementation 'androidx.compose.foundation:foundation'
+
+    // AndroidX integration
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation 'androidx.fragment:fragment-compose:1.8.6'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.9.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.9.1'
+
+    // Navigation Compose (Navigation 2 — stable)
+    implementation 'androidx.navigation:navigation-compose:2.9.0'
+
+    // Coil — image loading (Compose Multiplatform)
+    implementation 'io.coil-kt.coil3:coil-compose:3.2.0'
+
+    // Debug
     debugImplementation 'androidx.compose.ui:ui-tooling'
 }
