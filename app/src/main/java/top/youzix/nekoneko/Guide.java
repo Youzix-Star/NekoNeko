@@ -20,4 +20,11 @@ public class Guide {
                 .putBoolean(KEY_DONE, true)
                 .apply();
     }
+
+    public static void reset(Context context) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean(KEY_DONE, false)
+                .apply();
+    }
 }

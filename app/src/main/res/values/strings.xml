@@ -225,4 +225,8 @@
     <string name="dark_mode_follow_system">跟随系统</string>
     <string name="dark_mode_force_light">浅色</string>
     <string name="dark_mode_force_dark">深色</string>
+
+    <!-- About guide -->
+    <string name="about_guide">新手引导</string>
+    <string name="about_guide_sub">重新打开新手引导页面</string>
 </resources>

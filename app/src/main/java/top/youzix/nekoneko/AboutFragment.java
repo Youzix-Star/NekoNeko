@@ -108,5 +108,13 @@ public class AboutFragment extends Fragment {
                 }
             });
         });
+
+        // 重新打开新手引导
+        view.findViewById(R.id.about_guide_button).setOnClickListener(v -> {
+            Guide.reset(requireContext());
+            Intent intent = new Intent(requireContext(), WelcomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        });
     }
 }
