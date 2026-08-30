@@ -1,17 +1,14 @@
 package top.youzix.nekoneko.ui.theme
 
 import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.SpringSpec
-import androidx.compose.animation.core.spring
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 
 /**
  * M3 Expressive Motion Scheme.
  *
- * Defines spring-based and easing-based motion tokens for the entire app.
- * Maps directly to Material 3 Expressive's motion system.
+ * Stores spring parameters (dampingRatio + stiffness) and easing curves
+ * for the entire app. Use the extension functions to build actual spring specs.
  */
 @Immutable
 data class NekoMotionScheme(
@@ -23,31 +20,50 @@ data class NekoMotionScheme(
     val standardDecelerateEasing: CubicBezierEasing,
     val standardAccelerateEasing: CubicBezierEasing,
 
-    // ---- Spring specs ----
-    val springDefault: SpringSpec<Float>,
-    val springFast: SpringSpec<Float>,
-    val springSlow: SpringSpec<Float>,
-    val springExpressive: SpringSpec<Float>,
-    val springSpatial: SpringSpec<Float>,
+    // ---- Spring parameters (store raw values to avoid API compatibility issues) ----
+    val springDefaultDampingRatio: Float,
+    val springDefaultStiffness: Float,
+    val springFastDampingRatio: Float,
+    val springFastStiffness: Float,
+    val springSlowDampingRatio: Float,
+    val springSlowStiffness: Float,
+    val springExpressiveDampingRatio: Float,
+    val springExpressiveStiffness: Float,
+    val springSpatialDampingRatio: Float,
+    val springSpatialStiffness: Float,
 
     // ---- Duration tokens (ms) ----
-    val durationShort1: Int,
-    val durationShort2: Int,
-    val durationShort3: Int,
-    val durationShort4: Int,
-    val durationMedium1: Int,
-    val durationMedium2: Int,
-    val durationMedium3: Int,
-    val durationMedium4: Int,
-    val durationLong1: Int,
-    val durationLong2: Int,
-    val durationLong3: Int,
-    val durationLong4: Int,
-    val durationExtraLong1: Int,
-    val durationExtraLong2: Int,
-    val durationExtraLong3: Int,
-    val durationExtraLong4: Int,
-)
+    val durationShort1: Int = 50,
+    val durationShort2: Int = 100,
+    val durationShort3: Int = 150,
+    val durationShort4: Int = 200,
+    val durationMedium1: Int = 250,
+    val durationMedium2: Int = 300,
+    val durationMedium3: Int = 350,
+    val durationMedium4: Int = 400,
+    val durationLong1: Int = 450,
+    val durationLong2: Int = 500,
+    val durationLong3: Int = 550,
+    val durationLong4: Int = 600,
+    val durationExtraLong1: Int = 700,
+    val durationExtraLong2: Int = 800,
+    val durationExtraLong3: Int = 900,
+    val durationExtraLong4: Int = 1000,
+) {
+    companion object {
+        // M3 standard damping ratios
+        const val DAMPING_RATIO_NO_BOUNCY = 0.8f
+        const val DAMPING_RATIO_MEDIUM_BOUNCY = 0.5f
+        const val DAMPING_RATIO_LOW_BOUNCY = 0.3f
+
+        // M3 standard stiffness values
+        const val STIFFNESS_VERY_LOW = 100f
+        const val STIFFNESS_LOW = 200f
+        const val STIFFNESS_MEDIUM = 400f
+        const val STIFFNESS_HIGH = 600f
+        const val STIFFNESS_VERY_HIGH = 800f
+    }
+}
 
 /** Default M3 Expressive motion scheme. */
 val DefaultMotionScheme = NekoMotionScheme(
@@ -60,52 +76,17 @@ val DefaultMotionScheme = NekoMotionScheme(
     standardAccelerateEasing = CubicBezierEasing(0.3f, 0f, 1f, 1f),
 
     // Springs — expressive motion
-    springDefault = spring(
-        dampingRatio = SpringSpec.DefaultDampingRatio,
-        stiffness = SpringSpec.DefaultStiffness,
-    ),
-    springFast = spring(
-        dampingRatio = 0.8f,
-        stiffness = SpringSpec.DefaultStiffness * 2f,
-    ),
-    springSlow = spring(
-        dampingRatio = 0.9f,
-        stiffness = SpringSpec.DefaultStiffness * 0.5f,
-    ),
-    springExpressive = spring(
-        dampingRatio = 0.6f,
-        stiffness = SpringSpec.DefaultStiffness,
-    ),
-    springSpatial = spring(
-        dampingRatio = 0.8f,
-        stiffness = SpringSpec.DefaultStiffness * 3f,
-    ),
-
-    // Duration tokens
-    durationShort1 = 50,
-    durationShort2 = 100,
-    durationShort3 = 150,
-    durationShort4 = 200,
-    durationMedium1 = 250,
-    durationMedium2 = 300,
-    durationMedium3 = 350,
-    durationMedium4 = 400,
-    durationLong1 = 450,
-    durationLong2 = 500,
-    durationLong3 = 550,
-    durationLong4 = 600,
-    durationExtraLong1 = 700,
-    durationExtraLong2 = 800,
-    durationExtraLong3 = 900,
-    durationExtraLong4 = 1000,
+    springDefaultDampingRatio = NekoMotionScheme.DAMPING_RATIO_NO_BOUNCY,
+    springDefaultStiffness = NekoMotionScheme.STIFFNESS_LOW,
+    springFastDampingRatio = NekoMotionScheme.DAMPING_RATIO_NO_BOUNCY,
+    springFastStiffness = NekoMotionScheme.STIFFNESS_MEDIUM,
+    springSlowDampingRatio = NekoMotionScheme.DAMPING_RATIO_NO_BOUNCY,
+    springSlowStiffness = NekoMotionScheme.STIFFNESS_VERY_LOW,
+    springExpressiveDampingRatio = NekoMotionScheme.DAMPING_RATIO_MEDIUM_BOUNCY,
+    springExpressiveStiffness = NekoMotionScheme.STIFFNESS_LOW,
+    springSpatialDampingRatio = NekoMotionScheme.DAMPING_RATIO_NO_BOUNCY,
+    springSpatialStiffness = NekoMotionScheme.STIFFNESS_VERY_HIGH,
 )
 
 /** CompositionLocal to provide the motion scheme down the tree. */
 val LocalMotionScheme = staticCompositionLocalOf { DefaultMotionScheme }
-
-/** Convenience accessor. */
-object NekoMotion {
-    val scheme: NekoMotionScheme
-        @Composable
-        get() = LocalMotionScheme.current
-}
