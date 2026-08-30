@@ -12,7 +12,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,6 +20,10 @@ import top.youzix.nekoneko.R
 import top.youzix.nekoneko.Guide
 import top.youzix.nekoneko.UpdateChecker
 import top.youzix.nekoneko.WelcomeActivity
+import top.youzix.nekoneko.ui.theme.DividerRow
+import top.youzix.nekoneko.ui.theme.CardSection
+import top.youzix.nekoneko.ui.theme.FeatureRow
+import top.youzix.nekoneko.ui.theme.SectionLabel
 
 @Composable
 fun AboutScreen() {
@@ -43,7 +46,6 @@ fun AboutScreen() {
     var showUpdateDialog by remember { mutableStateOf(false) }
     var updateDialogText by remember { mutableStateOf("") }
 
-    // Pre-resolve strings outside callbacks (strings require Composable context)
     val checkUpdateSub = stringResource(R.string.about_check_update_sub)
     val updateAvailableSub = stringResource(R.string.about_update_available_sub)
     val updateLatest = stringResource(R.string.about_update_latest)
@@ -62,7 +64,6 @@ fun AboutScreen() {
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(top = 2.dp, bottom = 8.dp))
 
-        // 版本头部
         Column(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(painterResource(R.drawable.ic_launcher), null,
@@ -76,7 +77,6 @@ fun AboutScreen() {
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
         }
 
-        // 功能特性
         SectionLabel(stringResource(R.string.about_features))
         CardSection {
             FeatureRow(R.drawable.ic_content_copy, stringResource(R.string.about_features), stringResource(R.string.about_feature_capture))
@@ -91,7 +91,6 @@ fun AboutScreen() {
             }
         }
 
-        // 操作卡片
         SectionLabel(stringResource(R.string.about_github))
         CardSection {
             FeatureRow(R.drawable.ic_coffee, stringResource(R.string.about_sponsor), stringResource(R.string.about_sponsor_sub), trailing = true) {
@@ -105,7 +104,6 @@ fun AboutScreen() {
             }
             DividerRow()
 
-            // 检测更新
             Row(modifier = Modifier.fillMaxWidth().clickable {
                 updateStatus = "正在检查更新…"
                 updateSub = checkUpdateSub
@@ -152,35 +150,4 @@ fun AboutScreen() {
             confirmButton = { TextButton(onClick = { showUpdateDialog = false; UpdateChecker.openReleasePage(context) }) { Text(stringResource(R.string.about_update_dialog_go)) } },
             dismissButton = { TextButton(onClick = { showUpdateDialog = false }) { Text(stringResource(android.R.string.cancel)) } })
     }
-}
-
-@Composable
-fun SectionLabel(text: String) {
-    Text(text, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier.padding(start = 4.dp, bottom = 6.dp))
-}
-
-@Composable
-fun CardSection(content: @Composable ColumnScope.() -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp), shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-        elevation = CardDefaults.cardElevation(0.dp)) { Column(content = content) }
-}
-
-@Composable
-fun FeatureRow(iconRes: Int, title: String, subtitle: String, trailing: Boolean = false, onClick: (() -> Unit)? = null) {
-    Row(modifier = Modifier.fillMaxWidth().then(if (onClick != null) Modifier.clickable { onClick() } else Modifier).padding(12.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        Icon(painterResource(iconRes), null, modifier = Modifier.size(40.dp).padding(8.dp), tint = MaterialTheme.colorScheme.onSecondaryContainer)
-        Column(Modifier.weight(1f).padding(start = 12.dp)) {
-            Text(title, style = MaterialTheme.typography.titleSmall)
-            Text(subtitle, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f))
-        }
-        if (trailing) Icon(painterResource(R.drawable.ic_chevron_right), null, modifier = Modifier.size(20.dp), tint = MaterialTheme.colorScheme.onSurfaceVariant)
-    }
-}
-
-@Composable
-fun DividerRow() {
-    HorizontalDivider(modifier = Modifier.padding(start = 58.dp), color = MaterialTheme.colorScheme.outline.copy(alpha = 0.15f), thickness = 1.dp)
 }
