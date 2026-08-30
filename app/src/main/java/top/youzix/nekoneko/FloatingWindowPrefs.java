@@ -70,8 +70,23 @@ public class FloatingWindowPrefs {
         p.showQuickBall = sp.getBoolean(KEY_SHOW_QUICK_BALL, false);
         p.ballContentType = sp.getString(KEY_BALL_CONTENT_TYPE, BALL_ICON);
         p.ballText = sp.getString(KEY_BALL_TEXT, "AI");
-        p.ballSizeDp = sp.getFloat(KEY_BALL_SIZE_DP, 48);
-        p.ballCornerDp = sp.getFloat(KEY_BALL_CORNER_DP, 24);
+
+        // 兼容旧版：ballSizeDp/ballCornerDp 之前用 putInt 存储，
+        // 现在改为 putFloat，但设备上可能还有旧的 int 值，
+        // getFloat 读取 int 值会抛 ClassCastException，需要迁移。
+        try {
+            p.ballSizeDp = sp.getFloat(KEY_BALL_SIZE_DP, 48);
+        } catch (ClassCastException e) {
+            p.ballSizeDp = sp.getInt(KEY_BALL_SIZE_DP, 48);
+            sp.edit().putFloat(KEY_BALL_SIZE_DP, p.ballSizeDp).apply();
+        }
+        try {
+            p.ballCornerDp = sp.getFloat(KEY_BALL_CORNER_DP, 24);
+        } catch (ClassCastException e) {
+            p.ballCornerDp = sp.getInt(KEY_BALL_CORNER_DP, 24);
+            sp.edit().putFloat(KEY_BALL_CORNER_DP, p.ballCornerDp).apply();
+        }
+
         p.ballPosX = sp.getInt(KEY_BALL_POS_X, 20);
         p.ballPosY = sp.getInt(KEY_BALL_POS_Y, 300);
         return p;
