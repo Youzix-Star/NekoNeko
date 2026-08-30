@@ -121,13 +121,17 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- 模型名称输入 + 内联下拉选择 -->
+        <!-- 模型名称输入 + endIcon 获取模型列表 -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            android:id="@+id/model_input_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="@string/ai_model">
+            android:hint="@string/ai_model"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_arrow_drop_down"
+            app:endIconContentDescription="@string/ai_fetch_models">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ai_model_input"
@@ -136,14 +140,6 @@
                 android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <top.youzix.nekoneko.ExpandableDropdownCard
-            android:id="@+id/model_dropdown_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="?attr/colorSurfaceContainerLow"
-            android:orientation="vertical" />
 
         <!-- 系统框架提示词 -->
         <TextView

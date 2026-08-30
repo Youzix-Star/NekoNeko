@@ -205,9 +205,6 @@
     <string name="ai_fetch_models">获取模型列表</string>
     <string name="ai_models">模型列表（点击选择）</string>
     <string name="ai_loading_models">正在获取模型列表…</string>
-    <string name="ai_manual_input_model">✏ 手动输入模型名称</string>
-    <string name="ai_selected_model_fmt">已选: %1$s</string>
-    <string name="ai_fetch_models_error">获取失败：%1$s</string>
     <string name="ai_presets">预设</string>
     <string name="ai_save_preset">保存预设</string>
     <string name="ai_load_preset">加载预设</string>
