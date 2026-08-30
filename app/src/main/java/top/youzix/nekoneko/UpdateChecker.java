@@ -18,14 +18,16 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 从 GitHub Releases API 检查是否有新版本。
- * 使用不认证的 API 请求（匿名，速率限制 60 次/小时）。
+ * 从 GitHub Releases 检查是否有新版本。
+ * 优先使用 GitHub API；若遇 403 限流则回退到页面解析。
  */
 public class UpdateChecker {
 
     private static final String REPO = "Youzix-Star/NekoNeko";
     private static final String API_URL =
             "https://api.github.com/repos/" + REPO + "/releases/latest";
+    private static final String RELEASES_PAGE =
+            "https://github.com/" + REPO + "/releases/latest";
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
 
     public interface Callback {
@@ -56,7 +58,8 @@ public class UpdateChecker {
                     InputStream is = code >= 400 ? conn.getErrorStream() : conn.getInputStream();
                     String resp = readAll(is);
                     if (code >= 400) {
-                        onError(callback, "GitHub API 错误: HTTP " + code);
+                        // API 限流或失败，回退到页面解析
+                        checkViaPage(callback, currentVersion);
                         return;
                     }
 
@@ -103,6 +106,49 @@ public class UpdateChecker {
         Intent intent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://github.com/" + REPO + "/releases/latest"));
         context.startActivity(intent);
+    }
+
+    /**
+     * 回退方案：访问 GitHub Releases 页面，从重定向 URL 中提取 tag_name。
+     * 该页面会 302 重定向到 /releases/tag/vX.Y.Z，无需 API 认证，无速率限制。
+     */
+    private static void checkViaPage(Callback callback, String currentVersion) {
+        new Thread(() -> {
+            try {
+                URL url = new URL(RELEASES_PAGE);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setInstanceFollowRedirects(false); // 手动处理重定向
+                try {
+                    conn.setRequestMethod("GET");
+                    conn.setConnectTimeout(10000);
+                    conn.setReadTimeout(10000);
+
+                    int code = conn.getResponseCode();
+                    // 302 重定向到 /releases/tag/vX.Y.Z
+                    if (code >= 300 && code < 400) {
+                        String location = conn.getHeaderField("Location");
+                        if (location != null && location.contains("/tag/")) {
+                            String tag = location.substring(location.lastIndexOf("/") + 1);
+                            String latestVersion = tag.startsWith("v") ? tag.substring(1) : tag;
+                            if (isNewer(latestVersion, currentVersion)) {
+                                final String v = latestVersion;
+                                MAIN.post(() -> callback.onUpdateAvailable(v, "", null));
+                            } else {
+                                MAIN.post(() -> callback.onNoUpdate());
+                            }
+                            return;
+                        }
+                    }
+                    // 无法解析，报错
+                    onError(callback, "无法获取版本信息");
+                } finally {
+                    conn.disconnect();
+                }
+            } catch (Exception e) {
+                String msg = e.getMessage() == null ? e.toString() : e.getMessage();
+                onError(callback, msg);
+            }
+        }).start();
     }
 
     /** 从 PackageManager 获取当前版本名（如 "1.7.8"）。 */
