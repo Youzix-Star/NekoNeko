@@ -21,12 +21,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import top.youzix.nekoneko.*
-import top.youzix.nekoneko.ui.screens.RingChart
+import top.youzix.nekoneko.R
+import top.youzix.nekoneko.FloatingWindowService
+import top.youzix.nekoneko.TokenStats
+import top.youzix.nekoneko.DarkModePrefs
 import top.youzix.nekoneko.ui.theme.ComposeThemeManager
 import top.youzix.nekoneko.ui.theme.SectionLabel
 import top.youzix.nekoneko.ui.theme.CardSection
-import top.youzix.nekoneko.ui.theme.FeatureRow
 import top.youzix.nekoneko.ui.theme.DividerRow
 
 @Composable

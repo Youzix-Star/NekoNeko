@@ -2,6 +2,7 @@ package top.youzix.nekoneko.ui.screens
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -9,12 +10,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import top.youzix.nekoneko.ui.theme.MaterialTheme
 
-/**
- * Compose version of RingChartView.
- * Draws a ring chart showing token distribution (prompt / completion / cached).
- */
 @Composable
 fun RingChart(
     promptTokens: Int,
@@ -37,7 +33,6 @@ fun RingChart(
 
         val total = promptTokens + completionTokens
         if (total == 0) {
-            // Empty state: draw background ring
             drawArc(
                 color = colorBackground,
                 startAngle = 0f,
@@ -54,50 +49,11 @@ fun RingChart(
         val sweepCached = 360f * cachedTokens / total
         val sweepCompletion = 360f * completionTokens / total
 
-        // Background ring
-        drawArc(
-            color = colorBackground,
-            startAngle = 0f,
-            sweepAngle = 360f,
-            useCenter = false,
-            topLeft = topLeft,
-            size = arcSize,
-            style = Stroke(width = stroke, cap = StrokeCap.Round),
-        )
-
-        // Prompt tokens
-        drawArc(
-            color = colorPrompt,
-            startAngle = -90f,
-            sweepAngle = sweepPrompt,
-            useCenter = false,
-            topLeft = topLeft,
-            size = arcSize,
-            style = Stroke(width = stroke, cap = StrokeCap.Round),
-        )
-
-        // Cached tokens (overlaid on prompt)
+        drawArc(colorBackground, 0f, 360f, false, topLeft, arcSize, Stroke(stroke, cap = StrokeCap.Round))
+        drawArc(colorPrompt, -90f, sweepPrompt, false, topLeft, arcSize, Stroke(stroke, cap = StrokeCap.Round))
         if (cachedTokens > 0) {
-            drawArc(
-                color = colorCached,
-                startAngle = -90f,
-                sweepAngle = sweepCached,
-                useCenter = false,
-                topLeft = topLeft,
-                size = arcSize,
-                style = Stroke(width = stroke, cap = StrokeCap.Round),
-            )
+            drawArc(colorCached, -90f, sweepCached, false, topLeft, arcSize, Stroke(stroke, cap = StrokeCap.Round))
         }
-
-        // Completion tokens
-        drawArc(
-            color = colorCompletion,
-            startAngle = -90f + sweepPrompt,
-            sweepAngle = sweepCompletion,
-            useCenter = false,
-            topLeft = topLeft,
-            size = arcSize,
-            style = Stroke(width = stroke, cap = StrokeCap.Round),
-        )
+        drawArc(colorCompletion, -90f + sweepPrompt, sweepCompletion, false, topLeft, arcSize, Stroke(stroke, cap = StrokeCap.Round))
     }
 }
