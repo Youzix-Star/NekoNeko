@@ -11,8 +11,8 @@ import androidx.compose.ui.platform.ComposeView;
 import androidx.compose.ui.platform.ViewCompositionStrategy;
 import androidx.fragment.app.Fragment;
 
-import top.youzix.nekoneko.ui.NekoNekoThemeKt;
 import top.youzix.nekoneko.ui.screens.AboutScreenKt;
+import top.youzix.nekoneko.ui.theme.NekoNekoThemeKt;
 
 public class AboutFragment extends Fragment {
 
