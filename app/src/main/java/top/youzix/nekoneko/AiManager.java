@@ -341,7 +341,14 @@ public class AiManager {
                 int prompt = usage.optInt("prompt_tokens", 0);
                 int completion = usage.optInt("completion_tokens", 0);
                 int total = usage.optInt("total_tokens", 0);
-                int cached = usage.optInt("prompt_tokens_cached", 0);
+                // DeepSeek 返回两种缓存字段：
+                //   顶层 prompt_cache_hit_tokens
+                //   嵌套 prompt_tokens_details.cached_tokens
+                int cached = usage.optInt("prompt_cache_hit_tokens", 0);
+                if (cached == 0 && usage.has("prompt_tokens_details")) {
+                    cached = usage.getJSONObject("prompt_tokens_details")
+                            .optInt("cached_tokens", 0);
+                }
                 UsageRecord rec = new UsageRecord();
                 rec.promptTokens = prompt;
                 rec.completionTokens = completion;
