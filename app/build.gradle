@@ -11,8 +11,8 @@ android {
         applicationId "top.youzix.nekoneko"
         minSdk 23
         targetSdk 34
-        versionCode 95
-        versionName "1.13.0-alpha.3"
+        versionCode 96
+        versionName "1.13.0-beta.1"
     }
 
     signingConfigs {
@@ -64,7 +64,7 @@ dependencies {
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material3:material3'
+    implementation 'androidx.compose.material3:material3:1.5.0-alpha25'
     implementation 'androidx.compose.material3:material3-window-size-class'
     implementation 'androidx.compose.runtime:runtime-livedata'
     implementation 'androidx.compose.animation:animation'
