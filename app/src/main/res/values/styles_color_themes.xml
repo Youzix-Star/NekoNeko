@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ===== EMBER LIGHT ===== -->
+    <style name="ColorThemeOverlay.Ember.Light" parent="">
+        <item name="colorPrimary">#7C5800</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#FFDEA1</item>
+        <item name="colorOnPrimaryContainer">#271900</item>
+        <item name="colorSecondary">#6E5C3F</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#F8DFBB</item>
+        <item name="colorOnSecondaryContainer">#271900</item>
+        <item name="colorTertiary">#4D653D</item>
+        <item name="colorOnTertiary">#FFFFFF</item>
+        <item name="colorTertiaryContainer">#CFF0B4</item>
+        <item name="colorOnTertiaryContainer">#0C2000</item>
+        <item name="colorError">#BA1A1A</item>
+        <item name="colorOnError">#FFFFFF</item>
+        <item name="colorErrorContainer">#FFDAD6</item>
+        <item name="colorOnErrorContainer">#93000A</item>
+        <item name="android:colorBackground">#FFF8F3</item>
+        <item name="colorOnBackground">#201B13</item>
+        <item name="colorSurface">#FFF8F3</item>
+        <item name="colorOnSurface">#201B13</item>
+        <item name="colorSurfaceVariant">#EDE1CF</item>
+        <item name="colorOnSurfaceVariant">#4F4539</item>
+        <item name="colorSurfaceDim">#E3D7C8</item>
+        <item name="colorSurfaceBright">#FFF8F3</item>
+        <item name="colorSurfaceContainerLowest">#FFFFFF</item>
+        <item name="colorSurfaceContainerLow">#FDF1E5</item>
+        <item name="colorSurfaceContainer">#F7EBD9</item>
+        <item name="colorSurfaceContainerHigh">#F1E5D3</item>
+        <item name="colorSurfaceContainerHighest">#EBE0CE</item>
+        <item name="colorOutline">#827567</item>
+        <item name="colorOutlineVariant">#D5C5B5</item>
+    </style>
+
+    <!-- ===== EMBER DARK ===== -->
+    <style name="ColorThemeOverlay.Ember.Dark" parent="">
+        <item name="colorPrimary">#FFDEA1</item>
+        <item name="colorOnPrimary">#402D00</item>
+        <item name="colorPrimaryContainer">#5C4100</item>
+        <item name="colorOnPrimaryContainer">#FFDEA1</item>
+        <item name="colorSecondary">#DBC4A0</item>
+        <item name="colorOnSecondary">#3F2E14</item>
+        <item name="colorSecondaryContainer">#564429</item>
+        <item name="colorOnSecondaryContainer">#F8DFBB</item>
+        <item name="colorTertiary">#B4D499</item>
+        <item name="colorOnTertiary">#213612</item>
+        <item name="colorTertiaryContainer">#374D28</item>
+        <item name="colorOnTertiaryContainer">#CFF0B4</item>
+        <item name="colorError">#FFB4AB</item>
+        <item name="colorOnError">#690005</item>
+        <item name="colorErrorContainer">#93000A</item>
+        <item name="colorOnErrorContainer">#FFDAD6</item>
+        <item name="android:colorBackground">#18130D</item>
+        <item name="colorOnBackground">#EDE0D0</item>
+        <item name="colorSurface">#18130D</item>
+        <item name="colorOnSurface">#EDE0D0</item>
+        <item name="colorSurfaceVariant">#4F4539</item>
+        <item name="colorOnSurfaceVariant">#D5C5B5</item>
+        <item name="colorSurfaceDim">#18130D</item>
+        <item name="colorSurfaceBright">#3F3729</item>
+        <item name="colorSurfaceContainerLowest">#0E0A05</item>
+        <item name="colorSurfaceContainerLow">#201B13</item>
+        <item name="colorSurfaceContainer">#251F17</item>
+        <item name="colorSurfaceContainerHigh">#302A21</item>
+        <item name="colorSurfaceContainerHighest">#3B342A</item>
+        <item name="colorOutline">#9E8E7E</item>
+        <item name="colorOutlineVariant">#4F4539</item>
+    </style>
+
+    <!-- ===== GLACIER LIGHT ===== -->
+    <style name="ColorThemeOverlay.Glacier.Light" parent="">
+        <item name="colorPrimary">#005AC1</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorPrimaryContainer">#D8E2FF</item>
+        <item name="colorOnPrimaryContainer">#001A41</item>
+        <item name="colorSecondary">#565E71</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="colorSecondaryContainer">#DAE2F9</item>
+        <item name="colorOnSecondaryContainer">#131C2C</item>
+        <item name="colorTertiary">#006B5F</item>
+        <item name="colorOnTertiary">#FFFFFF</item>
+        <item name="colorTertiaryContainer">#72F8E3</item>
+        <item name="colorOnTertiaryContainer">#00201C</item>
+        <item name="colorError">#BA1A1A</item>
+        <item name="colorOnError">#FFFFFF</item>
+        <item name="colorErrorContainer">#FFDAD6</item>
+        <item name="colorOnErrorContainer">#93000A</item>
+        <item name="android:colorBackground">#FDFBFF</item>
+        <item name="colorOnBackground">#1B1B1F</item>
+        <item name="colorSurface">#FDFBFF</item>
+        <item name="colorOnSurface">#1B1B1F</item>
+        <item name="colorSurfaceVariant">#E0E2EC</item>
+        <item name="colorOnSurfaceVariant">#44474F</item>
+        <item name="colorSurfaceDim">#DBD9DD</item>
+        <item name="colorSurfaceBright">#FDFBFF</item>
+        <item name="colorSurfaceContainerLowest">#FFFFFF</item>
+        <item name="colorSurfaceContainerLow">#F5F3F7</item>
+        <item name="colorSurfaceContainer">#EFF1F5</item>
+        <item name="colorSurfaceContainerHigh">#E9EBEF</item>
+        <item name="colorSurfaceContainerHighest">#E3E5E9</item>
+        <item name="colorOutline">#74777F</item>
+        <item name="colorOutlineVariant">#C4C6D0</item>
+    </style>
+
+    <!-- ===== GLACIER DARK ===== -->
+    <style name="ColorThemeOverlay.Glacier.Dark" parent="">
+        <item name="colorPrimary">#ADC6FF</item>
+        <item name="colorOnPrimary">#002E69</item>
+        <item name="colorPrimaryContainer">#004494</item>
+        <item name="colorOnPrimaryContainer">#D8E2FF</item>
+        <item name="colorSecondary">#BEC6DC</item>
+        <item name="colorOnSecondary">#283041</item>
+        <item name="colorSecondaryContainer">#3E4759</item>
+        <item name="colorOnSecondaryContainer">#DAE2F9</item>
+        <item name="colorTertiary">#51DBC7</item>
+        <item name="colorOnTertiary">#003731</item>
+        <item name="colorTertiaryContainer">#005047</item>
+        <item name="colorOnTertiaryContainer">#72F8E3</item>
+        <item name="colorError">#FFB4AB</item>
+        <item name="colorOnError">#690005</item>
+        <item name="colorErrorContainer">#93000A</item>
+        <item name="colorOnErrorContainer">#FFDAD6</item>
+        <item name="android:colorBackground">#1B1B1F</item>
+        <item name="colorOnBackground">#E3E2E6</item>
+        <item name="colorSurface">#1B1B1F</item>
+        <item name="colorOnSurface">#E3E2E6</item>
+        <item name="colorSurfaceVariant">#44474F</item>
+        <item name="colorOnSurfaceVariant">#C4C6D0</item>
+        <item name="colorSurfaceDim">#1B1B1F</item>
+        <item name="colorSurfaceBright">#3B393D</item>
+        <item name="colorSurfaceContainerLowest">#111318</item>
+        <item name="colorSurfaceContainerLow">#1B1B1F</item>
+        <item name="colorSurfaceContainer">#202225</item>
+        <item name="colorSurfaceContainerHigh">#2A2D31</item>
+        <item name="colorSurfaceContainerHighest">#35373B</item>
+        <item name="colorOutline">#8E9099</item>
+        <item name="colorOutlineVariant">#44474F</item>
+    </style>
+
+</resources>

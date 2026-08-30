@@ -34,7 +34,26 @@ public class ColorThemeManager {
     public static final int THEME_GLACIER = 2;
 
     public static void applyTheme(Activity activity) {
-        // No-op for GR Green — base theme handles it
+        int id = getThemeId(activity);
+        if (id == THEME_GR_GREEN) return; // base theme, no overlay
+
+        boolean isNight = isDarkMode(activity);
+        int overlayRes;
+        switch (id) {
+            case THEME_EMBER:
+                overlayRes = isNight
+                        ? R.style.ColorThemeOverlay_Ember_Dark
+                        : R.style.ColorThemeOverlay_Ember_Light;
+                break;
+            case THEME_GLACIER:
+                overlayRes = isNight
+                        ? R.style.ColorThemeOverlay_Glacier_Dark
+                        : R.style.ColorThemeOverlay_Glacier_Light;
+                break;
+            default:
+                return;
+        }
+        activity.getTheme().applyStyle(overlayRes, true);
     }
 
     public static void saveTheme(Context context, int themeId) {
