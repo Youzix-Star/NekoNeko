@@ -1,9 +1,8 @@
 package top.youzix.nekoneko.ui.theme
 
 import androidx.compose.animation.core.CubicBezierEasing
-import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.SpringSpec
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -12,10 +11,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * M3 Expressive Motion Scheme.
  *
  * Defines spring-based and easing-based motion tokens for the entire app.
- * Maps directly to Material 3 Expressive's motion system:
- * - Expressive springs for entering/exiting animations
- * - Standard springs for persistent state changes
- * - Tweens with cubic bezier easing for precise timing
+ * Maps directly to Material 3 Expressive's motion system.
  */
 @Immutable
 data class NekoMotionScheme(
@@ -28,11 +24,11 @@ data class NekoMotionScheme(
     val standardAccelerateEasing: CubicBezierEasing,
 
     // ---- Spring specs ----
-    val springDefault: Spring<Float>,
-    val springFast: Spring<Float>,
-    val springSlow: Spring<Float>,
-    val springExpressive: Spring<Float>,
-    val springSpatial: Spring<Float>,
+    val springDefault: SpringSpec<Float>,
+    val springFast: SpringSpec<Float>,
+    val springSlow: SpringSpec<Float>,
+    val springExpressive: SpringSpec<Float>,
+    val springSpatial: SpringSpec<Float>,
 
     // ---- Duration tokens (ms) ----
     val durationShort1: Int,
@@ -65,24 +61,24 @@ val DefaultMotionScheme = NekoMotionScheme(
 
     // Springs — expressive motion
     springDefault = spring(
-        dampingRatio = Spring.DampingRatioNoBouncy,
-        stiffness = Spring.StiffnessLow,
+        dampingRatio = SpringSpec.DefaultDampingRatio,
+        stiffness = SpringSpec.DefaultStiffness,
     ),
     springFast = spring(
-        dampingRatio = Spring.DampingRatioNoBouncy,
-        stiffness = Spring.StiffnessMedium,
+        dampingRatio = 0.8f,
+        stiffness = SpringSpec.DefaultStiffness * 2f,
     ),
     springSlow = spring(
-        dampingRatio = Spring.DampingRatioNoBouncy,
-        stiffness = Spring.StiffnessVeryLow,
+        dampingRatio = 0.9f,
+        stiffness = SpringSpec.DefaultStiffness * 0.5f,
     ),
     springExpressive = spring(
         dampingRatio = 0.6f,
-        stiffness = Spring.StiffnessLow,
+        stiffness = SpringSpec.DefaultStiffness,
     ),
     springSpatial = spring(
-        dampingRatio = Spring.DampingRatioNoBouncy,
-        stiffness = 800f,
+        dampingRatio = 0.8f,
+        stiffness = SpringSpec.DefaultStiffness * 3f,
     ),
 
     // Duration tokens
@@ -107,7 +103,7 @@ val DefaultMotionScheme = NekoMotionScheme(
 /** CompositionLocal to provide the motion scheme down the tree. */
 val LocalMotionScheme = staticCompositionLocalOf { DefaultMotionScheme }
 
-/** Convenience accessor via MaterialTheme-like pattern. */
+/** Convenience accessor. */
 object NekoMotion {
     val scheme: NekoMotionScheme
         @Composable
