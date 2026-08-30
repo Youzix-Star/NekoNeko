@@ -56,6 +56,33 @@ public class ColorThemeManager {
         activity.getTheme().applyStyle(overlayRes, true);
     }
 
+    /**
+     * Apply color theme overlay to a ContextThemeWrapper (used by FloatingWindowService
+     * which doesn't have an Activity).
+     */
+    public static void applyThemeOverlay(Context context) {
+        int id = getThemeId(context);
+        if (id == THEME_GR_GREEN) return;
+
+        boolean isNight = isDarkMode(context);
+        int overlayRes;
+        switch (id) {
+            case THEME_EMBER:
+                overlayRes = isNight
+                        ? R.style.ColorThemeOverlay_Ember_Dark
+                        : R.style.ColorThemeOverlay_Ember_Light;
+                break;
+            case THEME_GLACIER:
+                overlayRes = isNight
+                        ? R.style.ColorThemeOverlay_Glacier_Dark
+                        : R.style.ColorThemeOverlay_Glacier_Light;
+                break;
+            default:
+                return;
+        }
+        context.getTheme().applyStyle(overlayRes, true);
+    }
+
     public static void saveTheme(Context context, int themeId) {
         context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
                 .edit().putInt(KEY_THEME, themeId).apply();

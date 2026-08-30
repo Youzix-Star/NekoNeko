@@ -91,11 +91,11 @@ public class FloatingWindowService extends Service implements Logger.LogListener
 
     private void createFloatingView() {
         Logger.d("正在创建悬浮窗视图...");
-        
-        // 悬浮窗固定使用基础 M3 DayNight 主题膨胀（AppTheme.Overlay）；
-        // Android 12+ 按系统深浅色应用莫奈动态取色（与主界面一致）。
+
+        // 悬浮窗使用基础 M3 DayNight 主题 + 莫奈动态取色 + 用户颜色主题
         Context themed = new ContextThemeWrapper(this, R.style.AppTheme_Overlay);
         ThemeUtils.applyDynamicColors(this, themed.getTheme());
+        ColorThemeManager.applyThemeOverlay(themed);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             Logger.d("已为悬浮窗应用莫奈动态取色");
         }
@@ -495,6 +495,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
 
         Context themed = new ContextThemeWrapper(this, R.style.AppTheme_Overlay);
         ThemeUtils.applyDynamicColors(this, themed.getTheme());
+        ColorThemeManager.applyThemeOverlay(themed);
 
         quickBallView = LayoutInflater.from(themed).inflate(R.layout.floating_quick_ball, null);
 
