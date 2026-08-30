@@ -5,7 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +18,7 @@ import com.google.android.material.textfield.TextInputLayout;
 /**
  * 悬浮窗设置页：控制悬浮窗中显示哪些元素，快捷悬浮球的自定义样式。
  * 大悬浮窗和快捷悬浮球互斥。
+ * 所有设置即时生效，无需点击保存按钮。
  */
 public class FloatingConfigFragment extends Fragment {
 
@@ -74,7 +74,7 @@ public class FloatingConfigFragment extends Fragment {
         sizeValue.setText(prefs.ballSizeDp + "dp");
         cornerValue.setText(prefs.ballCornerDp + "dp");
 
-        // --- 交互 ---
+        // --- 交互：所有变更即时保存 ---
 
         // 悬浮球开关：开启时禁用大悬浮窗元素，反之亦然
         swQuickBall.setOnCheckedChangeListener((btn, checked) -> {
@@ -85,6 +85,8 @@ public class FloatingConfigFragment extends Fragment {
                 swAiModify.setChecked(false);
                 swLog.setChecked(false);
             }
+            savePrefs(swCaptureText, swApplyRules, swAiModify, swLog,
+                    swQuickBall, contentGroup, ballTextInput, sizeSlider, cornerSlider);
         });
 
         // 大悬浮窗开关：开启任何一个都关闭悬浮球
@@ -95,6 +97,8 @@ public class FloatingConfigFragment extends Fragment {
                     swQuickBall.setChecked(false);
                     quickBallOptions.setVisibility(View.GONE);
                 }
+                savePrefs(swCaptureText, swApplyRules, swAiModify, swLog,
+                        swQuickBall, contentGroup, ballTextInput, sizeSlider, cornerSlider);
             });
         }
 
@@ -103,33 +107,44 @@ public class FloatingConfigFragment extends Fragment {
             if (checkedIds.isEmpty()) return;
             boolean textMode = checkedIds.get(0) == R.id.chip_ball_text;
             ballTextLayout.setVisibility(textMode ? View.VISIBLE : View.GONE);
+            savePrefs(swCaptureText, swApplyRules, swAiModify, swLog,
+                    swQuickBall, contentGroup, ballTextInput, sizeSlider, cornerSlider);
         });
 
         // 大小滑块
         sizeSlider.addOnChangeListener((slider, value, fromUser) -> {
             sizeValue.setText((int) value + "dp");
+            if (fromUser) {
+                savePrefs(swCaptureText, swApplyRules, swAiModify, swLog,
+                        swQuickBall, contentGroup, ballTextInput, sizeSlider, cornerSlider);
+            }
         });
 
         // 圆角滑块
         cornerSlider.addOnChangeListener((slider, value, fromUser) -> {
             cornerValue.setText((int) value + "dp");
+            if (fromUser) {
+                savePrefs(swCaptureText, swApplyRules, swAiModify, swLog,
+                        swQuickBall, contentGroup, ballTextInput, sizeSlider, cornerSlider);
+            }
         });
+    }
 
-        // 保存
-        view.findViewById(R.id.save_floating_config_button).setOnClickListener(v -> {
-            FloatingWindowPrefs.Prefs p = new FloatingWindowPrefs.Prefs();
-            p.showCaptureText = swCaptureText.isChecked();
-            p.showApplyRules = swApplyRules.isChecked();
-            p.showAiModify = swAiModify.isChecked();
-            p.showLog = swLog.isChecked();
-            p.showQuickBall = swQuickBall.isChecked();
-            p.ballContentType = contentGroup.getCheckedChipId() == R.id.chip_ball_text
-                    ? FloatingWindowPrefs.BALL_TEXT : FloatingWindowPrefs.BALL_ICON;
-            p.ballText = ballTextInput.getText().toString();
-            p.ballSizeDp = (int) sizeSlider.getValue();
-            p.ballCornerDp = (int) cornerSlider.getValue();
-            FloatingWindowPrefs.save(requireContext(), p);
-            Toast.makeText(requireContext(), R.string.floating_config_saved, Toast.LENGTH_SHORT).show();
-        });
+    private void savePrefs(MaterialSwitch swCaptureText, MaterialSwitch swApplyRules,
+                           MaterialSwitch swAiModify, MaterialSwitch swLog,
+                           MaterialSwitch swQuickBall, ChipGroup contentGroup,
+                           EditText ballTextInput, Slider sizeSlider, Slider cornerSlider) {
+        FloatingWindowPrefs.Prefs p = new FloatingWindowPrefs.Prefs();
+        p.showCaptureText = swCaptureText.isChecked();
+        p.showApplyRules = swApplyRules.isChecked();
+        p.showAiModify = swAiModify.isChecked();
+        p.showLog = swLog.isChecked();
+        p.showQuickBall = swQuickBall.isChecked();
+        p.ballContentType = contentGroup.getCheckedChipId() == R.id.chip_ball_text
+                ? FloatingWindowPrefs.BALL_TEXT : FloatingWindowPrefs.BALL_ICON;
+        p.ballText = ballTextInput.getText().toString();
+        p.ballSizeDp = (int) sizeSlider.getValue();
+        p.ballCornerDp = (int) cornerSlider.getValue();
+        FloatingWindowPrefs.save(requireContext(), p);
     }
 }

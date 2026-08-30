@@ -400,15 +400,5 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <!-- 保存按钮 -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/save_floating_config_button"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/floating_config_save"
-            android:textAllCaps="false" />
-
     </LinearLayout>
 </ScrollView>

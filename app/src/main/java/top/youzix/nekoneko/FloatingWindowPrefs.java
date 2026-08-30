@@ -28,6 +28,17 @@ public class FloatingWindowPrefs {
     public static final String BALL_ICON = "icon";
     public static final String BALL_TEXT = "text";
 
+    /** 设置变更监听器。 */
+    public interface OnPrefsChangedListener {
+        void onPrefsChanged(Prefs prefs);
+    }
+
+    private static volatile OnPrefsChangedListener sListener;
+
+    public static void setOnPrefsChangedListener(OnPrefsChangedListener listener) {
+        sListener = listener;
+    }
+
     public static class Prefs {
         // 大悬浮窗元素
         public boolean showCaptureText = true;
@@ -73,5 +84,11 @@ public class FloatingWindowPrefs {
                 .putInt(KEY_BALL_SIZE_DP, p.ballSizeDp)
                 .putInt(KEY_BALL_CORNER_DP, p.ballCornerDp)
                 .apply();
+
+        // 通知监听器
+        OnPrefsChangedListener listener = sListener;
+        if (listener != null) {
+            listener.onPrefsChanged(p);
+        }
     }
 }

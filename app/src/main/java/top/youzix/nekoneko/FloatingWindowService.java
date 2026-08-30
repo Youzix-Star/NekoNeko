@@ -51,12 +51,15 @@ public class FloatingWindowService extends Service implements Logger.LogListener
     @Override
     public void onCreate() {
         super.onCreate();
-        
+
         Logger.i("悬浮窗服务正在启动...");
-        
+
         // 获取WindowManager系统服务
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        
+
+        // 注册设置实时监听
+        FloatingWindowPrefs.setOnPrefsChangedListener(this::onPrefsChanged);
+
         // 设置日志监听器
         Logger.setLogListener(this);
 
@@ -591,6 +594,39 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         }
     }
 
+    // ========== 实时设置生效 ==========
+
+    private void onPrefsChanged(FloatingWindowPrefs.Prefs prefs) {
+        Logger.i("设置已变更，正在实时刷新...");
+
+        boolean wasQuickBall = (quickBallView != null);
+        boolean wasFloatingWindow = (floatingView != null);
+
+        if (prefs.showQuickBall) {
+            // 切到悬浮球模式
+            if (wasFloatingWindow) {
+                // 移除大悬浮窗
+                try { windowManager.removeView(floatingView); } catch (Exception ignored) {}
+                floatingView = null;
+            }
+            // 重建悬浮球（应用新样式）
+            removeQuickBall();
+            createQuickBall();
+        } else {
+            // 切到大悬浮窗模式
+            if (wasQuickBall) {
+                removeQuickBall();
+            }
+            if (wasFloatingWindow) {
+                // 大悬浮窗还活着：直接刷新可见性
+                applyVisibilityPrefs();
+            } else {
+                // 从悬浮球切回来：重建大悬浮窗
+                createFloatingView();
+            }
+        }
+    }
+
     private void setupQuickBallTouch() {
         final float[] touchX = new float[1];
         final float[] touchY = new float[1];
@@ -713,6 +749,9 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         super.onDestroy();
         
         Logger.i("悬浮窗服务正在销毁...");
+
+        // 注销设置监听器
+        FloatingWindowPrefs.setOnPrefsChangedListener(null);
 
         // 移除日志监听器
         Logger.setLogListener(null);
