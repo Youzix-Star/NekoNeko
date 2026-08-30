@@ -189,7 +189,8 @@ public class AiManager {
 
     /** 读取预设；内置预设或用户预设均可。 */
     public static Config loadPreset(Context context, String name) {
-        if (PRESET_MS_TRANSLATE.equals(name) || PRESET_MS_CHINESE.equals(name)) {
+        if (PRESET_MS_TRANSLATE.equals(name) || PRESET_MS_CHINESE.equals(name)
+                || PRESET_EMOJI.equals(name)) {
             return builtinPreset(name);
         }
         JSONObject presets = getPresetsJson(context);
