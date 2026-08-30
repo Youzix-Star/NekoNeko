@@ -152,6 +152,15 @@
     <string name="about_sponsor_sub">请作者喝杯咖啡</string>
     <string name="about_sponsor_message">不用给我赞助的，谢谢你的好意啦！\n\n如果你真想赞助我的话，那就拿这钱去给你自己买颗糖吧😉</string>
     <string name="about_github">GitHub 仓库</string>
+    <string name="about_check_update">检测更新</string>
+    <string name="about_check_update_sub">从 GitHub Releases 检查新版本</string>
+    <string name="about_update_checking">正在检查更新…</string>
+    <string name="about_update_available">发现新版本 v%1$s</string>
+    <string name="about_update_available_sub">点击查看详情并下载</string>
+    <string name="about_update_latest">已是最新版本</string>
+    <string name="about_update_error">检查失败：%1$s</string>
+    <string name="about_update_dialog_title">发现新版本 v%1$s</string>
+    <string name="about_update_dialog_go">前往下载</string>
     <string name="about_license">本项目基于 GNU AGPL v3 许可证开源</string>
     <string name="capture_label">捕获内容</string>
     <string name="please_enable_accessibility">请先启用无障碍服务</string>

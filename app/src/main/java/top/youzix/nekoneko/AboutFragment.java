@@ -18,6 +18,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class AboutFragment extends Fragment {
 
+    private TextView updateStatus;
+    private TextView updateSub;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -60,6 +63,50 @@ public class AboutFragment extends Fragment {
             Intent intent = new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://github.com/Youzix-Star/NekoNeko"));
             startActivity(intent);
+        });
+
+        // 检测更新
+        updateStatus = view.findViewById(R.id.about_update_status);
+        updateSub = view.findViewById(R.id.about_update_sub);
+
+        view.findViewById(R.id.about_check_update_button).setOnClickListener(v -> {
+            updateStatus.setText(R.string.about_update_checking);
+            updateSub.setText("");
+            UpdateChecker.checkForUpdate(requireContext(), new UpdateChecker.Callback() {
+                @Override
+                public void onUpdateAvailable(String latestVersion, String body, String apkUrl) {
+                    if (!isAdded()) return;
+                    updateStatus.setText(getString(R.string.about_update_available, latestVersion));
+                    updateSub.setText(R.string.about_update_available_sub);
+
+                    // 弹窗显示更新详情
+                    String message = body == null || body.trim().isEmpty()
+                            ? getString(R.string.about_update_available, latestVersion)
+                            : body;
+                    new MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(getString(R.string.about_update_dialog_title, latestVersion))
+                            .setMessage(message)
+                            .setPositiveButton(R.string.about_update_dialog_go, (d, w) -> {
+                                UpdateChecker.openReleasePage(requireContext());
+                            })
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .show();
+                }
+
+                @Override
+                public void onNoUpdate() {
+                    if (!isAdded()) return;
+                    updateStatus.setText(R.string.about_update_latest);
+                    updateSub.setText("");
+                }
+
+                @Override
+                public void onError(String message) {
+                    if (!isAdded()) return;
+                    updateStatus.setText(R.string.about_check_update);
+                    updateSub.setText(getString(R.string.about_update_error, message));
+                }
+            });
         });
     }
 }
