@@ -83,7 +83,7 @@
                 android:gravity="center_vertical"
                 android:layout_marginEnd="16dp">
                 <View android:layout_width="8dp" android:layout_height="8dp"
-                    android:background="@drawable/accent_swatch"
+                    android:background="@drawable/legend_dot"
                     android:backgroundTint="@color/colorPrimary" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginStart="4dp" android:text="@string/token_legend_input"
@@ -98,7 +98,7 @@
                 android:gravity="center_vertical"
                 android:layout_marginEnd="16dp">
                 <View android:layout_width="8dp" android:layout_height="8dp"
-                    android:background="@drawable/accent_swatch"
+                    android:background="@drawable/legend_dot"
                     android:backgroundTint="@color/colorTertiary" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginStart="4dp" android:text="@string/token_legend_output"
@@ -112,7 +112,7 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
                 <View android:layout_width="8dp" android:layout_height="8dp"
-                    android:background="@drawable/accent_swatch"
+                    android:background="@drawable/legend_dot"
                     android:backgroundTint="@color/colorSecondaryContainer" />
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:layout_marginStart="4dp" android:text="@string/token_legend_cached"
