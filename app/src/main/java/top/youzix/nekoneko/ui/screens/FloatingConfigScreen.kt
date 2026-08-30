@@ -10,8 +10,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -209,10 +207,7 @@ fun FloatingConfigScreen() {
                             ballContentType = "图标"
                             savePrefs()
                         },
-                        label = { Text("图标") },
-                        leadingIcon = if (ballContentType == "图标") {
-                            { Icon(Icons.Default.Check, contentDescription = null) }
-                        } else null
+                        label = { Text("图标") }
                     )
                     FilterChip(
                         selected = ballContentType == "文字",
@@ -220,10 +215,7 @@ fun FloatingConfigScreen() {
                             ballContentType = "文字"
                             savePrefs()
                         },
-                        label = { Text("文字") },
-                        leadingIcon = if (ballContentType == "文字") {
-                            { Icon(Icons.Default.Check, contentDescription = null) }
-                        } else null
+                        label = { Text("文字") }
                     )
                 }
                 

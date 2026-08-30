@@ -97,7 +97,7 @@ fun RulesConfigScreen() {
                 TextButton(onClick = {
                     if (importText.isNotBlank()) {
                         scope.launch(Dispatchers.IO) {
-                            val imported = RuleManager.importFromText(context, importText)
+                            val imported = RuleManager.importFromText(importText)
                             if (imported != null) {
                                 withContext(Dispatchers.Main) {
                                     rules.clear()
@@ -162,12 +162,12 @@ fun RulesConfigScreen() {
             confirmButton = {
                 TextButton(onClick = {
                     val filteredRules = when (exportType) {
-                        1 -> rules.filter { !it.isRegex }
-                        2 -> rules.filter { it.isRegex }
+                        1 -> rules.filter { !it.useRegex }
+                        2 -> rules.filter { it.useRegex }
                         else -> rules
                     }
                     val exportText = filteredRules.joinToString("\n") { rule ->
-                        "${if (rule.isRegex) "regex:" else "text:"}${rule.pattern} -> ${rule.replacement}"
+                        "${if (rule.useRegex) "regex:" else "text:"}${rule.pattern} -> ${rule.replacement}"
                     }
                     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     clipboard.setPrimaryClip(ClipData.newPlainText("rules", exportText))
@@ -240,11 +240,11 @@ fun RulesConfigScreen() {
                             return@TextButton
                         }
                         val rule = RuleManager.Rule(
-                            name = editName,
-                            pattern = editPattern,
-                            replacement = editReplacement,
-                            isRegex = editIsRegex,
-                            enabled = if (editingIndex == -1) true else rules[editingIndex].enabled
+                            editName,
+                            editPattern,
+                            editReplacement,
+                            if (editingIndex == -1) true else rules[editingIndex].enabled,
+                            editIsRegex
                         )
                         if (editingIndex == -1) {
                             rules.add(rule)
@@ -516,8 +516,14 @@ fun RulesConfigScreen() {
                                 )
                                 Switch(
                                     checked = rule.enabled,
-                                    onCheckedChange = { enabled ->
-                                        rules[index] = rule.copy(enabled = enabled)
+                                    onCheckedChange = { newEnabled ->
+                                        rules[index] = RuleManager.Rule(
+                                            rule.name,
+                                            rule.pattern,
+                                            rule.replacement,
+                                            newEnabled,
+                                            rule.useRegex
+                                        )
                                     }
                                 )
                             }
@@ -527,7 +533,7 @@ fun RulesConfigScreen() {
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = if (rule.isRegex) "[正则]" else "[文本]",
+                                    text = if (rule.useRegex) "[正则]" else "[文本]",
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.primary
                                 )
@@ -565,7 +571,7 @@ fun RulesConfigScreen() {
                                     editName = rule.name
                                     editPattern = rule.pattern
                                     editReplacement = rule.replacement
-                                    editIsRegex = rule.isRegex
+                                    editIsRegex = rule.useRegex
                                     showEditDialog = true
                                 }) {
                                     Text("编辑")

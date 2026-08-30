@@ -5,9 +5,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
@@ -58,7 +56,7 @@ fun AiConfigScreen() {
                 systemPrompt = config.systemPrompt ?: ""
                 prompt = config.prompt ?: ""
             }
-            presets = AiManager.getAllPresetNames(context) ?: emptyList()
+            presets = AiManager.getAllPresetNames(context)
         }
     }
 
@@ -82,18 +80,18 @@ fun AiConfigScreen() {
                 TextButton(onClick = {
                     if (presetNameInput.isNotBlank()) {
                         scope.launch(Dispatchers.IO) {
+                            val cfg = AiManager.Config()
+                            cfg.baseUrl = baseUrl
+                            cfg.apiKey = apiKey
+                            cfg.model = model
+                            cfg.systemPrompt = systemPrompt
+                            cfg.prompt = prompt
                             AiManager.savePreset(
                                 context,
                                 presetNameInput,
-                                AiManager.Config(
-                                    baseUrl = baseUrl,
-                                    apiKey = apiKey,
-                                    model = model,
-                                    systemPrompt = systemPrompt,
-                                    prompt = prompt
-                                )
+                                cfg
                             )
-                            presets = AiManager.getAllPresetNames(context) ?: emptyList()
+                            presets = AiManager.getAllPresetNames(context)
                         }
                     }
                     showPresetNameDialog = false
