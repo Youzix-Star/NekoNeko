@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -72,6 +73,10 @@ fun WelcomeScreen(onFinish: () -> Unit) {
         ),
     )
 
+    val animatedProgress by animateFloatAsState(
+        targetValue = (pagerState.currentPage * 1f) / (pageData.size - 1),
+        label = "progress"
+    )
     val currentTitle = stringResource(pageData[pagerState.currentPage].titleRes)
     val currentSummary = stringResource(pageData[pagerState.currentPage].summaryRes)
 
@@ -82,7 +87,7 @@ fun WelcomeScreen(onFinish: () -> Unit) {
     ) {
         // Progress bar
         LinearProgressIndicator(
-            progress = { (pagerState.currentPage * 1f) / (pageData.size - 1) },
+            progress = { animatedProgress },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp, vertical = 24.dp),

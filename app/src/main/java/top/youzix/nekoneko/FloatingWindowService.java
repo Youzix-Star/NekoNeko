@@ -527,7 +527,6 @@ public class FloatingWindowService extends Service implements Logger.LogListener
 
         ImageView iconView = quickBallView.findViewById(R.id.quick_ball_icon);
         TextView textView = quickBallView.findViewById(R.id.quick_ball_text);
-        ImageView progressView = quickBallView.findViewById(R.id.quick_ball_progress);
 
         if (FloatingWindowPrefs.BALL_TEXT.equals(prefs.ballContentType)) {
             // 文字模式
@@ -554,8 +553,6 @@ public class FloatingWindowService extends Service implements Logger.LogListener
             }
             iconView.setLayoutParams(innerLp);
         }
-
-        progressView.setLayoutParams(innerLp);
 
         int layoutFlag;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -690,11 +687,7 @@ public class FloatingWindowService extends Service implements Logger.LogListener
             iconView.setLayoutParams(innerLp);
         }
 
-        // 更新 ProgressBar 大小
-        ImageView progressView = quickBallView.findViewById(R.id.quick_ball_progress);
-        if (progressView != null) {
-            progressView.setLayoutParams(innerLp);
-        }
+        // CircularProgressIndicator 不需要动态调整大小
 
         Logger.d("悬浮球样式已更新: " + prefs.ballSizeDp + "dp, 圆角" + prefs.ballCornerDp + "dp");
     }

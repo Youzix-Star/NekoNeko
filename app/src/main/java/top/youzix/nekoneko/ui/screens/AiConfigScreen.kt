@@ -279,7 +279,7 @@ fun AiConfigScreen() {
                     visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(onClick = { showPassword = !showPassword }) {
-                            Text(if (showPassword) "○" else "●")
+                            Icon(painterResource(if (showPassword) R.drawable.ic_visibility else R.drawable.ic_visibility_off), contentDescription = null, modifier = Modifier.size(20.dp))
                         }
                     }
                 )
