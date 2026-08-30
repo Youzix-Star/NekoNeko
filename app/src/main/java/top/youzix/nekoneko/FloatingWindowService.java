@@ -851,31 +851,16 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         });
     }
 
-    private MorphingLoaderDrawable morphingDrawable;
-
     private void setQuickBallLoading(boolean loading) {
         if (quickBallView == null) return;
         ImageView icon = quickBallView.findViewById(R.id.quick_ball_icon);
-        ImageView progress = quickBallView.findViewById(R.id.quick_ball_progress);
+        View progress = quickBallView.findViewById(R.id.quick_ball_progress);
         if (icon == null || progress == null) return;
 
         if (loading) {
             icon.setVisibility(View.GONE);
-            // 创建或复用 morphing drawable
-            if (morphingDrawable == null) {
-                morphingDrawable = new MorphingLoaderDrawable();
-                int sizePx = quickBallParams.width;
-                int innerPx = (int) (sizePx * 0.6);
-                progress.setImageDrawable(morphingDrawable);
-                progress.getLayoutParams().width = innerPx;
-                progress.getLayoutParams().height = innerPx;
-            }
             progress.setVisibility(View.VISIBLE);
-            morphingDrawable.start();
         } else {
-            if (morphingDrawable != null) {
-                morphingDrawable.stop();
-            }
             progress.setVisibility(View.GONE);
             icon.setVisibility(View.VISIBLE);
         }

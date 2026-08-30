@@ -29,12 +29,14 @@
         android:visibility="gone"
         android:fontFamily="sans-serif-medium" />
 
-    <!-- 加载状态：Morphing 形状变形 -->
-    <ImageView
+    <!-- 加载状态：MD3 CircularProgressIndicator -->
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/quick_ball_progress"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center"
-        android:visibility="gone" />
+        android:indeterminate="true"
+        android:visibility="gone"
+        android:indeterminateTint="?attr/colorPrimary" />
 
 </FrameLayout>

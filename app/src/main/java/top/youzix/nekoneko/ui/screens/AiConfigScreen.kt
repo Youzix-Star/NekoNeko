@@ -279,7 +279,7 @@ fun AiConfigScreen() {
                     visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
                     trailingIcon = {
                         IconButton(onClick = { showPassword = !showPassword }) {
-                            Text(if (showPassword) "🙈" else "👁")
+                            Text(if (showPassword) "○" else "●")
                         }
                     }
                 )

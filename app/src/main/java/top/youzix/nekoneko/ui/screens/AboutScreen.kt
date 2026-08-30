@@ -67,8 +67,7 @@ fun AboutScreen() {
         Column(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(painterResource(R.drawable.ic_launcher), null,
-                modifier = Modifier.size(80.dp).clip(RoundedCornerShape(16.dp)),
-                tint = MaterialTheme.colorScheme.primary)
+                modifier = Modifier.size(80.dp).clip(RoundedCornerShape(16.dp)))
             Spacer(Modifier.height(12.dp))
             Text("NekoNeko", style = MaterialTheme.typography.headlineSmall)
             Text(versionText, style = MaterialTheme.typography.labelMedium,
