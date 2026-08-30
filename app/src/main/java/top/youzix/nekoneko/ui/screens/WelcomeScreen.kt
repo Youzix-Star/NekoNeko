@@ -86,7 +86,7 @@ fun WelcomeScreen(onFinish: () -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp, vertical = 24.dp),
-            trackThickness = 4.dp,
+
         )
 
         // Title + summary (outside pager for smooth transition)
