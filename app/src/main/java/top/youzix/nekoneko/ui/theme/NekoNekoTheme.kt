@@ -10,13 +10,13 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 // ==================== M3 Expressive Shape System ====================
-// Using varied, expressive rounded corners for a more emotional UI
 private val NekoShapes = Shapes(
     extraSmall = RoundedCornerShape(8.dp),
     small = RoundedCornerShape(12.dp),
@@ -25,7 +25,7 @@ private val NekoShapes = Shapes(
     extraLarge = RoundedCornerShape(32.dp),
 )
 
-// ==================== Helper: NekoColorPalette → lightColorScheme/darkColorScheme ====================
+// ==================== Helper: NekoColorPalette -> ColorScheme ====================
 private fun NekoColorPalette.toLightColorScheme() = lightColorScheme(
     primary = primary,
     onPrimary = onPrimary,
@@ -81,6 +81,7 @@ private fun NekoColorPalette.toDarkColorScheme() = darkColorScheme(
 fun NekoNekoTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
+    motionScheme: NekoMotionScheme = DefaultMotionScheme,
     themeId: Int = ComposeThemeManager.currentThemeId.collectAsState().value,
     content: @Composable () -> Unit
 ) {
@@ -91,7 +92,7 @@ fun NekoNekoTheme(
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        // Predefined palette from ComposeThemeManager
+        // Predefined palette
         else -> {
             val palette = ComposeThemeManager.getColorPalette(themeId, darkTheme)
                 ?: ComposeThemeManager.getGRGreenPalette(darkTheme)
@@ -99,9 +100,11 @@ fun NekoNekoTheme(
         }
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        shapes = NekoShapes,
-        content = content
-    )
+    CompositionLocalProvider(LocalMotionScheme provides motionScheme) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            shapes = NekoShapes,
+            content = content
+        )
+    }
 }
