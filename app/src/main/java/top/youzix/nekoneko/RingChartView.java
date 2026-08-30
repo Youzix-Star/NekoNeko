@@ -7,8 +7,11 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.google.android.material.color.MaterialColors;
+
 /**
  * 简洁环形图 View：显示 token 分布（输入/输出/缓存）。
+ * 颜色从当前主题动态解析，跟随动态取色 / 主题切换自动更新。
  */
 public class RingChartView extends View {
 
@@ -19,17 +22,8 @@ public class RingChartView extends View {
     private int completionTokens;
     private int cachedTokens;
 
-    private final int colorPrompt;
-    private final int colorCompletion;
-    private final int colorCached;
-    private final int colorBackground;
-
     public RingChartView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        colorPrompt = context.getResources().getColor(R.color.colorPrimary);
-        colorCompletion = context.getResources().getColor(R.color.colorTertiary);
-        colorCached = context.getResources().getColor(R.color.colorSecondaryContainer);
-        colorBackground = context.getResources().getColor(R.color.colorSurfaceContainerHigh);
     }
 
     public void setData(int prompt, int completion, int cached) {
@@ -42,6 +36,14 @@ public class RingChartView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        // 每次绘制时从当前主题动态解析颜色，跟随动态取色 / 主题切换
+        Context ctx = getContext();
+        int colorPrompt = MaterialColors.getColor(ctx, com.google.android.material.R.attr.colorPrimary, 0);
+        int colorCompletion = MaterialColors.getColor(ctx, com.google.android.material.R.attr.colorTertiary, 0);
+        int colorCached = MaterialColors.getColor(ctx, com.google.android.material.R.attr.colorSecondaryContainer, 0);
+        int colorBackground = MaterialColors.getColor(ctx, com.google.android.material.R.attr.colorSurfaceContainerHigh, 0);
+
         float w = getWidth();
         float h = getHeight();
         float size = Math.min(w, h);
@@ -52,7 +54,7 @@ public class RingChartView extends View {
 
         int total = promptTokens + completionTokens;
         if (total == 0) {
-            // 空状态：画灰色底环
+            // 空状态：画底环
             paint.setStyle(Paint.Style.STROKE);
             paint.setStrokeWidth(stroke);
             paint.setColor(colorBackground);
