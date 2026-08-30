@@ -215,4 +215,14 @@
     <string name="ai_preset_applied">已应用预设</string>
     <string name="ai_confirm_delete_preset">确定删除预设“%1$s”吗？</string>
     <string name="ai_no_presets">暂无自定义预设</string>
+
+    <!-- Semantic color & theme strings -->
+    <string name="color_theme_title">主题色调</string>
+    <string name="color_theme_green">翡翠绿 (GR)</string>
+    <string name="color_theme_ember">琥珀暖</string>
+    <string name="color_theme_glacier">冰川蓝</string>
+    <string name="dark_mode_title">深色模式</string>
+    <string name="dark_mode_follow_system">跟随系统</string>
+    <string name="dark_mode_force_light">浅色</string>
+    <string name="dark_mode_force_dark">深色</string>
 </resources>

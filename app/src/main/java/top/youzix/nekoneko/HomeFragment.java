@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class HomeFragment extends Fragment {
 
     private TextView statusAccessibility;
     private TextView statusFloating;
+    private TextView statusDarkMode;
+    private TextView statusColorTheme;
 
     @Nullable
     @Override
@@ -51,6 +54,16 @@ public class HomeFragment extends Fragment {
         });
 
         view.findViewById(R.id.row_floating).setOnClickListener(v -> toggleFloatingWindow());
+
+        // Dark mode row
+        statusDarkMode = view.findViewById(R.id.status_dark_mode);
+        view.findViewById(R.id.row_dark_mode).setOnClickListener(v -> showDarkModeDialog());
+        refreshDarkModeStatus();
+
+        // Color theme row
+        statusColorTheme = view.findViewById(R.id.status_color_theme);
+        view.findViewById(R.id.row_color_theme).setOnClickListener(v -> showColorThemeDialog());
+        refreshColorThemeStatus();
     }
 
     private String selectedModel = null; // null = 全部模型
@@ -159,6 +172,92 @@ public class HomeFragment extends Fragment {
             statusFloating.setText(isServiceRunning(ctx, FloatingWindowService.class)
                     ? R.string.floating_running : R.string.floating_stopped);
         }
+    }
+
+    private void showDarkModeDialog() {
+        Context ctx = requireContext();
+        int currentMode = DarkModePrefs.getMode(ctx);
+
+        int checkedItem;
+        if (currentMode == DarkModePrefs.MODE_FORCE_LIGHT) {
+            checkedItem = 1;
+        } else if (currentMode == DarkModePrefs.MODE_FORCE_DARK) {
+            checkedItem = 2;
+        } else {
+            checkedItem = 0; // Follow System
+        }
+
+        String[] options = {
+                getString(R.string.dark_mode_follow_system),
+                getString(R.string.dark_mode_force_light),
+                getString(R.string.dark_mode_force_dark)
+        };
+
+        new MaterialAlertDialogBuilder(ctx)
+                .setTitle(R.string.dark_mode_title)
+                .setSingleChoiceItems(options, checkedItem, (dialog, which) -> {
+                    int newMode;
+                    switch (which) {
+                        case 1:
+                            newMode = DarkModePrefs.MODE_FORCE_LIGHT;
+                            break;
+                        case 2:
+                            newMode = DarkModePrefs.MODE_FORCE_DARK;
+                            break;
+                        default:
+                            newMode = DarkModePrefs.MODE_FOLLOW_SYSTEM;
+                            break;
+                    }
+                    DarkModePrefs.save(ctx, newMode);
+                    refreshDarkModeStatus();
+                    dialog.dismiss();
+                })
+                .show();
+    }
+
+    private void refreshDarkModeStatus() {
+        if (!isAdded() || statusDarkMode == null) return;
+        int mode = DarkModePrefs.getMode(requireContext());
+        if (mode == DarkModePrefs.MODE_FORCE_LIGHT) {
+            statusDarkMode.setText(R.string.dark_mode_force_light);
+        } else if (mode == DarkModePrefs.MODE_FORCE_DARK) {
+            statusDarkMode.setText(R.string.dark_mode_force_dark);
+        } else {
+            statusDarkMode.setText(R.string.dark_mode_follow_system);
+        }
+    }
+
+    private void showColorThemeDialog() {
+        Context ctx = requireContext();
+        int currentTheme = ColorThemeManager.getThemeId(ctx);
+
+        String[] options = {
+                getString(R.string.color_theme_green),
+                getString(R.string.color_theme_ember),
+                getString(R.string.color_theme_glacier)
+        };
+
+        new MaterialAlertDialogBuilder(ctx)
+                .setTitle(R.string.color_theme_title)
+                .setSingleChoiceItems(options, currentTheme, (dialog, which) -> {
+                    if (which != currentTheme) {
+                        ColorThemeManager.saveTheme(ctx, which);
+                        refreshColorThemeStatus();
+                        // Recreate activity to apply new theme
+                        if (getActivity() != null) {
+                            getActivity().recreate();
+                        }
+                    }
+                    dialog.dismiss();
+                })
+                .show();
+    }
+
+    private void refreshColorThemeStatus() {
+        if (!isAdded() || statusColorTheme == null) return;
+        Context ctx = requireContext();
+        int themeId = ColorThemeManager.getThemeId(ctx);
+        statusColorTheme.setText(ColorThemeManager.getThemeName(ctx, themeId));
     }
 
     private void toggleFloatingWindow() {

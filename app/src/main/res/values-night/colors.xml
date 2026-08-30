@@ -63,4 +63,14 @@
     <color name="colorScrim">#000000</color>
     <color name="colorOutline">#8F9285</color>
     <color name="colorOutlineVariant">#44483D</color>
+
+    <!-- Semantic color aliases -->
+    <color name="semantic_card_bg">?attr/colorSurfaceBright</color>
+    <color name="semantic_card_title_bg">?attr/colorSurfaceContainer</color>
+    <color name="semantic_item_bg">?attr/colorSurfaceVariant</color>
+    <color name="semantic_on_item">?attr/colorOnSurface</color>
+    <color name="semantic_secondary_text">?attr/colorOnSurfaceVariant</color>
+    <color name="semantic_divider">?attr/colorOutlineVariant</color>
+    <color name="semantic_warning_bg">?attr/colorSecondaryContainer</color>
+    <color name="semantic_warning_on">?attr/colorOnSecondaryContainer</color>
 </resources>

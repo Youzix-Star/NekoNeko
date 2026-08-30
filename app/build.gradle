@@ -10,8 +10,8 @@ android {
         applicationId "top.youzix.nekoneko"
         minSdk 21
         targetSdk 33
-        versionCode 68
-        versionName "1.8.0"
+        versionCode 69
+        versionName "1.9.0"
     }
 
     signingConfigs {

@@ -32,10 +32,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Apply dark mode setting before super (may restart activity)
+        DarkModePrefs.apply(this);
+
         super.onCreate(savedInstanceState);
 
         // Android 12+：按系统深浅色应用莫奈动态取色（官方 ThemeOverlay，与系统壁纸同源）
         ThemeUtils.applyDynamicColors(this, getTheme());
+
+        // Apply color theme palette
+        ColorThemeManager.applyTheme(this);
 
         setContentView(R.layout.activity_main);
 

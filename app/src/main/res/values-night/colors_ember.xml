@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Ember (warm orange/amber) palette — dark mode -->
+
+    <!-- Primary -->
+    <color name="colorPrimary">#FFDEA1</color>
+    <color name="colorOnPrimary">#402D00</color>
+    <color name="colorPrimaryContainer">#5C4100</color>
+    <color name="colorOnPrimaryContainer">#FFDEA1</color>
+
+    <!-- Secondary -->
+    <color name="colorSecondary">#DBC4A0</color>
+    <color name="colorOnSecondary">#3F2E14</color>
+    <color name="colorSecondaryContainer">#564429</color>
+    <color name="colorOnSecondaryContainer">#F8DFBB</color>
+
+    <!-- Tertiary -->
+    <color name="colorTertiary">#B4D499</color>
+    <color name="colorOnTertiary">#213612</color>
+    <color name="colorTertiaryContainer">#374D28</color>
+    <color name="colorOnTertiaryContainer">#CFF0B4</color>
+
+    <!-- Error -->
+    <color name="colorError">#FFB4AB</color>
+    <color name="colorOnError">#690005</color>
+    <color name="colorErrorContainer">#93000A</color>
+    <color name="colorOnErrorContainer">#FFDAD6</color>
+
+    <!-- Surface / Background -->
+    <color name="colorBackground">#18130D</color>
+    <color name="colorOnBackground">#EDE0D0</color>
+    <color name="colorSurface">#18130D</color>
+    <color name="colorOnSurface">#EDE0D0</color>
+    <color name="colorSurfaceVariant">#4F4539</color>
+    <color name="colorOnSurfaceVariant">#D5C5B5</color>
+    <color name="colorSurfaceDim">#18130D</color>
+    <color name="colorSurfaceBright">#3F3729</color>
+    <color name="colorSurfaceContainerLowest">#0E0A05</color>
+    <color name="colorSurfaceContainerLow">#201B13</color>
+    <color name="colorSurfaceContainer">#251F17</color>
+    <color name="colorSurfaceContainerHigh">#302A21</color>
+    <color name="colorSurfaceContainerHighest">#3B342A</color>
+
+    <!-- Outline -->
+    <color name="colorOutline">#9E8E7E</color>
+    <color name="colorOutlineVariant">#4F4539</color>
+</resources>
