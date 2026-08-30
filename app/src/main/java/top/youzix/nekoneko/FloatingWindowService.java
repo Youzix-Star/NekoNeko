@@ -550,6 +550,9 @@ public class FloatingWindowService extends Service implements Logger.LogListener
             // 图标模式
             iconView.setVisibility(View.VISIBLE);
             textView.setVisibility(View.GONE);
+            if (prefs.ballIconRes != 0) {
+                iconView.setImageResource(prefs.ballIconRes);
+            }
             iconView.setLayoutParams(innerLp);
         }
 
@@ -579,7 +582,12 @@ public class FloatingWindowService extends Service implements Logger.LogListener
 
         quickBallView.setOnClickListener(v -> {
             if (isQuickBallProcessing) return;
-            executeQuickBallAction();
+            FloatingWindowPrefs.Prefs p = FloatingWindowPrefs.load(this);
+            if (FloatingWindowPrefs.ACTION_RULES.equals(p.ballAction)) {
+                executeQuickBallRules();
+            } else {
+                executeQuickBallAction();
+            }
         });
 
         Logger.d("快捷悬浮球已创建: " + prefs.ballSizeDp + "dp, 圆角" + prefs.ballCornerDp + "dp");
@@ -677,6 +685,9 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         } else {
             iconView.setVisibility(View.VISIBLE);
             textView.setVisibility(View.GONE);
+            if (prefs.ballIconRes != 0) {
+                iconView.setImageResource(prefs.ballIconRes);
+            }
             iconView.setLayoutParams(innerLp);
         }
 
@@ -731,6 +742,46 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         });
     }
 
+    /** 悬浮球动作：应用规则 → 替换输入框 */
+    private void executeQuickBallRules() {
+        isQuickBallProcessing = true;
+        setQuickBallLoading(true);
+        Logger.i("快捷球：开始执行规则流程");
+
+        String rawText = "";
+        AccessibilityService service = AccessibilityService.getInstance();
+        if (service != null) {
+            rawText = service.getCurrentWindowText();
+        }
+        if (rawText.isEmpty()) {
+            Logger.w("快捷球：未捕获到文本");
+            Toast.makeText(this, R.string.no_text_found, Toast.LENGTH_SHORT).show();
+            setQuickBallLoading(false);
+            isQuickBallProcessing = false;
+            return;
+        }
+
+        java.util.List<RuleManager.Rule> rules = RuleManager.load(this);
+        if (rules.isEmpty()) {
+            Toast.makeText(this, R.string.rules_none_hint, Toast.LENGTH_SHORT).show();
+            setQuickBallLoading(false);
+            isQuickBallProcessing = false;
+            return;
+        }
+
+        String result = RuleManager.applyRules(rawText, rules);
+        Logger.i("快捷球：规则应用完成: " + rawText + " → " + result);
+
+        boolean replaced = service != null && service.replaceInputText(result);
+        Toast.makeText(this,
+                replaced ? R.string.rules_applied : R.string.no_text_found,
+                Toast.LENGTH_SHORT).show();
+
+        setQuickBallLoading(false);
+        isQuickBallProcessing = false;
+    }
+
+    /** 悬浮球动作：AI 改写 → 替换输入框 */
     private void executeQuickBallAction() {
         isQuickBallProcessing = true;
         setQuickBallLoading(true);

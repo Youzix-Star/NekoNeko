@@ -90,8 +90,12 @@
     <string name="floating_config_mutual_exclusion">⚠ 大悬浮窗与快捷悬浮球互斥，开启其中一个会自动关闭另一个</string>
     <string name="floating_config_ball_content">悬浮球内容</string>
     <string name="floating_config_ball_icon">图标</string>
+    <string name="floating_config_ball_icon_pick">选择图标</string>
     <string name="floating_config_ball_text_mode">自定义文字</string>
     <string name="floating_config_ball_text_hint">悬浮球显示的文字</string>
+    <string name="floating_config_ball_action">点击动作</string>
+    <string name="floating_config_ball_action_rules">应用规则</string>
+    <string name="floating_config_ball_action_ai">套用 AI</string>
     <string name="floating_config_ball_size">球大小</string>
     <string name="floating_config_ball_corner">圆角</string>
     <string name="quick_ball">快捷球</string>

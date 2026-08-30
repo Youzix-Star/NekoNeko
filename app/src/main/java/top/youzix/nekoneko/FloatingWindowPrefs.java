@@ -25,10 +25,16 @@ public class FloatingWindowPrefs {
     private static final String KEY_BALL_CORNER_DP = "ball_corner_dp";
     private static final String KEY_BALL_POS_X = "ball_pos_x";
     private static final String KEY_BALL_POS_Y = "ball_pos_y";
+    private static final String KEY_BALL_ACTION = "ball_action";
+    private static final String KEY_BALL_ICON_RES = "ball_icon_res";
 
     /** 内容类型常量 */
     public static final String BALL_ICON = "icon";
     public static final String BALL_TEXT = "text";
+
+    /** 悬浮球动作常量 */
+    public static final String ACTION_RULES = "rules";
+    public static final String ACTION_AI = "ai";
 
     /** 设置变更监听器。 */
     public interface OnPrefsChangedListener {
@@ -48,12 +54,14 @@ public class FloatingWindowPrefs {
         public boolean showAiModify = true;
         public boolean showLog = true;
 
-        // 悬浮球开关
-        public boolean showQuickBall = false;
+        // 悬浮球开关（默认开启）
+        public boolean showQuickBall = true;
 
         // 悬浮球自定义
         public String ballContentType = BALL_ICON; // "icon" or "text"
         public String ballText = "AI";
+        public String ballAction = ACTION_AI; // "rules" or "ai"
+        public int ballIconRes = 0; // 0 = 使用默认 ic_auto_fix
         public float ballSizeDp = 48;
         public float ballCornerDp = 24; // 默认全圆
         public int ballPosX = 20;
@@ -67,9 +75,11 @@ public class FloatingWindowPrefs {
         p.showApplyRules = sp.getBoolean(KEY_SHOW_APPLY_RULES, true);
         p.showAiModify = sp.getBoolean(KEY_SHOW_AI_MODIFY, true);
         p.showLog = sp.getBoolean(KEY_SHOW_LOG, true);
-        p.showQuickBall = sp.getBoolean(KEY_SHOW_QUICK_BALL, false);
+        p.showQuickBall = sp.getBoolean(KEY_SHOW_QUICK_BALL, true);
         p.ballContentType = sp.getString(KEY_BALL_CONTENT_TYPE, BALL_ICON);
         p.ballText = sp.getString(KEY_BALL_TEXT, "AI");
+        p.ballAction = sp.getString(KEY_BALL_ACTION, ACTION_AI);
+        p.ballIconRes = sp.getInt(KEY_BALL_ICON_RES, 0);
 
         // 兼容旧版：ballSizeDp/ballCornerDp 之前用 putInt 存储，
         // 现在改为 putFloat，但设备上可能还有旧的 int 值，
@@ -102,6 +112,8 @@ public class FloatingWindowPrefs {
                 .putBoolean(KEY_SHOW_QUICK_BALL, p.showQuickBall)
                 .putString(KEY_BALL_CONTENT_TYPE, p.ballContentType)
                 .putString(KEY_BALL_TEXT, p.ballText)
+                .putString(KEY_BALL_ACTION, p.ballAction)
+                .putInt(KEY_BALL_ICON_RES, p.ballIconRes)
                 .putFloat(KEY_BALL_SIZE_DP, p.ballSizeDp)
                 .putFloat(KEY_BALL_CORNER_DP, p.ballCornerDp)
                 .putInt(KEY_BALL_POS_X, p.ballPosX)

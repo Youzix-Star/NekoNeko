@@ -33,23 +33,15 @@
             android:textColor="?attr/colorOnSurfaceVariant" />
 
         <!-- 大悬浮窗 vs 悬浮球 互斥提示 -->
-        <com.google.android.material.card.MaterialCardView
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="?attr/colorErrorContainer"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:text="@string/floating_config_mutual_exclusion"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:textColor="?attr/colorOnErrorContainer" />
-        </com.google.android.material.card.MaterialCardView>
+            android:background="?attr/colorTertiaryContainer"
+            android:padding="12dp"
+            android:text="@string/floating_config_mutual_exclusion"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnTertiaryContainer" />
 
         <!-- 快捷悬浮球开关 -->
         <LinearLayout
@@ -134,6 +126,45 @@
                     android:layout_height="wrap_content"
                     android:text="@string/floating_config_ball_text_mode"
                     android:textAllCaps="false" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <!-- 点击动作：应用规则 / 套用 AI -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/floating_config_ball_action"
+                android:textAppearance="?attr/textAppearanceLabelLarge"
+                android:textColor="?attr/colorPrimary" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/ball_action_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                app:singleSelection="true"
+                app:selectionRequired="true"
+                xmlns:app="http://schemas.android.com/apk/res-auto">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_ball_action_rules"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/floating_config_ball_action_rules"
+                    android:textAllCaps="false" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_ball_action_ai"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/floating_config_ball_action_ai"
+                    android:textAllCaps="false"
+                    android:checked="true" />
             </com.google.android.material.chip.ChipGroup>
 
             <!-- 自定义文字 -->
