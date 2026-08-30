@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdk 35
+    compileSdk 37
     namespace "top.youzix.nekoneko"
 
     defaultConfig {
@@ -49,9 +49,6 @@ android {
     }
     buildFeatures {
         compose true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = '2.0.21'
     }
 }
 
