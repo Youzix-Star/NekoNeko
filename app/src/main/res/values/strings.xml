@@ -170,9 +170,12 @@
     <string name="ai_base_url">API 地址</string>
     <string name="ai_api_key">API Key</string>
     <string name="ai_model">模型名称</string>
-    <string name="ai_prompt">提示词</string>
-    <string name="ai_prompt_helper">提示词中的 {text} 会替换为捕获的文本；没有 {text} 时，提示词作为指令、捕获文本作为内容发送</string>
-    <string name="ai_restore_default_prompt">恢复默认提示词</string>
+    <string name="ai_prompt">人设提示词</string>
+    <string name="ai_prompt_helper">描述 AI 应该扮演的角色和风格。提示词中含 {text} 时，{text} 会替换为捕获的文本。</string>
+    <string name="ai_restore_default_prompt">恢复默认人设</string>
+    <string name="ai_system_prompt">系统框架提示词</string>
+    <string name="ai_system_prompt_helper">控制 AI 的回答格式和输出约束，不推荐修改。</string>
+    <string name="ai_restore_default_system_prompt">恢复默认框架</string>
     <string name="ai_expand_prompt">展开编辑</string>
     <string name="ai_save">保存</string>
     <string name="presets_label">预设</string>

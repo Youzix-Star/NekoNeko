@@ -31,17 +31,22 @@ public class AiManager {
     private static final String KEY_API_KEY = "api_key";
     private static final String KEY_MODEL = "model";
     private static final String KEY_PROMPT = "prompt";
+    private static final String KEY_SYSTEM_PROMPT = "system_prompt";
     private static final String KEY_PRESETS = "presets";
 
     public static final String DEFAULT_BASE_URL = "https://api.deepseek.com";
     public static final String DEFAULT_MODEL = "deepseek-v4-flash";
+    // 系统框架提示词（控制回答格式，不推荐用户改）
+    public static final String DEFAULT_SYSTEM_PROMPT =
+            "你是一个文本改写助手。只输出改写后的文本，不要任何解释。";
+
+    // 人设提示词（用户可自由修改）
     public static final String DEFAULT_PROMPT =
             "你是一位专业的中文编辑。请将用户提供的文本改写为“微软式中文”风格：" +
             "使用正式、书面、简洁的简体中文；" +
             "多使用“请”“请确保”“请注意”等礼貌指令式表达；" +
             "避免口语化、网络用语和不必要的英文混排；" +
-            "保持原意不变，只优化表达方式。" +
-            "直接输出改写后的文本，不要输出任何解释、前缀或多余内容。";
+            "保持原意不变，只优化表达方式。";
 
     // 内置预设
     public static final String PRESET_MS_TRANSLATE = "微软式翻译";
@@ -69,6 +74,7 @@ public class AiManager {
         public String baseUrl = DEFAULT_BASE_URL;
         public String apiKey = "";
         public String model = DEFAULT_MODEL;
+        public String systemPrompt = DEFAULT_SYSTEM_PROMPT;
         public String prompt = DEFAULT_PROMPT;
     }
 
@@ -107,6 +113,7 @@ public class AiManager {
         c.baseUrl = sp.getString(KEY_BASE_URL, DEFAULT_BASE_URL);
         c.apiKey = sp.getString(KEY_API_KEY, "");
         c.model = sp.getString(KEY_MODEL, DEFAULT_MODEL);
+        c.systemPrompt = sp.getString(KEY_SYSTEM_PROMPT, DEFAULT_SYSTEM_PROMPT);
         c.prompt = sp.getString(KEY_PROMPT, DEFAULT_PROMPT);
         return c;
     }
@@ -117,6 +124,7 @@ public class AiManager {
                 .putString(KEY_BASE_URL, c.baseUrl == null ? "" : c.baseUrl)
                 .putString(KEY_API_KEY, c.apiKey == null ? "" : c.apiKey)
                 .putString(KEY_MODEL, c.model == null ? "" : c.model)
+                .putString(KEY_SYSTEM_PROMPT, c.systemPrompt == null ? "" : c.systemPrompt)
                 .putString(KEY_PROMPT, c.prompt == null ? "" : c.prompt)
                 .apply();
     }
@@ -129,6 +137,7 @@ public class AiManager {
         c.baseUrl = "";
         c.apiKey = "";
         c.model = "";
+        c.systemPrompt = DEFAULT_SYSTEM_PROMPT;
         if (PRESET_MS_TRANSLATE.equals(name)) {
             c.prompt = BUILTIN_TRANSLATE_PROMPT;
         } else if (PRESET_MS_CHINESE.equals(name)) {
@@ -148,6 +157,7 @@ public class AiManager {
             o.put(KEY_BASE_URL, c.baseUrl == null ? "" : c.baseUrl);
             o.put(KEY_API_KEY, c.apiKey == null ? "" : c.apiKey);
             o.put(KEY_MODEL, c.model == null ? "" : c.model);
+            o.put(KEY_SYSTEM_PROMPT, c.systemPrompt == null ? "" : c.systemPrompt);
             o.put(KEY_PROMPT, c.prompt == null ? "" : c.prompt);
             presets.put(name, o);
             putPresetsJson(context, presets);
@@ -200,6 +210,7 @@ public class AiManager {
             c.baseUrl = o.optString(KEY_BASE_URL, "");
             c.apiKey = o.optString(KEY_API_KEY, "");
             c.model = o.optString(KEY_MODEL, "");
+            c.systemPrompt = o.optString(KEY_SYSTEM_PROMPT, DEFAULT_SYSTEM_PROMPT);
             c.prompt = o.optString(KEY_PROMPT, DEFAULT_PROMPT);
         }
         return c;
@@ -230,22 +241,25 @@ public class AiManager {
      * 否则提示词作为系统指令、捕获文本作为用户消息发送。
      */
     public static void modifyText(Config cfg, String text, Callback callback) {
-        final String systemPrompt;
+        final String sysPrompt;
         final String userContent;
         if (cfg.prompt != null && cfg.prompt.contains("{text}")) {
-            systemPrompt = "你是一个文本改写助手。只输出改写后的文本，不要任何解释。";
+            sysPrompt = (cfg.systemPrompt == null || cfg.systemPrompt.trim().isEmpty())
+                    ? DEFAULT_SYSTEM_PROMPT : cfg.systemPrompt.trim();
             userContent = cfg.prompt.replace("{text}", text);
         } else {
-            systemPrompt = (cfg.prompt == null || cfg.prompt.trim().isEmpty())
+            sysPrompt = (cfg.systemPrompt == null || cfg.systemPrompt.trim().isEmpty())
+                    ? DEFAULT_SYSTEM_PROMPT : cfg.systemPrompt.trim();
+            String persona = (cfg.prompt == null || cfg.prompt.trim().isEmpty())
                     ? DEFAULT_PROMPT : cfg.prompt.trim();
-            userContent = text;
+            userContent = persona + "\n\n" + text;
         }
 
         final String modelName = cfg.model;
         Thread thread = new Thread(() -> {
             try {
                 _lastUsage = null;
-                String result = requestChatCompletion(cfg, systemPrompt, userContent);
+                String result = requestChatCompletion(cfg, sysPrompt, userContent);
                 // 补充 model 名到 usage
                 if (_lastUsage != null && _lastUsage.model == null) {
                     _lastUsage.model = modelName;
@@ -305,7 +319,7 @@ public class AiManager {
         thread.start();
     }
 
-    private static String requestChatCompletion(Config cfg, String systemPrompt, String userContent)
+    private static String requestChatCompletion(Config cfg, String sysPrompt, String userContent)
             throws Exception {
         String base = (cfg.baseUrl == null || cfg.baseUrl.trim().isEmpty())
                 ? DEFAULT_BASE_URL : cfg.baseUrl.trim();
@@ -324,7 +338,7 @@ public class AiManager {
             body.put("model", cfg.model == null || cfg.model.trim().isEmpty()
                     ? DEFAULT_MODEL : cfg.model.trim());
             JSONArray messages = new JSONArray();
-            messages.put(new JSONObject().put("role", "system").put("content", systemPrompt));
+            messages.put(new JSONObject().put("role", "system").put("content", sysPrompt));
             messages.put(new JSONObject().put("role", "user").put("content", userContent));
             body.put("messages", messages);
             body.put("temperature", 0.3);

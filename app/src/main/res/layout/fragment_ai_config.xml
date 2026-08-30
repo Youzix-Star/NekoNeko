@@ -147,11 +147,47 @@
             app:icon="@drawable/ic_arrow_drop_down"
             app:iconGravity="textStart" />
 
-        <!-- 提示词 -->
+        <!-- 系统框架提示词 -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="4dp"
+            android:text="@string/ai_system_prompt"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="?attr/colorPrimary" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:helperText="@string/ai_system_prompt_helper">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/ai_system_prompt_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:inputType="textMultiLine"
+                android:minLines="2"
+                android:scrollbars="vertical" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/restore_system_prompt_button"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/ai_restore_default_system_prompt"
+            android:textAllCaps="false" />
+
+        <!-- 人设提示词 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="4dp"
             android:text="@string/ai_prompt"
             android:textAppearance="?attr/textAppearanceLabelLarge"

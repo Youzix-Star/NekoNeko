@@ -26,6 +26,7 @@ public class AiConfigFragment extends Fragment {
     private TextInputEditText baseUrlInput;
     private TextInputEditText apiKeyInput;
     private TextInputEditText modelInput;
+    private TextInputEditText systemPromptInput;
     private TextInputEditText promptInput;
     private ChipGroup presetChipGroup;
 
@@ -43,6 +44,7 @@ public class AiConfigFragment extends Fragment {
         baseUrlInput = view.findViewById(R.id.ai_base_url_input);
         apiKeyInput = view.findViewById(R.id.ai_api_key_input);
         modelInput = view.findViewById(R.id.ai_model_input);
+        systemPromptInput = view.findViewById(R.id.ai_system_prompt_input);
         promptInput = view.findViewById(R.id.ai_prompt_input);
         presetChipGroup = view.findViewById(R.id.preset_chip_group);
 
@@ -51,8 +53,11 @@ public class AiConfigFragment extends Fragment {
         baseUrlInput.setText(cfg.baseUrl);
         apiKeyInput.setText(cfg.apiKey);
         modelInput.setText(cfg.model);
+        systemPromptInput.setText(cfg.systemPrompt);
         promptInput.setText(cfg.prompt);
 
+        view.findViewById(R.id.restore_system_prompt_button).setOnClickListener(v ->
+                systemPromptInput.setText(AiManager.DEFAULT_SYSTEM_PROMPT));
         view.findViewById(R.id.restore_prompt_button).setOnClickListener(v ->
                 promptInput.setText(AiManager.DEFAULT_PROMPT));
         view.findViewById(R.id.fetch_models_button).setOnClickListener(v -> fetchModels());
@@ -167,6 +172,7 @@ public class AiConfigFragment extends Fragment {
         c.baseUrl = baseUrlInput.getText().toString().trim();
         c.apiKey = apiKeyInput.getText().toString().trim();
         c.model = modelInput.getText().toString().trim();
+        c.systemPrompt = systemPromptInput.getText().toString().trim();
         c.prompt = promptInput.getText().toString().trim();
         return c;
     }
@@ -177,10 +183,12 @@ public class AiConfigFragment extends Fragment {
         merged.baseUrl = notEmpty(preset.baseUrl) ? preset.baseUrl : current.baseUrl;
         merged.apiKey = notEmpty(preset.apiKey) ? preset.apiKey : current.apiKey;
         merged.model = notEmpty(preset.model) ? preset.model : current.model;
+        merged.systemPrompt = notEmpty(preset.systemPrompt) ? preset.systemPrompt : current.systemPrompt;
         merged.prompt = notEmpty(preset.prompt) ? preset.prompt : current.prompt;
         baseUrlInput.setText(merged.baseUrl);
         apiKeyInput.setText(merged.apiKey);
         modelInput.setText(merged.model);
+        systemPromptInput.setText(merged.systemPrompt);
         promptInput.setText(merged.prompt);
     }
 
