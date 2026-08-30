@@ -10,9 +10,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.Dispatchers
@@ -156,7 +156,7 @@ fun AiConfigScreen() {
                 TextButton(onClick = {
                     scope.launch(Dispatchers.IO) {
                         AiManager.deletePreset(context, pendingDeletePreset!!)
-                        presets = AiManager.getAllPresetNames(context) ?: emptyList()
+                        presets = AiManager.getAllPresetNames(context)
                     }
                     showDeletePresetDialog = false
                     pendingDeletePreset = null
@@ -281,7 +281,9 @@ fun AiConfigScreen() {
                     trailingIcon = {
                         IconButton(onClick = { showPassword = !showPassword }) {
                             Icon(
-                                imageVector = if (showPassword) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                                painter = painterResource(
+                                    if (showPassword) R.drawable.ic_visibility_off else R.drawable.ic_visibility
+                                ),
                                 contentDescription = if (showPassword) "隐藏" else "显示"
                             )
                         }
@@ -298,13 +300,19 @@ fun AiConfigScreen() {
                     singleLine = true,
                     trailingIcon = {
                         IconButton(onClick = {
-                            scope.launch(Dispatchers.IO) {
-                                val list = AiManager.listModels(context)
-                                modelList = list ?: emptyList()
-                                withContext(Dispatchers.Main) {
+                            val cfg = AiManager.Config()
+                            cfg.baseUrl = baseUrl
+                            cfg.apiKey = apiKey
+                            cfg.model = model
+                            AiManager.listModels(cfg, object : AiManager.ListCallback {
+                                override fun onSuccess(models: MutableList<String>?) {
+                                    modelList = models ?: emptyList()
                                     showModelListDialog = true
                                 }
-                            }
+                                override fun onError(message: String?) {
+                                    // ignore
+                                }
+                            })
                         }) {
                             Text("▼")
                         }
@@ -325,9 +333,7 @@ fun AiConfigScreen() {
                 ) {
                     SectionLabel(text = "系统框架提示词")
                     TextButton(onClick = {
-                        scope.launch(Dispatchers.IO) {
-                            systemPrompt = AiManager.getDefaultSystemPrompt(context) ?: ""
-                        }
+                        systemPrompt = AiManager.DEFAULT_SYSTEM_PROMPT
                     }) {
                         Text("恢复默认框架")
                     }
@@ -358,9 +364,7 @@ fun AiConfigScreen() {
                 ) {
                     SectionLabel(text = "人设提示词")
                     TextButton(onClick = {
-                        scope.launch(Dispatchers.IO) {
-                            prompt = AiManager.getDefaultPrompt(context) ?: ""
-                        }
+                        prompt = AiManager.DEFAULT_PROMPT
                     }) {
                         Text("恢复默认人设")
                     }
@@ -385,16 +389,13 @@ fun AiConfigScreen() {
         Button(
             onClick = {
                 scope.launch(Dispatchers.IO) {
-                    AiManager.save(
-                        context,
-                        AiManager.Config(
-                            baseUrl = baseUrl,
-                            apiKey = apiKey,
-                            model = model,
-                            systemPrompt = systemPrompt,
-                            prompt = prompt
-                        )
-                    )
+                    val cfg = AiManager.Config()
+                    cfg.baseUrl = baseUrl
+                    cfg.apiKey = apiKey
+                    cfg.model = model
+                    cfg.systemPrompt = systemPrompt
+                    cfg.prompt = prompt
+                    AiManager.save(context, cfg)
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show()
                     }

@@ -72,20 +72,19 @@ fun FloatingConfigScreen() {
     
     // Save preferences function
     fun savePrefs() {
-        val prefs = FloatingWindowPrefs(
-            showCaptureText = showCaptureText,
-            showApplyRules = showApplyRules,
-            showAiModify = showAiModify,
-            showLog = showLog,
-            showQuickBall = showQuickBall,
-            ballContentType = ballContentType,
-            ballText = ballText,
-            ballAction = ballAction,
-            ballSizeDp = ballSizeDp,
-            ballCornerDp = ballCornerDp,
-            ballIconRes = ballIconRes
-        )
-        FloatingWindowPrefs.save(context, prefs)
+        val p = FloatingWindowPrefs.Prefs()
+        p.showCaptureText = showCaptureText
+        p.showApplyRules = showApplyRules
+        p.showAiModify = showAiModify
+        p.showLog = showLog
+        p.showQuickBall = showQuickBall
+        p.ballContentType = ballContentType
+        p.ballText = ballText
+        p.ballAction = ballAction
+        p.ballSizeDp = ballSizeDp
+        p.ballCornerDp = ballCornerDp
+        p.ballIconRes = ballIconRes
+        FloatingWindowPrefs.save(context, p)
     }
     
     // Helper function to handle mutual exclusion
@@ -237,10 +236,7 @@ fun FloatingConfigScreen() {
                             ballAction = "应用规则"
                             savePrefs()
                         },
-                        label = { Text("应用规则") },
-                        leadingIcon = if (ballAction == "应用规则") {
-                            { Icon(Icons.Default.Check, contentDescription = null) }
-                        } else null
+                        label = { Text("应用规则") }
                     )
                     FilterChip(
                         selected = ballAction == "套用 AI",
@@ -248,10 +244,7 @@ fun FloatingConfigScreen() {
                             ballAction = "套用 AI"
                             savePrefs()
                         },
-                        label = { Text("套用 AI") },
-                        leadingIcon = if (ballAction == "套用 AI") {
-                            { Icon(Icons.Default.Check, contentDescription = null) }
-                        } else null
+                        label = { Text("套用 AI") }
                     )
                 }
                 
@@ -436,7 +429,7 @@ fun FloatingConfigScreen() {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(ballIconResArray) { iconRes ->
+                    items(ballIconResArray.toList()) { iconRes ->
                         Box(
                             modifier = Modifier
                                 .aspectRatio(1f)

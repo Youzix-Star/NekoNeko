@@ -596,7 +596,7 @@ fun RulesConfigScreen() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            TonalButton(
+            FilledTonalButton(
                 onClick = {
                     editingIndex = -1
                     editName = ""
