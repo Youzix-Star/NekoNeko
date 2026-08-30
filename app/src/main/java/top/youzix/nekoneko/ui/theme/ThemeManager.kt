@@ -1,11 +1,10 @@
 package top.youzix.nekoneko.ui.theme
 
-import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import top.youzix.nekoneko.R
 
 /**
  * Compose-compatible color theme manager.
