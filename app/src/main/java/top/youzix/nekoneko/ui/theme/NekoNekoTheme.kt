@@ -6,12 +6,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MotionScheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.expressiveLightColorScheme
-import androidx.compose.material3.MotionScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
@@ -20,7 +20,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 
 // ==================== M3 Expressive Shape System ====================
-// Bigger, bolder shapes — the Expressive look
 private val NekoShapes = Shapes(
     extraSmall = RoundedCornerShape(8.dp),
     small = RoundedCornerShape(12.dp),
@@ -30,7 +29,7 @@ private val NekoShapes = Shapes(
 )
 
 // ==================== Helper: NekoColorPalette -> ColorScheme ====================
-private fun NekoColorPalette.toLightColorScheme() = expressiveLightColorScheme(
+private fun NekoColorPalette.toLightColorScheme() = lightColorScheme(
     primary = primary,
     onPrimary = onPrimary,
     primaryContainer = primaryContainer,
@@ -91,13 +90,11 @@ fun NekoNekoTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        // Dynamic color (Android 12+ Monet) — only for GR Green theme
         dynamicColor && themeId == ComposeThemeManager.THEME_GR_GREEN
             && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-        // Predefined palette
         else -> {
             val palette = ComposeThemeManager.getColorPalette(themeId, darkTheme)
                 ?: ComposeThemeManager.getGRGreenPalette(darkTheme)
