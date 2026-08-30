@@ -17,6 +17,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * AI 配置页：预设（顶部横向 Chip）+ API 设置 + 提示词。
@@ -29,6 +30,7 @@ public class AiConfigFragment extends Fragment {
     private TextInputEditText systemPromptInput;
     private TextInputEditText promptInput;
     private ChipGroup presetChipGroup;
+    private ExpandableDropdownCard modelDropdownCard;
 
     @Nullable
     @Override
@@ -47,6 +49,7 @@ public class AiConfigFragment extends Fragment {
         systemPromptInput = view.findViewById(R.id.ai_system_prompt_input);
         promptInput = view.findViewById(R.id.ai_prompt_input);
         presetChipGroup = view.findViewById(R.id.preset_chip_group);
+        modelDropdownCard = view.findViewById(R.id.model_dropdown_card);
 
         // 回填配置
         AiManager.Config cfg = AiManager.load(requireContext());
@@ -56,11 +59,26 @@ public class AiConfigFragment extends Fragment {
         systemPromptInput.setText(cfg.systemPrompt);
         promptInput.setText(cfg.prompt);
 
+        // 设置模型下拉卡片提示文字
+        modelDropdownCard.setHint(getString(R.string.ai_fetch_models));
+
+        // 手动输入模型时同步更新下拉卡片状态
+        modelInput.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                // 失去焦点时，更新下拉卡片的选中状态
+                String currentModel = modelInput.getText().toString().trim();
+                if (!currentModel.isEmpty()) {
+                    modelDropdownCard.setHint(getString(R.string.ai_selected_model_fmt, currentModel));
+                }
+            }
+        });
+
         view.findViewById(R.id.restore_system_prompt_button).setOnClickListener(v ->
                 systemPromptInput.setText(AiManager.DEFAULT_SYSTEM_PROMPT));
         view.findViewById(R.id.restore_prompt_button).setOnClickListener(v ->
                 promptInput.setText(AiManager.DEFAULT_PROMPT));
-        view.findViewById(R.id.fetch_models_button).setOnClickListener(v -> fetchModels());
+        // 首次点击下拉卡片标题行 → 获取模型列表
+        modelDropdownCard.setOnFirstClickAction(this::fetchModels);
         view.findViewById(R.id.save_as_preset_button).setOnClickListener(v -> saveAsPreset());
         view.findViewById(R.id.save_ai_config_button).setOnClickListener(v -> {
             AiManager.save(requireContext(), currentConfig());
@@ -146,21 +164,53 @@ public class AiConfigFragment extends Fragment {
             Toast.makeText(requireContext(), R.string.ai_key_missing, Toast.LENGTH_LONG).show();
             return;
         }
-        Toast.makeText(requireContext(), R.string.ai_loading_models, Toast.LENGTH_SHORT).show();
+
+        // 显示加载状态
+        modelDropdownCard.showLoading();
+
         AiManager.listModels(cfg, new AiManager.ListCallback() {
             @Override
             public void onSuccess(List<String> models) {
                 if (!isAdded()) return;
-                final String[] arr = models.toArray(new String[0]);
-                new MaterialAlertDialogBuilder(requireContext())
-                        .setTitle(R.string.ai_models)
-                        .setItems(arr, (d, w) -> modelInput.setText(arr[w]))
-                        .show();
+
+                // 构建列表：在前面加一个"手动输入"占位项
+                List<String> list = new ArrayList<>();
+                list.add(0, getString(R.string.ai_manual_input_model));
+                list.addAll(models);
+                final String[] arr = list.toArray(new String[0]);
+
+                // 找到当前模型在列表中的位置，如果有就自动选中
+                String currentModel = modelInput.getText().toString().trim();
+                int preSelectIndex = -1;
+                if (!currentModel.isEmpty()) {
+                    for (int i = 1; i < arr.length; i++) {
+                        if (currentModel.equals(arr[i])) {
+                            preSelectIndex = i;
+                            break;
+                        }
+                    }
+                }
+
+                // 设置到下拉卡片，触发展开
+                modelDropdownCard.setItems(arr, (position, itemName) -> {
+                    if (position == 0) {
+                        // "手动输入" → 清空模型输入框，让用户自己输入
+                        modelInput.setText("");
+                        modelInput.requestFocus();
+                        modelDropdownCard.setHint(getString(R.string.ai_fetch_models));
+                    } else {
+                        modelInput.setText(itemName);
+                    }
+                });
+
+                // 自动展开
+                modelDropdownCard.expand();
             }
 
             @Override
             public void onError(String message) {
                 if (!isAdded()) return;
+                modelDropdownCard.showError(getString(R.string.ai_fetch_models_error, message));
                 Toast.makeText(requireContext(),
                         getString(R.string.ai_call_failed, message), Toast.LENGTH_LONG).show();
             }
