@@ -49,8 +49,7 @@ public class WelcomeActivity extends AppCompatActivity {
         // Android 12+：引导页也显式应用莫奈动态取色，保证与主界面一致（随系统深浅色）
         ThemeUtils.applyDynamicColors(this, getTheme());
 
-        // Apply color theme palette
-        ColorThemeManager.applyTheme(this);
+        // Apply color theme palette (palette available via ColorThemeManager.getPalette())
 
         // 已完成的引导直接进入主界面
         if (Guide.isDone(this)) {

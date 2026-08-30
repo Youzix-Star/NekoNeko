@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         // Android 12+：按系统深浅色应用莫奈动态取色（官方 ThemeOverlay，与系统壁纸同源）
         ThemeUtils.applyDynamicColors(this, getTheme());
 
-        // Apply color theme palette
-        ColorThemeManager.applyTheme(this);
+        // Apply color theme palette (GR Green uses base theme; others need runtime override)
+        // ColorThemeManager.applyTheme() is currently no-op; palette is available via getPalette()
 
         setContentView(R.layout.activity_main);
 
