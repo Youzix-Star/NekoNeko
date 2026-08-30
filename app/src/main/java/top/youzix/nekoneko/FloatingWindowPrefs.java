@@ -23,6 +23,8 @@ public class FloatingWindowPrefs {
     private static final String KEY_BALL_TEXT = "ball_text";
     private static final String KEY_BALL_SIZE_DP = "ball_size_dp";
     private static final String KEY_BALL_CORNER_DP = "ball_corner_dp";
+    private static final String KEY_BALL_POS_X = "ball_pos_x";
+    private static final String KEY_BALL_POS_Y = "ball_pos_y";
 
     /** 内容类型常量 */
     public static final String BALL_ICON = "icon";
@@ -52,8 +54,10 @@ public class FloatingWindowPrefs {
         // 悬浮球自定义
         public String ballContentType = BALL_ICON; // "icon" or "text"
         public String ballText = "AI";
-        public int ballSizeDp = 48;
-        public int ballCornerDp = 24; // 默认全圆
+        public float ballSizeDp = 48;
+        public float ballCornerDp = 24; // 默认全圆
+        public int ballPosX = 20;
+        public int ballPosY = 300;
     }
 
     public static Prefs load(Context context) {
@@ -66,8 +70,10 @@ public class FloatingWindowPrefs {
         p.showQuickBall = sp.getBoolean(KEY_SHOW_QUICK_BALL, false);
         p.ballContentType = sp.getString(KEY_BALL_CONTENT_TYPE, BALL_ICON);
         p.ballText = sp.getString(KEY_BALL_TEXT, "AI");
-        p.ballSizeDp = sp.getInt(KEY_BALL_SIZE_DP, 48);
-        p.ballCornerDp = sp.getInt(KEY_BALL_CORNER_DP, 24);
+        p.ballSizeDp = sp.getFloat(KEY_BALL_SIZE_DP, 48);
+        p.ballCornerDp = sp.getFloat(KEY_BALL_CORNER_DP, 24);
+        p.ballPosX = sp.getInt(KEY_BALL_POS_X, 20);
+        p.ballPosY = sp.getInt(KEY_BALL_POS_Y, 300);
         return p;
     }
 
@@ -81,8 +87,10 @@ public class FloatingWindowPrefs {
                 .putBoolean(KEY_SHOW_QUICK_BALL, p.showQuickBall)
                 .putString(KEY_BALL_CONTENT_TYPE, p.ballContentType)
                 .putString(KEY_BALL_TEXT, p.ballText)
-                .putInt(KEY_BALL_SIZE_DP, p.ballSizeDp)
-                .putInt(KEY_BALL_CORNER_DP, p.ballCornerDp)
+                .putFloat(KEY_BALL_SIZE_DP, p.ballSizeDp)
+                .putFloat(KEY_BALL_CORNER_DP, p.ballCornerDp)
+                .putInt(KEY_BALL_POS_X, p.ballPosX)
+                .putInt(KEY_BALL_POS_Y, p.ballPosY)
                 .apply();
 
         // 通知监听器

@@ -570,8 +570,8 @@ public class FloatingWindowService extends Service implements Logger.LogListener
                 PixelFormat.TRANSLUCENT
         );
         quickBallParams.gravity = Gravity.TOP | Gravity.START;
-        quickBallParams.x = 20;
-        quickBallParams.y = 300;
+        quickBallParams.x = prefs.ballPosX;
+        quickBallParams.y = prefs.ballPosY;
 
         windowManager.addView(quickBallView, quickBallParams);
 
@@ -604,28 +604,89 @@ public class FloatingWindowService extends Service implements Logger.LogListener
         boolean wasFloatingWindow = (floatingView != null);
 
         if (prefs.showQuickBall) {
-            // 切到悬浮球模式
-            if (wasFloatingWindow) {
-                // 移除大悬浮窗
-                try { windowManager.removeView(floatingView); } catch (Exception ignored) {}
-                floatingView = null;
+            if (wasQuickBall) {
+                // 悬浮球已存在，就地更新样式，避免重建导致位置丢失和性能损耗
+                updateQuickBallStyle(prefs);
+            } else {
+                // 从大悬浮窗切到悬浮球：移除大悬浮窗，创建悬浮球
+                if (wasFloatingWindow) {
+                    try { windowManager.removeView(floatingView); } catch (Exception ignored) {}
+                    floatingView = null;
+                }
+                createQuickBall();
             }
-            // 重建悬浮球（应用新样式）
-            removeQuickBall();
-            createQuickBall();
         } else {
             // 切到大悬浮窗模式
             if (wasQuickBall) {
                 removeQuickBall();
             }
             if (wasFloatingWindow) {
-                // 大悬浮窗还活着：直接刷新可见性
                 applyVisibilityPrefs();
             } else {
-                // 从悬浮球切回来：重建大悬浮窗
                 createFloatingView();
             }
         }
+    }
+
+    /** 就地更新悬浮球的大小、圆角和内容，不重建 view，避免位置丢失。 */
+    private void updateQuickBallStyle(FloatingWindowPrefs.Prefs prefs) {
+        if (quickBallView == null) return;
+
+        float density = getResources().getDisplayMetrics().density;
+        int sizePx = (int) (prefs.ballSizeDp * density);
+        int cornerPx = (int) (prefs.ballCornerDp * density);
+
+        // 更新窗口大小
+        quickBallParams.width = sizePx;
+        quickBallParams.height = sizePx;
+        windowManager.updateViewLayout(quickBallView, quickBallParams);
+
+        // 更新背景圆角和大小
+        quickBallView.getLayoutParams().width = sizePx;
+        quickBallView.getLayoutParams().height = sizePx;
+        quickBallView.requestLayout();
+
+        android.graphics.drawable.Drawable bg = quickBallView.getBackground();
+        if (bg instanceof android.graphics.drawable.GradientDrawable) {
+            ((android.graphics.drawable.GradientDrawable) bg).setCornerRadius(cornerPx);
+        }
+
+        // 更新内部控件大小
+        int innerPx = (int) (sizePx * 0.6);
+        FrameLayout.LayoutParams innerLp = new FrameLayout.LayoutParams(innerPx, innerPx);
+        innerLp.gravity = android.view.Gravity.CENTER;
+
+        View iconView = quickBallView.findViewById(R.id.quick_ball_icon);
+        TextView textView = quickBallView.findViewById(R.id.quick_ball_text);
+
+        if (FloatingWindowPrefs.BALL_TEXT.equals(prefs.ballContentType)) {
+            iconView.setVisibility(View.GONE);
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(prefs.ballText);
+            int textLen = prefs.ballText.length();
+            float textSizeSp;
+            if (textLen <= 1) {
+                textSizeSp = sizePx / density * 0.5f;
+            } else if (textLen <= 2) {
+                textSizeSp = sizePx / density * 0.4f;
+            } else {
+                textSizeSp = sizePx / density * 0.28f;
+            }
+            textView.setTextSize(textSizeSp);
+            textView.setLayoutParams(innerLp);
+        } else {
+            iconView.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.GONE);
+            iconView.setLayoutParams(innerLp);
+        }
+
+        // 更新 ProgressBar 大小
+        ProgressBar progressView = quickBallView.findViewById(R.id.quick_ball_progress);
+        if (progressView != null) {
+            progressView.setLayoutParams(innerLp);
+        }
+
+        Logger.d("悬浮球样式已更新: " + prefs.ballSizeDp + "dp, 圆角" + prefs.ballCornerDp + "dp");
     }
 
     private void setupQuickBallTouch() {
@@ -656,6 +717,13 @@ public class FloatingWindowService extends Service implements Logger.LogListener
                 case MotionEvent.ACTION_UP:
                     if (!moved[0]) {
                         quickBallView.performClick();
+                    } else {
+                        // 拖动结束，保存当前位置
+                        FloatingWindowPrefs.Prefs p = FloatingWindowPrefs.load(
+                                FloatingWindowService.this);
+                        p.ballPosX = quickBallParams.x;
+                        p.ballPosY = quickBallParams.y;
+                        FloatingWindowPrefs.save(FloatingWindowService.this, p);
                     }
                     return true;
             }

@@ -143,8 +143,8 @@ public class FloatingConfigFragment extends Fragment {
         p.ballContentType = contentGroup.getCheckedChipId() == R.id.chip_ball_text
                 ? FloatingWindowPrefs.BALL_TEXT : FloatingWindowPrefs.BALL_ICON;
         p.ballText = ballTextInput.getText().toString();
-        p.ballSizeDp = (int) sizeSlider.getValue();
-        p.ballCornerDp = (int) cornerSlider.getValue();
+        p.ballSizeDp = sizeSlider.getValue();
+        p.ballCornerDp = cornerSlider.getValue();
         FloatingWindowPrefs.save(requireContext(), p);
     }
 }
